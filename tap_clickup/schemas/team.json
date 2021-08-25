@@ -1,0 +1,75 @@
+{
+  "type": "object",
+  "required": [],
+  "properties": {
+    "teams": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "color": {
+            "type": "string"
+          },
+          "avatar": {
+            "type": "string"
+          },
+          "members": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [],
+              "properties": {
+                "user": {
+                  "type": "object",
+                  "required": [],
+                  "properties": {
+                    "id": {
+                      "type": "number"
+                    },
+                    "username": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "color": {
+                      "type": "string"
+                    },
+                    "profilePicture": {
+                      "type": "string"
+                    },
+                    "initials": {
+                      "type": "string"
+                    },
+                    "role": {
+                      "type": "number"
+                    },
+                    "custom_role": {
+                      "type": "string"
+                    },
+                    "last_active": {
+                      "type": "string"
+                    },
+                    "date_joined": {
+                      "type": "string"
+                    },
+                    "date_invited": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

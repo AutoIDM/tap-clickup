@@ -1,0 +1,27 @@
+version: 1
+send_anonymous_usage_stats: true
+project_id: tap-clickup
+plugins:
+  extractors:
+  - name: tap-clickup
+    namespace: tap_clickup
+    # TODO: To test using Meltano, replace with absolute path
+    #       to the tap-clickup.sh script:
+    executable: ./tap-clickup.sh
+    capabilities:
+    - state
+    - catalog
+    - discover
+    config:
+      start_date: '2010-01-01T00:00:00Z'
+    settings:
+    # TODO: To configure using Meltano, declare settings and their types here:
+    - name: username
+    - name: api_key
+      kind: password
+      #- name: start_date
+      #value: '2010-01-01T00:00:00Z'
+  loaders:
+  - name: target-jsonl
+    variant: andyh1203
+    pip_url: target-jsonl
