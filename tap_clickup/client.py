@@ -14,9 +14,8 @@ SCHEMAS_DIR = Path(__file__).parent / Path("./schemas")
 class ClickUpStream(RESTStream):
     """ClickUp stream class."""
 
-    url_base = "https://api.mysample.com"
+    url_base = "https://api.clickup.com/api/v2"
 
-    # OR use a dynamic url_base:
     # @property
     # def url_base(self) -> str:
     #     """Return the API URL root, configurable via tap settings."""
@@ -32,7 +31,7 @@ class ClickUpStream(RESTStream):
         if "user_agent" in self.config:
             headers["User-Agent"] = self.config.get("user_agent")
         # If not using an authenticator, you may also provide inline auth headers:
-        headers["Authorization"] = self.config.get("auth_token")
+        headers["Authorization"] = self.config.get("api_token")
         return headers
 
     def get_next_page_token(

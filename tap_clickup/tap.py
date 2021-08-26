@@ -24,7 +24,7 @@ class TapClickUp(Tap):
         th.Property("api_token", th.StringType, required=True),
         th.Property("team_ids", th.ArrayType(th.StringType), required=True),
         th.Property("start_date", th.DateTimeType),
-        th.Property("api_url", th.StringType, default="https://api.clickup.com/api/v2/"),
+        #th.Property("api_url", th.StringType, default="https://api.clickup.com/api/v2"),
     ).to_dict()
 
     def discover_streams(self) -> List[Stream]:

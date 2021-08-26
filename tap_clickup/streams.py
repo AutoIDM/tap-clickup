@@ -14,6 +14,7 @@ class TeamsStream(ClickUpStream):
     replication_key = None
     # Optionally, you may also use `schema_filepath` in place of `schema`:
     schema_filepath = SCHEMAS_DIR / "team.json"
+    records_jsonpath = "$.teams[*]"
 
 
 class GroupsStream(ClickUpStream):
