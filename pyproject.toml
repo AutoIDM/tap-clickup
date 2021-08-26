@@ -1,9 +1,9 @@
 [tool.poetry]
 name = "tap-clickup"
 version = "0.0.1"
-description = "`tap-clickup` is a Singer tap for ClickUp, built with the Meltano SDK for Singer Taps."
+description = "`tap-clickup` is a Singer tap for ClickUp"
 authors = ["AutoIDM"]
-license = "Apache 2.0"
+license = ""
 
 [tool.poetry.dependencies]
 python = "<3.9,>=3.6.1"
