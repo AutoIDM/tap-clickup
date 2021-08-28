@@ -2,10 +2,11 @@ name: CI
 on: [push]
 jobs:
   BuildPython38:
-    runs-on: ubuntu-20.04
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         python-version: [3.6, 3.7, 3.8]
+        os: [ubuntu-latest, windows.latest, macos-latest]
 
     steps:
       - uses: actions/checkout@v2
