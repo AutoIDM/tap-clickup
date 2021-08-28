@@ -1,7 +1,7 @@
 name: CI
 on: [push]
 jobs:
-  Build3.8:
+  BuildPython38:
     runs-on: python:3.8
     steps:
       - run: echo "Build tap on python 3.8"
