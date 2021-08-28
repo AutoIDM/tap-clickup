@@ -21,6 +21,6 @@ plugins:
     select:
       - "*.*"
   loaders:
-  - name: target-jsonl
+  - name: target-jsonl-testttt
     variant: andyh1203
     pip_url: target-jsonl
