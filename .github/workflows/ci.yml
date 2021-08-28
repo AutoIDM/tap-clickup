@@ -52,4 +52,4 @@ jobs:
         run: poetry run tox -e test
         env:
           TAP_CLICKUP_API_TOKEN: ${{ secrets.TAP_CLICKUP_API_TOKEN }}
-          TAP_CLICKUP_TEAM_IDS: ${{ secrets.TAP_CLICKUP_TEAM_IDS }}
+          TAP_CLICKUP_TEAM_IDS: "1234"
