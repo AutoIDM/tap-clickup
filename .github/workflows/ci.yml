@@ -1,7 +1,7 @@
 name: CI
 on: [push]
 jobs:
-  BuildPython38:
+  build:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
