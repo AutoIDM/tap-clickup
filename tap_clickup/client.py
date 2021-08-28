@@ -1,8 +1,8 @@
 """REST client handling, including ClickUpStream base class."""
 
-import requests
+from typing import Any, Dict, Optional, Iterable
 from pathlib import Path
-from typing import Any, Dict, Optional, Union, List, Iterable
+import requests
 
 from singer_sdk.helpers.jsonpath import extract_jsonpath
 from singer_sdk.streams import RESTStream
@@ -79,7 +79,7 @@ class ClickUpStream(RESTStream):
         # TODO: Parse response body and return a set of records.
         yield from extract_jsonpath(self.records_jsonpath, input=response.json())
 
-    def post_process(self, row: dict, context: Optional[dict]) -> dict:
+    def post_process(self, row: dict, context: Optional[dict] = None) -> dict:
         """As needed, append or transform raw data to match expected structure."""
         # TODO: Delete this method if not needed.
         return row
