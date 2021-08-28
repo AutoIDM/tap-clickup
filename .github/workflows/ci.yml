@@ -49,7 +49,7 @@ jobs:
           pip install poetry==1.1.6
           poetry install
       - name: Test tap-clickup 
-        run: poetry run tox
+        run: poetry run tox -e test
         env:
           TAP_CLICKUP_API_TOKEN: ${{ secrets.TAP_CLICKUP_API_TOKEN }}
           TAP_CLICKUP_TEAM_IDS: ${{ secrets.TAP_CLICKUP_TEAM_IDS }}
