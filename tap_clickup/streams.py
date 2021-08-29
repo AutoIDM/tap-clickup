@@ -16,6 +16,7 @@ class TeamsStream(ClickUpStream):
     # Optionally, you may also use `schema_filepath` in place of `schema`:
     schema_filepath = SCHEMAS_DIR / "team.json"
     records_jsonpath = "$.teams[*]"
+
     def get_child_context(self, record: dict, context: Optional[dict]) -> dict:
         """Return a context dictionary for child streams."""
         return {
