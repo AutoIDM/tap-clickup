@@ -38,29 +38,6 @@
                     }
             }
         },
-        "invited_by": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": ["integer"]
-                    },
-                    "username": {
-                        "type": ["null", "string"]
-                    },
-                    "email": {
-                        "type": ["null", "string"]
-                    },
-                    "color": {
-                        "type": ["null", "string"]
-                    },
-                    "initials": {
-                        "type": ["null", "string"]
-                    },
-                    "profilePicture": {
-                        "type": ["null", "string"]
-                    }
-            }
-        },
         "members": {
             "type": "array",
             "items": [
