@@ -1,4 +1,5 @@
 .meltano/**
+output/**
 
 # Secrets and internal config files
 **/.secrets/*

@@ -1,0 +1,124 @@
+{
+    "definitions": {
+        "status": {
+            "type": "object",
+            "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "status": {
+                        "type": "string"
+                    },
+                    "orderindex": {
+                        "type": ["null", "string"]
+                    },
+                    "color": {
+                        "type": ["null", "string"]
+                    }
+            }
+        },
+        "feature": {
+                "type": "object",
+                "properties": {
+                    "enabled": {
+                        "type": ["boolean"]
+                    },
+                    "start_date": {
+                        "type": ["null", "boolean"]
+                    },
+                    "remap_due_dates": {
+                        "type": ["null", "boolean"]
+                    },
+                    "remap_closed_due_date": {
+                        "type": ["null", "boolean"]
+                    },
+                    "harvest": {
+                        "type": ["null", "boolean"]
+                    },
+                    "rollup": {
+                        "type": ["null", "boolean"]
+                    },
+                    "per_assignee": {
+                        "type": ["null", "boolean"]
+                    },
+                    "subtasks": {
+                        "type": ["null", "boolean"]
+                    },
+                    "checklists": {
+                        "type": ["null", "boolean"]
+                    }
+            }
+        }
+    },
+    "type": "object",
+    "properties": {
+        "id": {
+            "type": ["string"]
+        },
+        "name": {
+            "type": ["null", "string"]
+        },
+        "private": {
+            "type": ["null", "boolean"]
+        },
+        "avatar": {
+            "type": ["null", "string"]
+        },
+        "statuses": {
+            "type": "array",
+            "items": {
+                "$ref": "#definitions/status"
+            }
+        },
+        "multiple_assignees": {
+            "type": ["null", "boolean"]
+        },
+        "features": {
+            "type": "object",
+            "properties": {
+                "due_dates": {
+                    "$ref": "#definitions/feature"
+                },
+                "sprints": {
+                    "$ref": "#definitions/feature"
+                },
+                "time_tracking": {
+                    "$ref": "#definitions/feature"
+                },
+                "points": {
+                    "$ref": "#definitions/feature"
+                },
+                "custom_items": {
+                    "$ref": "#definitions/feature"
+                },
+                "time_estimates": {
+                    "$ref": "#definitions/feature"
+                },
+                "check_unresolved": {
+                    "$ref": "#definitions/feature"
+                },
+                "zoom": {
+                    "$ref": "#definitions/feature"
+                },
+                "milestones": {
+                    "$ref": "#definitions/feature"
+                },
+                "remap_dependencies": {
+                    "$ref": "#definitions/feature"
+                },
+                "dependency_warning": {
+                    "$ref": "#definitions/feature"
+                },
+                "multiple_assignees": {
+                    "$ref": "#definitions/feature"
+                },
+                "emails": {
+                    "$ref": "#definitions/feature"
+                }
+            }
+        },
+        "archived": {
+            "type": ["null", "boolean"]
+        }
+    }
+}
