@@ -71,3 +71,14 @@ class ListsStream(ClickUpStream):
     schema_filepath = SCHEMAS_DIR / "list.json"
     records_jsonpath = "$.lists[*]"
     parent_stream_type = FoldersStream
+
+class FolderlessListsStream(ClickUpStream):
+    """Lists"""
+
+    name = "list"
+    path = "/space/{space_id}/list"
+    primary_keys = ["id"]
+    replication_key = None
+    schema_filepath = SCHEMAS_DIR / "list.json"
+    records_jsonpath = "$.lists[*]"
+    parent_stream_type = SpacesStream
