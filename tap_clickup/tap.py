@@ -10,12 +10,14 @@ from tap_clickup.streams import (
     TeamsStream,
     SpacesStream,
     FoldersStream,
+    ListsStream,
 )
 
 STREAM_TYPES = [
     TeamsStream,
     SpacesStream,
     FoldersStream,
+    ListsStream,
 ]
 
 

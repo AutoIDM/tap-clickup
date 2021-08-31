@@ -53,3 +53,21 @@ class FoldersStream(ClickUpStream):
     schema_filepath = SCHEMAS_DIR / "folder.json"
     records_jsonpath = "$.folders[*]"
     parent_stream_type = SpacesStream
+
+    def get_child_context(self, record: dict, context: Optional[dict]) -> dict:
+        """Return a context dictionary for child streams."""
+        return {
+            "folder_id": record["id"],
+        }
+
+
+class ListsStream(ClickUpStream):
+    """Lists"""
+
+    name = "list"
+    path = "/folder/{folder_id}/list"
+    primary_keys = ["id"]
+    replication_key = None
+    schema_filepath = SCHEMAS_DIR / "list.json"
+    records_jsonpath = "$.lists[*]"
+    parent_stream_type = FoldersStream
