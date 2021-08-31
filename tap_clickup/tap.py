@@ -9,11 +9,13 @@ from singer_sdk import typing as th  # JSON schema typing helpers
 from tap_clickup.streams import (
     TeamsStream,
     SpacesStream,
+    FoldersStream,
 )
 
 STREAM_TYPES = [
     TeamsStream,
     SpacesStream,
+    FoldersStream,
 ]
 
 

@@ -1,0 +1,129 @@
+{
+    "definitions": {
+        "status": {
+            "type": "object",
+            "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "status": {
+                        "type": "string"
+                    },
+                    "orderindex": {
+                        "type": ["null", "string"]
+                    },
+                    "color": {
+                        "type": ["null", "string"]
+                    },
+                    "type": {
+                        "type": ["null", "string"]
+                    }
+            }
+        },
+        "list": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": ["string"]
+                    },
+                    "name": {
+                        "type": ["null", "string"]
+                    },
+                    "orderindex": {
+                        "type": ["null", "integer"]
+                    },
+                    "status": {
+                        "type": ["null", "string"]
+                    },
+                    "priority": {
+                        "type": ["null", "string"]
+                    },
+                    "assignee": {
+                        "type": ["null", "string"]
+                    },
+                    "task_count": {
+                        "type": ["null", "string"]
+                    },
+                    "due_date": {
+                        "type": ["null", "string"],
+                        "format": "date-time"
+                    },
+                    "start_date": {
+                        "type": ["null", "string"],
+                        "format": "date-time"
+                    },
+                    "space": {
+                        "type": ["null", "object"],
+                        "properties": {
+                            "$ref": "#definitions/feature"
+                        }
+                    },
+                    "archived": {
+                        "type": ["null", "boolean"]
+                    },
+                    "override_statuses": {
+                        "type": ["null", "string"]
+                    },
+                    "statuses": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#definitions/status"
+                        }
+                    },
+                    "permission_level": {
+                        "type": ["null", "string"]
+                    }
+            }
+        }
+    },
+    "type": "object",
+    "properties": {
+        "id": {
+            "type": ["string"]
+        },
+        "name": {
+            "type": ["null", "string"]
+        },
+        "orderindex": {
+            "type": ["null", "integer"]
+        },
+        "override_statuses": {
+            "type": ["null", "boolean"]
+        },
+        "hidden": {
+            "type": ["null", "boolean"]
+        },
+        "space": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": ["null", "string"]
+                },
+                "name": {
+                    "type": ["null", "string"]
+                }
+            }
+        },
+        "task_count": {
+            "type": ["null", "integer"]
+        },
+        "statuses": {
+            "type": "array",
+            "items": {
+                "$ref": "#definitions/status"
+            }
+        },
+        "lists": {
+            "type": "array",
+            "items": {
+                "$ref": "#definitions/list"
+            }
+        },
+        "archived": {
+            "type": ["null", "boolean"]
+        },
+        "permission_level": {
+            "type": ["null", "string"]
+        }
+    }
+}
