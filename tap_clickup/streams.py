@@ -72,6 +72,7 @@ class ListsStream(ClickUpStream):
     records_jsonpath = "$.lists[*]"
     parent_stream_type = FoldersStream
 
+
 class FolderlessListsStream(ClickUpStream):
     """Lists"""
 
