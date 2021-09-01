@@ -11,6 +11,7 @@ from tap_clickup.streams import (
     SpacesStream,
     FoldersStream,
     ListsStream,
+    FolderlessListsStream,
 )
 
 STREAM_TYPES = [
@@ -18,6 +19,7 @@ STREAM_TYPES = [
     SpacesStream,
     FoldersStream,
     ListsStream,
+    FolderlessListsStream,
 ]
 
 
