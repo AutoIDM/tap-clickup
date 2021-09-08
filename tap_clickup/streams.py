@@ -84,6 +84,7 @@ class FolderlessListsStream(ClickUpStream):
     records_jsonpath = "$.lists[*]"
     parent_stream_type = SpacesStream
 
+
 class GoalsStream(ClickUpStream):
     """Goals"""
 
