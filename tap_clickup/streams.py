@@ -83,3 +83,15 @@ class FolderlessListsStream(ClickUpStream):
     schema_filepath = SCHEMAS_DIR / "list.json"
     records_jsonpath = "$.lists[*]"
     parent_stream_type = SpacesStream
+
+
+class SharedHierarchyStream(ClickUpStream):
+    """SharedHierarchy"""
+
+    name = "shared_hierarchy"
+    path = "/team/{team_id}/shared"
+    primary_keys = ["id"]
+    replication_key = None
+    schema_filepath = SCHEMAS_DIR / "shared.json"
+    records_jsonpath = "$.shared"
+    parent_stream_type = TeamsStream
