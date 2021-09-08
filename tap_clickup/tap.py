@@ -16,6 +16,7 @@ from tap_clickup.streams import (
     GoalsStream,
     TagsStream,
     SharedHierarchyStream,
+    CustomFieldsStream,
 )
 
 STREAM_TYPES = [
@@ -28,6 +29,7 @@ STREAM_TYPES = [
     GoalsStream,
     TagsStream,
     SharedHierarchyStream,
+    CustomFieldsStream,
 ]
 
 
