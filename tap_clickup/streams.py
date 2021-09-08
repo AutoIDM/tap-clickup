@@ -61,16 +61,22 @@ class FoldersStream(ClickUpStream):
         }
 
 
-class ListsStream(ClickUpStream):
+class FolderListsStream(ClickUpStream):
     """Lists"""
 
-    name = "list"
+    name = "folder_list"
     path = "/folder/{folder_id}/list"
     primary_keys = ["id"]
     replication_key = None
     schema_filepath = SCHEMAS_DIR / "list.json"
     records_jsonpath = "$.lists[*]"
     parent_stream_type = FoldersStream
+
+    def get_child_context(self, record: dict, context: Optional[dict]) -> dict:
+        """Return a context dictionary for child streams."""
+        return {
+            "list_id": record["id"],
+        }
 
 
 class FolderlessListsStream(ClickUpStream):
@@ -83,6 +89,12 @@ class FolderlessListsStream(ClickUpStream):
     schema_filepath = SCHEMAS_DIR / "list.json"
     records_jsonpath = "$.lists[*]"
     parent_stream_type = SpacesStream
+
+    def get_child_context(self, record: dict, context: Optional[dict]) -> dict:
+        """Return a context dictionary for child streams."""
+        return {
+            "list_id": record["id"],
+        }
 
 
 class TaskTemplatesStream(ClickUpStream):
@@ -131,3 +143,27 @@ class SharedHierarchyStream(ClickUpStream):
     schema_filepath = SCHEMAS_DIR / "shared.json"
     records_jsonpath = "$.shared"
     parent_stream_type = TeamsStream
+
+
+class FolderlessTasksStream(ClickUpStream):
+    """Tasks can come from lists not under folders"""
+
+    name = "folderless_task"
+    path = "/list/{list_id}/task"
+    primary_keys = ["id"]
+    replication_key = None
+    schema_filepath = SCHEMAS_DIR / "task.json"
+    records_jsonpath = "$.tasks[*]"
+    parent_stream_type = FolderlessListsStream
+
+
+class FolderTasksStream(ClickUpStream):
+    """Tasks can come from under Folders"""
+
+    name = "folder_task"
+    path = "/list/{list_id}/task"
+    primary_keys = ["id"]
+    replication_key = None
+    schema_filepath = SCHEMAS_DIR / "task.json"
+    records_jsonpath = "$.tasks[*]"
+    parent_stream_type = FolderListsStream
