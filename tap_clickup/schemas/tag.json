@@ -1,0 +1,17 @@
+{
+"type": "object",
+"properties": {
+        "name": {
+            "type": "string"
+        },
+        "tag_fg": {
+            "type": "string"
+        },
+        "tag_bg": {
+            "type": "string"
+        },
+        "creator": {
+            "type": "integer"
+        }
+    }
+}

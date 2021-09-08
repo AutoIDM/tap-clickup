@@ -85,6 +85,18 @@ class FolderlessListsStream(ClickUpStream):
     parent_stream_type = SpacesStream
 
 
+class TagsStream(ClickUpStream):
+    """Tags"""
+
+    name = "tag"
+    path = "/space/{space_id}/tag"
+    primary_keys = ["id"]
+    replication_key = None
+    schema_filepath = SCHEMAS_DIR / "tag.json"
+    records_jsonpath = "$.tags[*]"
+    parent_stream_type = SpacesStream
+
+
 class SharedHierarchyStream(ClickUpStream):
     """SharedHierarchy"""
 
