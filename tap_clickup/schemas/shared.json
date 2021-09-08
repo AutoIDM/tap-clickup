@@ -1,0 +1,83 @@
+{
+    "type": "object",
+    "properties": {
+      "tasks": {
+        "type": "array"
+      },
+      "lists": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": ["string", "null"]
+            },
+            "name": {
+              "type": ["string", "null"]
+            },
+            "orderindex": {
+              "type": ["integer", "null"]
+            },
+            "content": {
+              "type": ["string", "null"]
+            },
+            "status": {
+              "type": ["string", "null"]
+            },
+            "priority": {
+              "type": ["string", "null"]
+            },
+            "assignee": {
+              "type": ["string", "null"]
+            },
+            "task_count": {
+              "type": ["string", "null"]
+            },
+            "due_date": {
+              "type": ["string", "null"]
+            },
+            "start_date": {
+              "type": ["string", "null"]
+            },
+            "archived": {
+              "type": "boolean"
+            }
+          }
+        }
+      },
+      "folders": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": ["string", "null"]
+            },
+            "name": {
+              "type": ["string", "null"]
+            },
+            "orderindex": {
+              "type": "integer"
+            },
+            "content": {
+              "type": ["string", "null"]
+            },
+            "task_count": {
+              "type": ["string", "null"]
+            },
+            "due_date": {
+              "type": ["string", "null"]
+            },
+            "archived": {
+              "type": "boolean"
+            }
+          }
+        }
+      }
+    },
+    "required": [
+      "folders",
+      "lists",
+      "tasks"
+    ]
+  }

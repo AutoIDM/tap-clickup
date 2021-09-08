@@ -95,3 +95,39 @@ class TaskTemplatesStream(ClickUpStream):
     schema_filepath = SCHEMAS_DIR / "task_template.json"
     records_jsonpath = "$.templates[*]"
     parent_stream_type = TeamsStream
+
+
+class GoalsStream(ClickUpStream):
+    """Goals"""
+
+    name = "goal"
+    path = "/team/{team_id}/goal"
+    primary_keys = ["id"]
+    replication_key = None
+    schema_filepath = SCHEMAS_DIR / "goal.json"
+    records_jsonpath = "$.goals[*]"
+    parent_stream_type = TeamsStream
+
+
+class TagsStream(ClickUpStream):
+    """Tags"""
+
+    name = "tag"
+    path = "/space/{space_id}/tag"
+    primary_keys = ["id"]
+    replication_key = None
+    schema_filepath = SCHEMAS_DIR / "tag.json"
+    records_jsonpath = "$.tags[*]"
+    parent_stream_type = SpacesStream
+
+
+class SharedHierarchyStream(ClickUpStream):
+    """SharedHierarchy"""
+
+    name = "shared_hierarchy"
+    path = "/team/{team_id}/shared"
+    primary_keys = ["id"]
+    replication_key = None
+    schema_filepath = SCHEMAS_DIR / "shared.json"
+    records_jsonpath = "$.shared"
+    parent_stream_type = TeamsStream

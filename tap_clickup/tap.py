@@ -13,6 +13,9 @@ from tap_clickup.streams import (
     ListsStream,
     FolderlessListsStream,
     TaskTemplatesStream,
+    GoalsStream,
+    TagsStream,
+    SharedHierarchyStream,
 )
 
 STREAM_TYPES = [
@@ -22,6 +25,9 @@ STREAM_TYPES = [
     ListsStream,
     FolderlessListsStream,
     TaskTemplatesStream,
+    GoalsStream,
+    TagsStream,
+    SharedHierarchyStream,
 ]
 
 
