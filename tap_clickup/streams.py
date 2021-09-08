@@ -61,6 +61,24 @@ class FoldersStream(ClickUpStream):
         }
 
 
+class FolderlessListsStream(ClickUpStream):
+    """Folderless Lists"""
+
+    name = "folderless_list"
+    path = "/space/{space_id}/list"
+    primary_keys = ["id"]
+    replication_key = None
+    schema_filepath = SCHEMAS_DIR / "list.json"
+    records_jsonpath = "$.lists[*]"
+    parent_stream_type = SpacesStream
+    
+    def get_child_context(self, record: dict, context: Optional[dict]) -> dict:
+        """Return a context dictionary for child streams."""
+        return {
+            "list_id": record["id"],
+        }
+
+
 class ListsStream(ClickUpStream):
     """Lists"""
 
@@ -70,19 +88,13 @@ class ListsStream(ClickUpStream):
     replication_key = None
     schema_filepath = SCHEMAS_DIR / "list.json"
     records_jsonpath = "$.lists[*]"
-    parent_stream_type = FoldersStream
-
-
-class FolderlessListsStream(ClickUpStream):
-    """Lists"""
-
-    name = "list"
-    path = "/space/{space_id}/list"
-    primary_keys = ["id"]
-    replication_key = None
-    schema_filepath = SCHEMAS_DIR / "list.json"
-    records_jsonpath = "$.lists[*]"
-    parent_stream_type = SpacesStream
+    parent_stream_type = FoldersStream 
+    
+    def get_child_context(self, record: dict, context: Optional[dict]) -> dict:
+        """Return a context dictionary for child streams."""
+        return {
+            "list_id": record["id"],
+        }
 
 
 class SharedHierarchyStream(ClickUpStream):
@@ -95,3 +107,15 @@ class SharedHierarchyStream(ClickUpStream):
     schema_filepath = SCHEMAS_DIR / "shared.json"
     records_jsonpath = "$.shared"
     parent_stream_type = TeamsStream
+
+
+class CustomFieldsStream(ClickUpStream):
+    """CustomField"""
+
+    name = "custom_field"
+    path = "/list/{list_id}/field"
+    primary_keys = ["id"]
+    replication_key = None
+    schema_filepath = SCHEMAS_DIR / "custom_field.json"
+    records_jsonpath = "$.fields[*]"
+    parent_stream_type = FolderlessListsStream 
