@@ -71,7 +71,7 @@ class FolderlessListsStream(ClickUpStream):
     schema_filepath = SCHEMAS_DIR / "list.json"
     records_jsonpath = "$.lists[*]"
     parent_stream_type = SpacesStream
-    
+
     def get_child_context(self, record: dict, context: Optional[dict]) -> dict:
         """Return a context dictionary for child streams."""
         return {
@@ -88,8 +88,8 @@ class ListsStream(ClickUpStream):
     replication_key = None
     schema_filepath = SCHEMAS_DIR / "list.json"
     records_jsonpath = "$.lists[*]"
-    parent_stream_type = FoldersStream 
-    
+    parent_stream_type = FoldersStream
+
     def get_child_context(self, record: dict, context: Optional[dict]) -> dict:
         """Return a context dictionary for child streams."""
         return {
@@ -154,4 +154,4 @@ class CustomFieldsStream(ClickUpStream):
     replication_key = None
     schema_filepath = SCHEMAS_DIR / "custom_field.json"
     records_jsonpath = "$.fields[*]"
-    parent_stream_type = FolderlessListsStream 
+    parent_stream_type = FolderlessListsStream
