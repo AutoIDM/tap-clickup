@@ -1,0 +1,107 @@
+{
+    "type": "object",
+    "properties": {
+    "id": {
+        "type": "string"
+    },
+    "name": {
+        "type": "string"
+    },
+    "type": {
+        "type": "string"
+    },
+    "type_config": {
+        "type": "object",
+        "properties": {
+        "default": {
+            "type": [
+            "integer",
+            "null"
+            ]
+        },
+        "placeholder": {
+            "type": "null"
+        },
+        "options": {
+            "type": "array",
+            "items": {
+            "type": "object",
+            "properties": {
+                "id": {
+                "type": "string"
+                },
+                "name": {
+                "type": "string"
+                },
+                "color": {
+                "type": "null"
+                },
+                "orderindex": {
+                "type": "integer"
+                },
+                "label": {
+                "type": "string"
+                },
+                "value": {
+                "type": "integer"
+                },
+                "type": {
+                "type": "string"
+                }
+            },
+            "required": [
+                "color",
+                "id"
+            ]
+            }
+        },
+        "precision": {
+            "type": "integer"
+        },
+        "currency_type": {
+            "type": "string"
+        },
+        "end": {
+            "type": "integer"
+        },
+        "start": {
+            "type": "integer"
+        },
+        "count": {
+            "type": "integer"
+        },
+        "code_point": {
+            "type": "string"
+        },
+        "tracking": {
+            "type": "object",
+            "properties": {
+            "subtasks": {
+                "type": "boolean"
+            },
+            "checklists": {
+                "type": "boolean"
+            },
+            "assigned_comments": {
+                "type": "boolean"
+            }
+            },
+            "required": [
+            "assigned_comments",
+            "checklists",
+            "subtasks"
+            ]
+        },
+            "complete_on": {
+                "type": "integer"
+            }
+        }
+    },
+    "date_created": {
+        "type": "string"
+    },
+    "hide_from_guests": {
+        "type": "boolean"
+    }
+    }
+}
