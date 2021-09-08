@@ -83,3 +83,15 @@ class FolderlessListsStream(ClickUpStream):
     schema_filepath = SCHEMAS_DIR / "list.json"
     records_jsonpath = "$.lists[*]"
     parent_stream_type = SpacesStream
+
+
+class TaskTemplatesStream(ClickUpStream):
+    """TaskTemplates"""
+
+    name = "task_template"
+    path = "/team/{team_id}/task_template?page=0"
+    primary_keys = ["id"]
+    replication_key = None
+    schema_filepath = SCHEMAS_DIR / "task_template.json"
+    records_jsonpath = "$.templates[*]"
+    parent_stream_type = TeamsStream
