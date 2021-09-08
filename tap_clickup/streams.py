@@ -85,6 +85,18 @@ class FolderlessListsStream(ClickUpStream):
     parent_stream_type = SpacesStream
 
 
+class GoalsStream(ClickUpStream):
+    """Goals"""
+
+    name = "goal"
+    path = "/team/{team_id}/goal"
+    primary_keys = ["id"]
+    replication_key = None
+    schema_filepath = SCHEMAS_DIR / "goal.json"
+    records_jsonpath = "$.goals[*]"
+    parent_stream_type = TeamsStream
+
+
 class TagsStream(ClickUpStream):
     """Tags"""
 
