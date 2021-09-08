@@ -94,8 +94,9 @@ class GoalsStream(ClickUpStream):
     replication_key = None
     schema_filepath = SCHEMAS_DIR / "goal.json"
     records_jsonpath = "$.goals[*]"
+    parent_stream_type = TeamsStream
 
- 
+
 class TagsStream(ClickUpStream):
     """Tags"""
 
