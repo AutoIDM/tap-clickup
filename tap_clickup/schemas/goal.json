@@ -1,0 +1,109 @@
+{
+    "type": "object",
+    "properties": {
+        "id": {
+            "type": ["string", "null"]
+        },
+        "pretty_id": {
+            "type": ["string", "null"]
+        },
+        "name": {
+            "type": ["string", "null"]
+        },
+        "team_id": {
+            "type": ["string", "null"]
+        },
+        "creator": {
+            "type": ["integer", "null"]
+        },
+        "owner": {
+            "type": ["string","null"]
+        },
+        "color": {
+            "type": ["string", "null"]
+        },
+        "date_created": {
+            "type": ["string", "null"]
+        },
+        "start_date": {
+            "type": ["string", "null"]
+        },
+        "due_date": {
+            "type": ["string", "null"]
+        },
+        "description": {
+            "type": ["string", "null"]
+        },
+        "private": {
+            "type": ["boolean", "null"]
+        },
+        "archived": {
+            "type": ["boolean", "null"]
+        },
+        "multiple_owners": {
+            "type": ["boolean", "null"]
+        },
+        "editor_token": {
+            "type": ["string", "null"]
+        },
+        "date_updated": {
+            "type": ["string", "null"]
+        },
+        "last_update": {
+            "type": ["string", "null"]
+        },
+        "folder_id": {
+            "type": ["string", "null"]
+        },
+        "pinned": {
+            "type": ["boolean", "null"]
+        },
+        "owners": {
+            "type": "array",
+            "items": {
+            "type": "object",
+            "properties": {
+                "id": {
+                "type": "integer"
+                },
+                "email": {
+                "type": ["string", "null"]
+                },
+                "username": {
+                "type": ["string", "null"]
+                },
+                "color": {
+                "type": ["string", "null"]
+                },
+                "profilePicture": {
+                "type": ["string", "null"]
+                },
+                "initials": {
+                "type": ["string", "null"]
+                }
+            }
+            }
+        },
+        "key_result_count": {
+            "type": ["integer", "null"]
+        },
+        "members": {
+            "type": "array"
+        },
+        "group_members": {
+            "type": "array"
+        },
+        "percent_completed": {
+            "type": ["integer", "null"]
+        },
+        "key_results": {
+            "type": "array"
+        },
+        "history": {
+            "type": "array"
+        },
+        "pretty_url": {
+            "type": ["string", "null"]
+        }
+    }
+}
