@@ -1,7 +1,7 @@
 """Stream type classes for tap-clickup."""
 from pathlib import Path
 from singer_sdk.helpers.jsonpath import extract_jsonpath
-from typing import Optional, Iterable
+from typing import Optional, Iterable, Any, Dict
 from tap_clickup.client import ClickUpStream
 import requests
 
@@ -176,16 +176,30 @@ class FolderlessTasksStream(ClickUpStream):
     records_jsonpath = "$.tasks[*]"
     parent_stream_type = FolderlessListsStream
     
-    def parse_response(self, response: requests.Response) -> Iterable[dict]:
-        """Parse the response and return an iterator of result rows."""
-        # TODO: Parse response body and return a set of records.
-        response.json()
-        #for record in extract_jsonpath
-        # increase record count
-        # if record count == 100 set page = pagesize++
-        # if record count == 0 set nextpage = null 
-        yield from extract_jsonpath(self.records_jsonpath, input=response.json())
+    def get_next_page_token(
+        self, response: requests.Response, previous_token: Optional[Any]
+    ) -> Optional[Any]:
+        """Return the page number, Null if we should stop going to the next page."""
+        self.logger.info(f"Previous Token: {previous_token}")
+        newtoken = None
+        recordcount = 0
+        if previous_token is None:
+            previous_token = 0
 
+        for record in extract_jsonpath(self.records_jsonpath, input=response.json()):
+            recordcount = recordcount + 1
+        
+        #I wonder if a better approach is to just check for 0 records and stop
+        #For now I'll follow the docs verbatium
+        #From the api docs, https://clickup.com/api.
+        #you should check list limit against the length of each response 
+        #to determine if you are on the last page.
+        if recordcount == 100:
+            newtoken = previous_token + 1 
+        else:
+            newtoken = None
+
+        return newtoken 
 
 class FolderTasksStream(ClickUpStream):
     """Tasks can come from under Folders"""
@@ -198,6 +212,30 @@ class FolderTasksStream(ClickUpStream):
     records_jsonpath = "$.tasks[*]"
     parent_stream_type = FolderListsStream
 
+    def get_next_page_token(
+        self, response: requests.Response, previous_token: Optional[Any]
+    ) -> Optional[Any]:
+        """Return the page number, Null if we should stop going to the next page."""
+        self.logger.info(f"Previous Token: {previous_token}")
+        newtoken = None
+        recordcount = 0
+        if previous_token is None:
+            previous_token = 0
+
+        for record in extract_jsonpath(self.records_jsonpath, input=response.json()):
+            recordcount = recordcount + 1
+        
+        #I wonder if a better approach is to just check for 0 records and stop
+        #For now I'll follow the docs verbatium
+        #From the api docs, https://clickup.com/api.
+        #you should check list limit against the length of each response 
+        #to determine if you are on the last page.
+        if recordcount == 100:
+            newtoken = previous_token + 1 
+        else:
+            newtoken = None
+
+        return newtoken 
 
 class CustomFieldsStream(ClickUpStream):
     """CustomField"""
