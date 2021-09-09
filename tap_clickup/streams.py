@@ -1,9 +1,9 @@
 """Stream type classes for tap-clickup."""
 from pathlib import Path
-from singer_sdk.helpers.jsonpath import extract_jsonpath
-from typing import Optional, Iterable, Any, Dict
-from tap_clickup.client import ClickUpStream
+from typing import Optional, Any
 import requests
+from singer_sdk.helpers.jsonpath import extract_jsonpath
+from tap_clickup.client import ClickUpStream
 
 SCHEMAS_DIR = Path(__file__).parent / Path("./schemas")
 
@@ -175,7 +175,7 @@ class FolderlessTasksStream(ClickUpStream):
     schema_filepath = SCHEMAS_DIR / "task.json"
     records_jsonpath = "$.tasks[*]"
     parent_stream_type = FolderlessListsStream
-    
+
     def get_next_page_token(
         self, response: requests.Response, previous_token: Optional[Any]
     ) -> Optional[Any]:
@@ -186,20 +186,21 @@ class FolderlessTasksStream(ClickUpStream):
         if previous_token is None:
             previous_token = 0
 
-        for record in extract_jsonpath(self.records_jsonpath, input=response.json()):
+        for _ in extract_jsonpath(self.records_jsonpath, input=response.json()):
             recordcount = recordcount + 1
-        
-        #I wonder if a better approach is to just check for 0 records and stop
-        #For now I'll follow the docs verbatium
-        #From the api docs, https://clickup.com/api.
-        #you should check list limit against the length of each response 
-        #to determine if you are on the last page.
+
+        # I wonder if a better approach is to just check for 0 records and stop
+        # For now I'll follow the docs verbatium
+        # From the api docs, https://clickup.com/api.
+        # you should check list limit against the length of each response
+        # to determine if you are on the last page.
         if recordcount == 100:
-            newtoken = previous_token + 1 
+            newtoken = previous_token + 1
         else:
             newtoken = None
 
-        return newtoken 
+        return newtoken
+
 
 class FolderTasksStream(ClickUpStream):
     """Tasks can come from under Folders"""
@@ -222,20 +223,21 @@ class FolderTasksStream(ClickUpStream):
         if previous_token is None:
             previous_token = 0
 
-        for record in extract_jsonpath(self.records_jsonpath, input=response.json()):
+        for _ in extract_jsonpath(self.records_jsonpath, input=response.json()):
             recordcount = recordcount + 1
-        
-        #I wonder if a better approach is to just check for 0 records and stop
-        #For now I'll follow the docs verbatium
-        #From the api docs, https://clickup.com/api.
-        #you should check list limit against the length of each response 
-        #to determine if you are on the last page.
+
+        # I wonder if a better approach is to just check for 0 records and stop
+        # For now I'll follow the docs verbatium
+        # From the api docs, https://clickup.com/api.
+        # you should check list limit against the length of each response
+        # to determine if you are on the last page.
         if recordcount == 100:
-            newtoken = previous_token + 1 
+            newtoken = previous_token + 1
         else:
             newtoken = None
 
-        return newtoken 
+        return newtoken
+
 
 class CustomFieldsStream(ClickUpStream):
     """CustomField"""
