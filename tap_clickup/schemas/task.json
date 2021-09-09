@@ -37,13 +37,7 @@
                     "orderindex": {
                         "type": ["integer", "null"]
                     }
-                },
-                "required": [
-                    "color",
-                    "orderindex",
-                    "status",
-                    "type"
-                ]
+                }
             },
             "orderindex": {
                 "type": ["string", "null"]
@@ -78,14 +72,7 @@
                     "profilePicture": {
                         "type": ["string", "null"]
                     }
-                },
-                "required": [
-                    "color",
-                    "email",
-                    "id",
-                    "profilePicture",
-                    "username"
-                ]
+                }
             },
             "assignees": {
                 "type": "array",
@@ -142,9 +129,7 @@
             "parent": {
                 "type": ["string", "null"]
             },
-            "priority": {
-                "type": ["string", "null"]
-            },
+
             "due_date": {
                 "type": [
                     "null",
@@ -209,10 +194,10 @@
                             "type": ["string", "null"]
                         },
                         "hide_from_guests": {
-                            "type": ["string", "null"]
+                            "type": ["string", "boolean", "null"]
                         },
                         "required": {
-                            "type": ["string", "null"]
+                            "type": ["string", "boolean", "null"]
                         },
                         "value": {
                             "type": ["integer", "null"]

@@ -31,7 +31,7 @@
               "type": ["string", "null"]
             },
             "task_count": {
-              "type": ["string", "null"]
+              "type": ["string", "integer", "null"]
             },
             "due_date": {
               "type": ["string", "null"]
@@ -63,7 +63,7 @@
               "type": ["string", "null"]
             },
             "task_count": {
-              "type": ["string", "null"]
+              "type": ["string", "null", "integer"]
             },
             "due_date": {
               "type": ["string", "null"]

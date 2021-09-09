@@ -1,7 +1,9 @@
 """Stream type classes for tap-clickup."""
 from pathlib import Path
-from typing import Optional
+from singer_sdk.helpers.jsonpath import extract_jsonpath
+from typing import Optional, Iterable
 from tap_clickup.client import ClickUpStream
+import requests
 
 SCHEMAS_DIR = Path(__file__).parent / Path("./schemas")
 
@@ -173,6 +175,16 @@ class FolderlessTasksStream(ClickUpStream):
     schema_filepath = SCHEMAS_DIR / "task.json"
     records_jsonpath = "$.tasks[*]"
     parent_stream_type = FolderlessListsStream
+    
+    def parse_response(self, response: requests.Response) -> Iterable[dict]:
+        """Parse the response and return an iterator of result rows."""
+        # TODO: Parse response body and return a set of records.
+        response.json()
+        #for record in extract_jsonpath
+        # increase record count
+        # if record count == 100 set page = pagesize++
+        # if record count == 0 set nextpage = null 
+        yield from extract_jsonpath(self.records_jsonpath, input=response.json())
 
 
 class FolderTasksStream(ClickUpStream):

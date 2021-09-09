@@ -42,7 +42,7 @@
                         "type": ["null", "string"]
                     },
                     "task_count": {
-                        "type": ["null", "string"]
+                        "type": ["null", "string", "integer"]
                     },
                     "due_date": {
                         "type": ["null", "string"],
@@ -105,7 +105,7 @@
             }
         },
         "task_count": {
-            "type": ["null", "integer"]
+            "type": ["null", "string", "integer"]
         },
         "statuses": {
             "type": "array",
