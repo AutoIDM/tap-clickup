@@ -10,12 +10,14 @@ from tap_clickup.streams import (
     TeamsStream,
     SpacesStream,
     FoldersStream,
-    ListsStream,
+    FolderListsStream,
     FolderlessListsStream,
     TaskTemplatesStream,
     GoalsStream,
     TagsStream,
     SharedHierarchyStream,
+    FolderTasksStream,
+    FolderlessTasksStream,
     CustomFieldsStream,
 )
 
@@ -23,12 +25,14 @@ STREAM_TYPES = [
     TeamsStream,
     SpacesStream,
     FoldersStream,
-    ListsStream,
+    FolderListsStream,
     FolderlessListsStream,
     TaskTemplatesStream,
     GoalsStream,
     TagsStream,
     SharedHierarchyStream,
+    FolderTasksStream,
+    FolderlessTasksStream,
     CustomFieldsStream,
 ]
 

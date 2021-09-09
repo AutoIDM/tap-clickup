@@ -1,6 +1,8 @@
 """Stream type classes for tap-clickup."""
 from pathlib import Path
-from typing import Optional
+from typing import Optional, Any
+import requests
+from singer_sdk.helpers.jsonpath import extract_jsonpath
 from tap_clickup.client import ClickUpStream
 
 SCHEMAS_DIR = Path(__file__).parent / Path("./schemas")
@@ -58,6 +60,24 @@ class FoldersStream(ClickUpStream):
         """Return a context dictionary for child streams."""
         return {
             "folder_id": record["id"],
+        }
+
+
+class FolderListsStream(ClickUpStream):
+    """Lists"""
+
+    name = "folder_list"
+    path = "/folder/{folder_id}/list"
+    primary_keys = ["id"]
+    replication_key = None
+    schema_filepath = SCHEMAS_DIR / "list.json"
+    records_jsonpath = "$.lists[*]"
+    parent_stream_type = FoldersStream
+
+    def get_child_context(self, record: dict, context: Optional[dict]) -> dict:
+        """Return a context dictionary for child streams."""
+        return {
+            "list_id": record["id"],
         }
 
 
@@ -143,6 +163,80 @@ class SharedHierarchyStream(ClickUpStream):
     schema_filepath = SCHEMAS_DIR / "shared.json"
     records_jsonpath = "$.shared"
     parent_stream_type = TeamsStream
+
+
+class FolderlessTasksStream(ClickUpStream):
+    """Tasks can come from lists not under folders"""
+
+    name = "folderless_task"
+    path = "/list/{list_id}/task"
+    primary_keys = ["id"]
+    replication_key = None
+    schema_filepath = SCHEMAS_DIR / "task.json"
+    records_jsonpath = "$.tasks[*]"
+    parent_stream_type = FolderlessListsStream
+
+    def get_next_page_token(
+        self, response: requests.Response, previous_token: Optional[Any]
+    ) -> Optional[Any]:
+        """Return the page number, Null if we should stop going to the next page."""
+        self.logger.info(f"Previous Token: {previous_token}")
+        newtoken = None
+        recordcount = 0
+        if previous_token is None:
+            previous_token = 0
+
+        for _ in extract_jsonpath(self.records_jsonpath, input=response.json()):
+            recordcount = recordcount + 1
+
+        # I wonder if a better approach is to just check for 0 records and stop
+        # For now I'll follow the docs verbatium
+        # From the api docs, https://clickup.com/api.
+        # you should check list limit against the length of each response
+        # to determine if you are on the last page.
+        if recordcount == 100:
+            newtoken = previous_token + 1
+        else:
+            newtoken = None
+
+        return newtoken
+
+
+class FolderTasksStream(ClickUpStream):
+    """Tasks can come from under Folders"""
+
+    name = "folder_task"
+    path = "/list/{list_id}/task"
+    primary_keys = ["id"]
+    replication_key = None
+    schema_filepath = SCHEMAS_DIR / "task.json"
+    records_jsonpath = "$.tasks[*]"
+    parent_stream_type = FolderListsStream
+
+    def get_next_page_token(
+        self, response: requests.Response, previous_token: Optional[Any]
+    ) -> Optional[Any]:
+        """Return the page number, Null if we should stop going to the next page."""
+        self.logger.info(f"Previous Token: {previous_token}")
+        newtoken = None
+        recordcount = 0
+        if previous_token is None:
+            previous_token = 0
+
+        for _ in extract_jsonpath(self.records_jsonpath, input=response.json()):
+            recordcount = recordcount + 1
+
+        # I wonder if a better approach is to just check for 0 records and stop
+        # For now I'll follow the docs verbatium
+        # From the api docs, https://clickup.com/api.
+        # you should check list limit against the length of each response
+        # to determine if you are on the last page.
+        if recordcount == 100:
+            newtoken = previous_token + 1
+        else:
+            newtoken = None
+
+        return newtoken
 
 
 class CustomFieldsStream(ClickUpStream):

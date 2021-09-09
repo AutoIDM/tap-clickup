@@ -1,0 +1,281 @@
+{
+        "type": "object",
+        "properties": {
+            "id": {
+                "type": ["string"]
+            },
+            "custom_id": {
+                "type": ["string", "null"]
+            },
+            "name": {
+                "type": ["string", "null"]
+            },
+            "text_content": {
+                "type": [
+                    "null",
+                    "string"
+                ]
+            },
+            "description": {
+                "type": [
+                    "null",
+                    "string"
+                ]
+            },
+            "status": {
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "type": ["string", "null"]
+                    },
+                    "color": {
+                        "type": ["string", "null"]
+                    },
+                    "type": {
+                        "type": ["string", "null"]
+                    },
+                    "orderindex": {
+                        "type": ["integer", "null"]
+                    }
+                }
+            },
+            "orderindex": {
+                "type": ["string", "null"]
+            },
+            "date_created": {
+                "type": ["string", "null"]
+            },
+            "date_updated": {
+                "type": ["string", "null"]
+            },
+            "date_closed": {
+                "type": ["string", "null"]
+            },
+            "archived": {
+                "type": ["boolean", "null"]
+            },
+            "creator": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": ["integer", "null"]
+                    },
+                    "username": {
+                        "type": ["string", "null"]
+                    },
+                    "color": {
+                        "type": ["string", "null"]
+                    },
+                    "email": {
+                        "type": ["string", "null"]
+                    },
+                    "profilePicture": {
+                        "type": ["string", "null"]
+                    }
+                }
+            },
+            "assignees": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "id": {
+                            "type": ["integer", "null"]
+                        },
+                        "username": {
+                            "type": ["string", "null"]
+                        },
+                        "color": {
+                            "type": ["string", "null"]
+                        },
+                        "initials": {
+                            "type": ["string", "null"]
+                        },
+                        "email": {
+                            "type": ["string", "null"]
+                        },
+                        "profilePicture": {
+                            "type": ["string", "null"]
+                        }
+                    }
+                }
+            },
+            "watchers": {
+                "type": "array"
+            },
+            "checklists": {
+                "type": "array"
+            },
+            "tags": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "name": {
+                            "type": ["string", "null"]
+                        },
+                        "tag_fg": {
+                            "type": ["string", "null"]
+                        },
+                        "tag_bg": {
+                            "type": ["string", "null"]
+                        },
+                        "creator": {
+                            "type": ["integer", "null"]
+                        }
+                    }
+                }
+            },
+            "parent": {
+                "type": ["string", "null"]
+            },
+
+            "due_date": {
+                "type": [
+                    "null",
+                    "string"
+                ]
+            },
+            "start_date": {
+                "type": ["string", "null"]
+            },
+            "points": {
+                "type": ["string", "null"]
+            },
+            "time_estimate": {
+                "type": ["string", "null"]
+            },
+            "custom_fields": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "id": {
+                            "type": ["string", "null"]
+                        },
+                        "name": {
+                            "type": ["string", "null"]
+                        },
+                        "type": {
+                            "type": ["string", "null"]
+                        },
+                        "type_config": {
+                            "type": "object",
+                            "properties": {
+                                "default": {
+                                    "type": ["integer", "null"]
+                                },
+                                "placeholder": {
+                                    "type": ["string", "null"]
+                                },
+                                "options": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": ["string", "null"]
+                                            },
+                                            "name": {
+                                                "type": ["string", "null"]
+                                            },
+                                            "color": {
+                                                "type": ["string", "null"]
+                                            },
+                                            "orderindex": {
+                                                "type": ["integer", "null"]
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "date_created": {
+                            "type": ["string", "null"]
+                        },
+                        "hide_from_guests": {
+                            "type": ["string", "boolean", "null"]
+                        },
+                        "required": {
+                            "type": ["string", "boolean", "null"]
+                        },
+                        "value": {
+                            "type": ["integer", "null"]
+                        }
+                    }
+                }
+            },
+            "dependencies": {
+                "type": "array"
+            },
+            "linked_tasks": {
+                "type": "array"
+            },
+            "team_id": {
+                "type": ["string", "null"]
+            },
+            "url": {
+                "type": ["string", "null"]
+            },
+            "permission_level": {
+                "type": ["string", "null"]
+            },
+            "list": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": ["string", "null"]
+                    },
+                    "name": {
+                        "type": ["string", "null"]
+                    },
+                    "access": {
+                        "type": ["boolean", "null"]
+                    }
+                }
+            },
+            "project": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": ["string", "null"]
+                    },
+                    "name": {
+                        "type": ["string", "null"]
+                    },
+                    "hidden": {
+                        "type": ["boolean", "null"]
+                    },
+                    "access": {
+                        "type": ["boolean", "null"]
+                    }
+                }
+            },
+            "folder": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": ["string", "null"]
+                    },
+                    "name": {
+                        "type": ["string", "null"]
+                    },
+                    "hidden": {
+                        "type": ["boolean", "null"]
+                    },
+                    "access": {
+                        "type": ["boolean", "null"]
+                    }
+                }
+            },
+            "space": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": ["string", "null"]
+                    }
+                }
+            }
+    }
+}
+
