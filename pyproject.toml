@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "tap-clickup"
-version = "0.0.3"
+version = "0.0.4"
 description = "tap-clickup is a Singer tap for ClickUp by AutoIDM at www.autoidm.com"
 authors = ["AutoIDM"]
 license = ""
