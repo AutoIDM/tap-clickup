@@ -62,9 +62,7 @@ class ClickUpStream(RESTStream):
         params: dict = {}
         if next_page_token:
             params["page"] = next_page_token
-        if self.replication_key:
-            params["sort"] = "asc"
-            params["order_by"] = self.replication_key
+        
         return params
 
     @backoff.on_exception(
@@ -84,7 +82,7 @@ class ClickUpStream(RESTStream):
             if self._LOG_REQUEST_METRIC_URLS:
                 extra_tags["url"] = cast(str, prepared_request.path_url)
             self._write_request_duration_log(
-                endpoint=self.path,
+                endpoint=prepared_request.path_url, #Wanted the full path as there's no sensitive data here
                 response=response,
                 context=context,
                 extra_tags=extra_tags,
@@ -108,7 +106,7 @@ class ClickUpStream(RESTStream):
             epoch = datetime(1970, 1, 1)
             currentEpoch = (datetime.strptime(date, dformat) - epoch).total_seconds()
             waitTime = reset_epoch - currentEpoch
-            self.logger.info(f"Need to wait {waitTime} seconds and try again")
+            self.logger.info(f"API Limit reached, waiting {waitTime} seconds and will try again.")
             if waitTime > 120:
                 self.logger.warning(
                     "Wait time is more than 2 minutes, Waiting 60s and trying again."
