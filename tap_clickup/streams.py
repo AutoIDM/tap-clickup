@@ -1,9 +1,9 @@
 """Stream type classes for tap-clickup."""
 from pathlib import Path
 from typing import Optional, Any, Dict, cast
+import datetime
 import pendulum
 import requests
-import datetime
 from singer_sdk.helpers.jsonpath import extract_jsonpath
 from tap_clickup.client import ClickUpStream
 
@@ -166,6 +166,7 @@ class SharedHierarchyStream(ClickUpStream):
     records_jsonpath = "$.shared"
     parent_stream_type = TeamsStream
 
+
 class CustomFieldsStream(ClickUpStream):
     """CustomField"""
 
@@ -177,18 +178,19 @@ class CustomFieldsStream(ClickUpStream):
     records_jsonpath = "$.fields[*]"
     parent_stream_type = FolderlessListsStream
 
+
 class ClickUpTasksStream(ClickUpStream):
     """Parent Class for Task Streams"""
 
-    initial_replication_key_dict = {} 
-    
+    initial_replication_key_dict = {}
+
     def initial_replication_key(self, context) -> int:
-        path = self.get_url(context) 
+        path = self.get_url(context)
         self.logger.info(path)
         key_cache: Optional[int] = self.initial_replication_key_dict.get(path, None)
-        if (key_cache is None): 
+        if key_cache is None:
             key_cache = self.get_starting_replication_key_value(context)
-            self.initial_replication_key_dict[path]=key_cache
+            self.initial_replication_key_dict[path] = key_cache
         assert key_cache is not None
         return key_cache
 
@@ -204,12 +206,20 @@ class ClickUpTasksStream(ClickUpStream):
             ):
                 return replication_key_value
             if "start_date" in self.config:
-                datetime_startdate = cast(datetime.datetime, pendulum.parse(self.config["start_date"]))
-                startdate_seconds_after_epoch = int(datetime_startdate.replace(tzinfo=datetime.timezone.utc).timestamp())
+                datetime_startdate = cast(
+                    datetime.datetime, pendulum.parse(self.config["start_date"])
+                )
+                startdate_seconds_after_epoch = int(
+                    datetime_startdate.replace(tzinfo=datetime.timezone.utc).timestamp()
+                )
                 return startdate_seconds_after_epoch
             else:
-                self.logger.info("Setting replication value to 0 as there wasn't a start_date provided in the config.")
+                self.logger.info(
+                    """Setting replication value to 0 as there wasn't a
+                    start_date provided in the config."""
+                )
                 return 0
+        return None
 
     def get_next_page_token(
         self, response: requests.Response, previous_token: Optional[Any]
@@ -235,7 +245,7 @@ class ClickUpTasksStream(ClickUpStream):
             newtoken = None
 
         return newtoken
-    
+
     def get_url_params(
         self, context: Optional[dict], next_page_token: Optional[Any]
     ) -> Dict[str, Any]:
@@ -243,13 +253,16 @@ class ClickUpTasksStream(ClickUpStream):
         params: dict = {}
         if next_page_token:
             params["page"] = next_page_token
-        
+
         # Replication key specefic to tasks
         if self.replication_key:
             params["order_by"] = "updated"
             params["reverse"] = "true"
-            params["date_updated_gt"] = self.initial_replication_key(context) #Actually greater than or equal to
+            params["date_updated_gt"] = self.initial_replication_key(
+                context
+            )  # Actually greater than or equal to
         return params
+
 
 class FolderlessTasksStream(ClickUpTasksStream):
     """Tasks can come from lists not under folders"""
@@ -264,6 +277,7 @@ class FolderlessTasksStream(ClickUpTasksStream):
     records_jsonpath = "$.tasks[*]"
     parent_stream_type = FolderlessListsStream
 
+
 class FolderTasksStream(ClickUpTasksStream):
     """Tasks can come from under Folders"""
 
@@ -274,5 +288,3 @@ class FolderTasksStream(ClickUpTasksStream):
     schema_filepath = SCHEMAS_DIR / "task.json"
     records_jsonpath = "$.tasks[*]"
     parent_stream_type = FolderListsStream
-
-
