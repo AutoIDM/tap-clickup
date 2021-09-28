@@ -146,7 +146,7 @@ class TagsStream(ClickUpStream):
 
     name = "tag"
     path = "/space/{space_id}/tag"
-    primary_keys = ["id"]
+    primary_keys = ["name"]
     replication_key = None
     schema_filepath = SCHEMAS_DIR / "tag.json"
     records_jsonpath = "$.tags[*]"
@@ -158,7 +158,7 @@ class SharedHierarchyStream(ClickUpStream):
 
     name = "shared_hierarchy"
     path = "/team/{team_id}/shared"
-    primary_keys = ["id"]
+    primary_keys = []
     replication_key = None
     schema_filepath = SCHEMAS_DIR / "shared.json"
     records_jsonpath = "$.shared"
