@@ -20,7 +20,7 @@
             ]
         },
         "placeholder": {
-            "type": "null"
+            "type": ["string", "null"]
         },
         "options": {
             "type": "array",
@@ -34,7 +34,7 @@
                 "type": "string"
                 },
                 "color": {
-                "type": "null"
+                "type": ["null", "string"]
                 },
                 "orderindex": {
                 "type": "integer"

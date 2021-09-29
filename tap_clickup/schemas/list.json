@@ -59,7 +59,27 @@
                 "type": ["null", "string"]
             },
         "assignee": {
-                "type": ["null", "string"]
+                "type": ["object", "null"],
+                "properties": {
+                    "id": {
+                        "type": ["integer", "null"]
+                     },
+                    "username": {
+                        "type": ["string", "null"]
+                    },
+                    "color": {
+                        "type": ["string", "null"]
+                    },
+                    "initials": {
+                        "type": ["string", "null"]
+                    },
+                    "email": {
+                        "type": ["string", "null"]
+                    },
+                    "profilePicture": {
+                        "type": ["string", "null"]
+                    }
+                }
             },
         "task_count": {
                 "type": ["null", "string", "integer"]
