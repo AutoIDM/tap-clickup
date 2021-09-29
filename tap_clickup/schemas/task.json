@@ -140,7 +140,7 @@
                 "type": ["string", "null"]
             },
             "points": {
-                "type": ["string", "null"]
+                "type": ["string", "number", "null"]
             },
             "time_estimate": {
                 "type": ["integer", "null"]
@@ -200,7 +200,7 @@
                             "type": ["string", "boolean", "null"]
                         },
                         "value": {
-                            "type": ["integer", "string", "boolean", "null"]
+                            "type": ["integer", "string", "boolean", "null", "array"]
                         }
                     }
                 }

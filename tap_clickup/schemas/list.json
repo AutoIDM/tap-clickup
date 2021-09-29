@@ -16,6 +16,26 @@
                         "type": ["null", "boolean"]
                     }
             }
+        },
+        "status": {
+            "type": "object",
+            "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "status": {
+                        "type": "string"
+                    },
+                    "orderindex": {
+                        "type": ["null", "string"]
+                    },
+                    "color": {
+                        "type": ["null", "string"]
+                    },
+                    "type": {
+                        "type": ["null", "string"]
+                    }
+            }
         }
     },
     "type": "object",
@@ -33,7 +53,7 @@
                 "type": ["null", "string"]
             },
         "status": {
-                "type": ["null", "string"]
+                "$ref": "#definitions/status"
             },
         "priority": {
                 "type": ["null", "string"]
