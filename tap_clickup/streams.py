@@ -186,7 +186,6 @@ class ClickUpTasksStream(ClickUpStream):
 
     def initial_replication_key(self, context) -> int:
         path = self.get_url(context)
-        self.logger.info(path)
         key_cache: Optional[int] = self.initial_replication_key_dict.get(path, None)
         if key_cache is None:
             key_cache = self.get_starting_replication_key_value(context)
@@ -225,7 +224,6 @@ class ClickUpTasksStream(ClickUpStream):
         self, response: requests.Response, previous_token: Optional[Any]
     ) -> Optional[Any]:
         """Return the page number, Null if we should stop going to the next page."""
-        self.logger.info(f"Previous Page Token: {previous_token}")
         newtoken = None
         recordcount = 0
         if previous_token is None:

@@ -16,6 +16,26 @@
                         "type": ["null", "boolean"]
                     }
             }
+        },
+        "status": {
+            "type": "object",
+            "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "status": {
+                        "type": "string"
+                    },
+                    "orderindex": {
+                        "type": ["null", "string"]
+                    },
+                    "color": {
+                        "type": ["null", "string"]
+                    },
+                    "type": {
+                        "type": ["null", "string"]
+                    }
+            }
         }
     },
     "type": "object",
@@ -33,13 +53,33 @@
                 "type": ["null", "string"]
             },
         "status": {
-                "type": ["null", "string"]
+                "$ref": "#definitions/status"
             },
         "priority": {
                 "type": ["null", "string"]
             },
         "assignee": {
-                "type": ["null", "string"]
+                "type": ["object", "null"],
+                "properties": {
+                    "id": {
+                        "type": ["integer", "null"]
+                     },
+                    "username": {
+                        "type": ["string", "null"]
+                    },
+                    "color": {
+                        "type": ["string", "null"]
+                    },
+                    "initials": {
+                        "type": ["string", "null"]
+                    },
+                    "email": {
+                        "type": ["string", "null"]
+                    },
+                    "profilePicture": {
+                        "type": ["string", "null"]
+                    }
+                }
             },
         "task_count": {
                 "type": ["null", "string", "integer"]
