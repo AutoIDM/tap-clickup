@@ -200,7 +200,7 @@
                             "type": ["string", "boolean", "null"]
                         },
                         "value": {
-                            "type": ["integer", "null"]
+                            "type": ["integer", "string", "boolean", "null"]
                         }
                     }
                 }

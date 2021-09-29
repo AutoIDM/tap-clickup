@@ -1,6 +1,6 @@
 """REST client handling, including ClickUpStream base class."""
 
-from typing import Any, Dict, Optional, Iterable, cast
+from typing import Any, Optional, Iterable, cast
 from pathlib import Path
 from datetime import datetime
 import time
@@ -55,18 +55,6 @@ class ClickUpStream(RESTStream):
 
         return next_page_token
 
-    def get_url_params(
-        self, context: Optional[dict], next_page_token: Optional[Any]
-    ) -> Dict[str, Any]:
-        """Return a dictionary of values to be used in URL parameterization."""
-        params: dict = {}
-        if next_page_token:
-            params["page"] = next_page_token
-        if self.replication_key:
-            params["sort"] = "asc"
-            params["order_by"] = self.replication_key
-        return params
-
     @backoff.on_exception(
         backoff.expo,
         (requests.exceptions.RequestException),
@@ -84,7 +72,9 @@ class ClickUpStream(RESTStream):
             if self._LOG_REQUEST_METRIC_URLS:
                 extra_tags["url"] = cast(str, prepared_request.path_url)
             self._write_request_duration_log(
-                endpoint=self.path,
+                # Shows useful incremental debugging info for clickup
+                # There is no sensitive data here
+                endpoint=prepared_request.path_url,
                 response=response,
                 context=context,
                 extra_tags=extra_tags,
@@ -108,7 +98,9 @@ class ClickUpStream(RESTStream):
             epoch = datetime(1970, 1, 1)
             currentEpoch = (datetime.strptime(date, dformat) - epoch).total_seconds()
             waitTime = reset_epoch - currentEpoch
-            self.logger.info(f"Need to wait {waitTime} seconds and try again")
+            self.logger.info(
+                f"API Limit reached, waiting {waitTime} seconds and will try again."
+            )
             if waitTime > 120:
                 self.logger.warning(
                     "Wait time is more than 2 minutes, Waiting 60s and trying again."
