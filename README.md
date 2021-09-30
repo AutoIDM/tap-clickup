@@ -3,11 +3,7 @@
 
 `tap-clickup` is a Singer tap for ClickUp.
 
-Built with the [Meltano Tap SDK](https://sdk.meltano.com) for Singer Taps.
-
 ## Installation
-
-- [ ] `Developer TODO:` Update the below as needed to correctly describe the install procedure. For instance, if you do not have a PyPi repo, or if you want users to directly install from your git repo, you can modify this step as appropriate.
 
 ```bash
 pipx install tap-clickup
@@ -17,7 +13,9 @@ pipx install tap-clickup
 
 ### Accepted Config Options
 
-- [ ] `Developer TODO:` Provide a list of config options accepted by the tap.
+1. start_date - Example '2010-01-01T00:00:00Z'
+2. api_token  - Example 'pk_12345' 
+
 
 A full list of supported settings and capabilities for this
 tap is available by running:
@@ -28,7 +26,7 @@ tap-clickup --about
 
 ### Source Authentication and Authorization
 
-- [ ] `Developer TODO:` If your tap requires special access on the source system, or any special authentication requirements, provide those here.
+- [ ] `TODO:` Provide step by step instructions for setting up an API Key
 
 ## Usage
 
@@ -43,8 +41,6 @@ tap-clickup --config CONFIG --discover > ./catalog.json
 ```
 
 ## Developer Resources
-
-- [ ] `Developer TODO:` As a first step, scan the entire project for the text "`TODO:`" and complete any recommended steps, deleting the "TODO" references once completed.
 
 ### Initialize your Development Environment
 
@@ -95,7 +91,8 @@ meltano invoke tap-clickup --version
 meltano elt tap-clickup target-jsonl
 ```
 
-### SDK Dev Guide
+### SDK
 
-See the [dev guide](https://sdk.meltano.com/en/latest/dev_guide.html) for more instructions on how to use the SDK to 
-develop your own taps and targets.
+This was written with the [Meltano SDK](https://sdk.meltano.com/en/latest/dev_guide.html) , check it out!
+
+
