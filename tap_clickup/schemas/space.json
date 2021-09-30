@@ -1,5 +1,59 @@
 {
     "definitions": {
+        "user": {
+            "type": "object",
+            "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "username": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": ["null", "string"]
+                    },
+                    "color": {
+                        "type": ["null", "string"]
+                    },
+                    "profilePicture": {
+                        "type": ["null", "string"]
+                    },
+                    "initials": {
+                        "type": ["null", "string"]
+                    },
+                    "role": {
+                        "type": ["null", "integer"]
+                    },
+                    "custom_role": {
+                        "type": ["null", "integer"]
+                    },
+                    "last_active": {
+                        "type": ["null", "string"]
+                    },
+                    "date_joined": {
+                        "type": ["null", "string"]
+                    },
+                    "date_invited": {
+                        "type": ["null", "string"]
+                    }
+            }
+        },
+        "members": {
+            "type": "array",
+            "items": [
+                {
+                    "type": "object",
+                    "properties": {
+                        "user": {
+                            "$ref": "#/definitions/user"
+                        },
+                        "invited_by": {
+                            "$ref": "#/definitions/user"
+                        }
+                    }
+                } 
+            ]
+        },
         "status": {
             "type": "object",
             "properties": {
@@ -69,6 +123,9 @@
             "items": {
                 "$ref": "#definitions/status"
             }
+        },
+        "members": {
+                "$ref": "#definitions/status"
         },
         "multiple_assignees": {
             "type": ["null", "boolean"]

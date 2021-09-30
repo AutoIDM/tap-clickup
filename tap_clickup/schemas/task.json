@@ -10,6 +10,26 @@
             "name": {
                 "type": ["string", "null"]
             },
+            "priority": {
+                "type": ["object", "null"],
+                "properties":{
+                        "color":{
+                            "type": ["string"]
+                        },
+                        "id":{
+                            "type": ["string"]
+                        },
+                        "orderindex":{
+                            "type": ["string"]
+                        },
+                        "priority":{
+                            "type": ["string"]
+                        }
+                }
+            },
+            "time_spent": {
+                "type": ["null", "number"]
+            },
             "text_content": {
                 "type": [
                     "null",
