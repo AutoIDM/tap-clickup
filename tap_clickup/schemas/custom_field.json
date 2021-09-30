@@ -10,6 +10,9 @@
     "type": {
         "type": "string"
     },
+    "required": {
+        "type": "boolean"
+    },
     "type_config": {
         "type": "object",
         "properties": {
