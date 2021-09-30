@@ -44,7 +44,7 @@ class TapClickUp(Tap):
 
     config_jsonschema = th.PropertiesList(
         th.Property("api_token", th.StringType, required=True),
-        th.Property("team_ids", th.ArrayType(th.StringType), required=True),
+        # th.Property("team_ids", th.ArrayType(th.StringType), required=True),
         th.Property("start_date", th.DateTimeType),
     ).to_dict()
 
