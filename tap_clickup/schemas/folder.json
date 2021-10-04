@@ -65,7 +65,7 @@
                         "type": ["null", "string"]
                     },
                     "statuses": {
-                        "type": "array",
+                        "type": ["array","null"],
                         "items": {
                             "$ref": "#definitions/status"
                         }
@@ -108,13 +108,13 @@
             "type": ["null", "string", "integer"]
         },
         "statuses": {
-            "type": "array",
+            "type": ["array", "null"],
             "items": {
                 "$ref": "#definitions/status"
             }
         },
         "lists": {
-            "type": "array",
+            "type": ["array", "null"],
             "items": {
                 "$ref": "#definitions/list"
             }
