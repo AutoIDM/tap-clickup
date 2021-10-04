@@ -95,7 +95,7 @@
                 }
             },
             "assignees": {
-                "type": "array",
+                "type": ["array", "null"],
                 "items": {
                     "type": "object",
                     "properties": {
@@ -121,13 +121,13 @@
                 }
             },
             "watchers": {
-                "type": "array"
+                "type": ["array", "null"]
             },
             "checklists": {
-                "type": "array"
+                "type": ["array", "null"]
             },
             "tags": {
-                "type": "array",
+                "type": ["array", "null"],
                 "items": {
                     "type": "object",
                     "properties": {
@@ -166,7 +166,7 @@
                 "type": ["integer", "null"]
             },
             "custom_fields": {
-                "type": "array",
+                "type": ["array", "null"],
                 "items": {
                     "type": "object",
                     "properties": {
@@ -189,7 +189,7 @@
                                     "type": ["string", "null"]
                                 },
                                 "options": {
-                                    "type": "array",
+                                    "type": ["array", "null"],
                                     "items": {
                                         "type": "object",
                                         "properties": {
@@ -226,10 +226,10 @@
                 }
             },
             "dependencies": {
-                "type": "array"
+                "type": ["array", "null"]
             },
             "linked_tasks": {
-                "type": "array"
+                "type": ["array", "null"]
             },
             "team_id": {
                 "type": ["string", "null"]
