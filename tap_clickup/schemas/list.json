@@ -85,12 +85,10 @@
                 "type": ["null", "string", "integer"]
             },
         "due_date": {
-                "type": ["null", "string"],
-                "format": "date-time"
+                "type": ["null", "string"]
             },
         "start_date": {
-                "type": ["null", "string"],
-                "format": "date-time"
+                "type": ["null", "string"]
             },
         "folder": {
                 "$ref": "#definitions/folder"
