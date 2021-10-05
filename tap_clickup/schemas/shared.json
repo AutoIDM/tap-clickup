@@ -2,10 +2,10 @@
     "type": "object",
     "properties": {
       "tasks": {
-        "type": "array"
+        "type": ["array","null"]
       },
       "lists": {
-        "type": "array",
+        "type": ["array","null"],
         "items": {
           "type": "object",
           "properties": {
@@ -46,7 +46,7 @@
         }
       },
       "folders": {
-        "type": "array",
+        "type": ["array","null"],
         "items": {
           "type": "object",
           "properties": {
