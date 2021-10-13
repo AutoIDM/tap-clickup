@@ -3,7 +3,7 @@
 from typing import List
 
 from singer_sdk import Tap, Stream
-from singer_sdk import typing as th 
+from singer_sdk import typing as th
 
 from tap_clickup.streams import (
     TeamsStream,
