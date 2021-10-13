@@ -1,5 +1,7 @@
 # `tap-clickup`
 ![Build and Tests](https://github.com/AutoIDM/tap-clickup/actions/workflows/ci.yml/badge.svg?branch=main)
+[![PyPI download month](https://img.shields.io/pypi/dm/tap-clickup.svg)](https://pypi.python.org/pypi/tap-clickup/)
+
 `tap-clickup` is a Singer tap for ClickUp.
 
 ## Capabilities
