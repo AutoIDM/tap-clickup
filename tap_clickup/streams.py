@@ -149,16 +149,28 @@ class SharedHierarchyStream(ClickUpStream):
     parent_stream_type = TeamsStream
 
 
-class CustomFieldsStream(ClickUpStream):
-    """CustomField"""
+class FolderlessCustomFieldsStream(ClickUpStream):
+    """CustomField from folderless lists"""
 
-    name = "custom_field"
+    name = "folderless_customfield"
     path = "/list/{list_id}/field"
     primary_keys = ["id"]
     replication_key = None
     schema_filepath = SCHEMAS_DIR / "custom_field.json"
     records_jsonpath = "$.fields[*]"
     parent_stream_type = FolderlessListsStream
+
+
+class FolderCustomFieldsStream(ClickUpStream):
+    """CustomFields from foldered lists"""
+
+    name = "folder_customfield"
+    path = "/list/{list_id}/field"
+    primary_keys = ["id"]
+    replication_key = None
+    schema_filepath = SCHEMAS_DIR / "custom_field.json"
+    records_jsonpath = "$.fields[*]"
+    parent_stream_type = FolderListsStream
 
 
 class ClickUpTasksStream(ClickUpStream):
