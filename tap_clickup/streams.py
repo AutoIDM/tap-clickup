@@ -101,24 +101,6 @@ class FolderlessListsStream(ClickUpStream):
         }
 
 
-class ListsStream(ClickUpStream):
-    """Lists"""
-
-    name = "list"
-    path = "/folder/{folder_id}/list"
-    primary_keys = ["id"]
-    replication_key = None
-    schema_filepath = SCHEMAS_DIR / "list.json"
-    records_jsonpath = "$.lists[*]"
-    parent_stream_type = FoldersStream
-
-    def get_child_context(self, record: dict, context: Optional[dict]) -> dict:
-        """Return a context dictionary for child streams."""
-        return {
-            "list_id": record["id"],
-        }
-
-
 class TaskTemplatesStream(ClickUpStream):
     """TaskTemplates"""
 
