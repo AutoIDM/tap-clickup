@@ -3,9 +3,8 @@
 from typing import List
 
 from singer_sdk import Tap, Stream
-from singer_sdk import typing as th  # JSON schema typing helpers
+from singer_sdk import typing as th
 
-# TODO: Import your custom stream types here:
 from tap_clickup.streams import (
     TeamsStream,
     SpacesStream,
@@ -44,7 +43,6 @@ class TapClickUp(Tap):
 
     config_jsonschema = th.PropertiesList(
         th.Property("api_token", th.StringType, required=True),
-        # th.Property("team_ids", th.ArrayType(th.StringType), required=True),
         th.Property("start_date", th.DateTimeType),
     ).to_dict()
 
