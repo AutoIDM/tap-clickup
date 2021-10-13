@@ -1,9 +1,29 @@
 [tool.poetry]
 name = "tap-clickup"
 version = "0.0.8"
-description = "tap-clickup is a Singer tap for ClickUp by AutoIDM at www.autoidm.com"
+description = "tap-clickup is a Singer tap for ClickUp by AutoIDM"
 authors = ["AutoIDM"]
+maintainers = ["AutoIDM"]
 license = ""
+readme = "README.md"
+homepage = "https://autoidm.com"
+repository = "https://github.com/AutoIDM/tap-clickup"
+documentation = "https://github.com/AutoIDM/tap-clickup"
+keywords = [
+    "AutoIDM",
+    "Auto IDM",
+    "tap-clickup",
+    "clickup",
+    "tap",
+    "singer",
+    "sdk"
+]
+
+[tool.poetry.urls]
+"Issues" = "https://github.com/AutoIDM/tap-clickup/issues"
+"Twitter" = "https://twitter.com/AutoIDM"
+"Youtube" = "https://www.youtube.com/channel/UCk4lfv8fZ4rMlYzw9N_FM0g"
+"LinkedIn" = "https://www.linkedin.com/company/68741135"
 
 [tool.poetry.dependencies]
 python = "<3.10,>=3.6.2"
