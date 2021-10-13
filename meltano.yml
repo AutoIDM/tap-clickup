@@ -14,13 +14,34 @@ plugins:
     - name: username
     - name: api_token
       kind: password
+    select:
+    - '*.*'
     config:
       start_date: '2010-01-01T00:00:00Z'
-      team_ids: 
-      - "1234"
-    select:
-      - "*.*"
   loaders:
   - name: target-jsonl
     variant: andyh1203
     pip_url: target-jsonl
+  - name: target-postgres
+    variant: transferwise
+    pip_url: pipelinewise-target-postgres
+    config:
+      dbname: postgres
+      database: postgres
+      user: postgres
+      host: localhost
+      port: 5432
+      data_flattening_max_level: 10
+  - name: target-stitch
+    namespace: target_stitch
+    pip_url: target-stitch
+    executable: target-stitch
+    settings:
+      - name: token
+        kind: password
+    config:
+      client_id: 191229
+      small_batch_url: https://api.stitchdata.com/v2/import/batch
+      big_batch_url: https://api.stitchdata.com/v2/import/batch
+      batch_size_preferences: 
+        a : "a" 
