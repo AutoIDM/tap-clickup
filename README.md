@@ -112,9 +112,17 @@ Note that the most up to date information is located in tap_clickup/streams.py. 
 - Bookmark column(s): N/A
 - Link to API endpoint documentation: [Shared Hierarchy](https://jsapi.apiary.io/apis/clickup20/reference/0/shared-hierarchy/shared-hierarchy.html)
 
-### Custom Field
-- Table name: custom_field
-- Description: Each list can have custom fields associated with them
+### Custom Fields from Folderless Lists
+- Table name: folderless_customfield
+- Description: Each Folderless lists can have custom fields associated with them
+- Primary key column(s):  id
+- Replicated fully or incrementally: No
+- Bookmark column(s): N/A
+- Link to API endpoint documentation: [Custom Field](https://jsapi.apiary.io/apis/clickup20/reference/0/custom-fields/get-accessible-custom-fields.html)
+
+### Custom Field from Folder Lists
+- Table name: folder_customfield
+- Description: Each Foldere list can have custom fields associated with them
 - Primary key column(s):  id
 - Replicated fully or incrementally: No
 - Bookmark column(s): N/A
