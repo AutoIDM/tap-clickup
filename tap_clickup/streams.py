@@ -271,7 +271,10 @@ class FolderlessTasksStream(ClickUpTasksStream):
 
 
 class FolderlessTasksArchivedStream(ClickUpTasksStream):
-    """Tasks can come from lists not under folders, archived only pulls archived tasks"""
+    """
+    Tasks can come from lists not under folders,
+    archived only pulls archived tasks
+    """
 
     name = "folderless_task_archived"
     path = "/list/{list_id}/task?include_closed=true&subtasks=true&archived=true"
