@@ -260,7 +260,7 @@ class FolderlessTasksStream(ClickUpTasksStream):
     """Tasks can come from lists not under folders"""
 
     name = "folderless_task"
-    path = "/list/{list_id}/task?include_closed=true&subtasks=true&archived=true"
+    path = "/list/{list_id}/task?include_closed=True&subtasks=True&archived=True"
     primary_keys = ["id"]
     replication_key = "date_updated"
     is_sorted = True
@@ -274,7 +274,7 @@ class FolderTasksStream(ClickUpTasksStream):
     """Tasks can come from under Folders"""
 
     name = "folder_task"
-    path = "/list/{list_id}/task?included_closed=true&subtasks=true&archived=true"
+    path = "/list/{list_id}/task?included_closed=True&subtasks=True&archived=True"
     primary_keys = ["id"]
     replication_key = "date_updated"
     schema_filepath = SCHEMAS_DIR / "task.json"
