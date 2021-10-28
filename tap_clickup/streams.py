@@ -269,8 +269,9 @@ class FolderlessTasksStream(ClickUpTasksStream):
     records_jsonpath = "$.tasks[*]"
     parent_stream_type = FolderlessListsStream
 
+
 class FolderlessTasksArchivedStream(ClickUpTasksStream):
-    """Tasks can come from lists not under folders"""
+    """Tasks can come from lists not under folders, archived only pulls archived tasks"""
 
     name = "folderless_task_archived"
     path = "/list/{list_id}/task?include_closed=true&subtasks=true&archived=true"
@@ -281,6 +282,7 @@ class FolderlessTasksArchivedStream(ClickUpTasksStream):
     schema_filepath = SCHEMAS_DIR / "task.json"
     records_jsonpath = "$.tasks[*]"
     parent_stream_type = FolderlessListsStream
+
 
 class FolderTasksStream(ClickUpTasksStream):
     """Tasks can come from under Folders"""
@@ -293,8 +295,9 @@ class FolderTasksStream(ClickUpTasksStream):
     records_jsonpath = "$.tasks[*]"
     parent_stream_type = FolderListsStream
 
+
 class FolderTasksArchivedStream(ClickUpTasksStream):
-    """Tasks can come from under Folders"""
+    """Tasks can come from under Folders, archived only pulls archived tasks"""
 
     name = "folder_task_archived"
     path = "/list/{list_id}/task?included_closed=true&subtasks=true&archived=true"
