@@ -260,6 +260,19 @@ class FolderlessTasksStream(ClickUpTasksStream):
     """Tasks can come from lists not under folders"""
 
     name = "folderless_task"
+    path = "/list/{list_id}/task?include_closed=true&subtasks=true"
+    primary_keys = ["id"]
+    replication_key = "date_updated"
+    is_sorted = True
+    ignore_parent_replication_key = True
+    schema_filepath = SCHEMAS_DIR / "task.json"
+    records_jsonpath = "$.tasks[*]"
+    parent_stream_type = FolderlessListsStream
+
+class FolderlessTasksArchivedStream(ClickUpTasksStream):
+    """Tasks can come from lists not under folders"""
+
+    name = "folderless_task_archived"
     path = "/list/{list_id}/task?include_closed=true&subtasks=true&archived=true"
     primary_keys = ["id"]
     replication_key = "date_updated"
@@ -269,11 +282,21 @@ class FolderlessTasksStream(ClickUpTasksStream):
     records_jsonpath = "$.tasks[*]"
     parent_stream_type = FolderlessListsStream
 
-
 class FolderTasksStream(ClickUpTasksStream):
     """Tasks can come from under Folders"""
 
     name = "folder_task"
+    path = "/list/{list_id}/task?included_closed=true&subtasks=true"
+    primary_keys = ["id"]
+    replication_key = "date_updated"
+    schema_filepath = SCHEMAS_DIR / "task.json"
+    records_jsonpath = "$.tasks[*]"
+    parent_stream_type = FolderListsStream
+
+class FolderTasksArchivedStream(ClickUpTasksStream):
+    """Tasks can come from under Folders"""
+
+    name = "folder_task_archived"
     path = "/list/{list_id}/task?included_closed=true&subtasks=true&archived=true"
     primary_keys = ["id"]
     replication_key = "date_updated"
