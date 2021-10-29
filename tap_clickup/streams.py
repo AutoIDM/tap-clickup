@@ -291,7 +291,7 @@ class FolderTasksStream(ClickUpTasksStream):
     """Tasks can come from under Folders"""
 
     name = "folder_task"
-    path = "/list/{list_id}/task?included_closed=true&subtasks=true"
+    path = "/list/{list_id}/task?include_closed=true&subtasks=true"
     primary_keys = ["id"]
     replication_key = "date_updated"
     schema_filepath = SCHEMAS_DIR / "task.json"
@@ -303,7 +303,7 @@ class FolderTasksArchivedStream(ClickUpTasksStream):
     """Tasks can come from under Folders, archived only pulls archived tasks"""
 
     name = "folder_task_archived"
-    path = "/list/{list_id}/task?included_closed=true&subtasks=true&archived=true"
+    path = "/list/{list_id}/task?include_closed=true&subtasks=true&archived=true"
     primary_keys = ["id"]
     replication_key = "date_updated"
     schema_filepath = SCHEMAS_DIR / "task.json"
