@@ -255,57 +255,31 @@ class ClickUpTasksStream(ClickUpStream):
             )  # Actually greater than or equal to
         return params
 
-
-class FolderlessTasksStream(ClickUpTasksStream):
+class TeamTasksStream(ClickUpTasksStream):
     """Tasks can come from lists not under folders"""
 
-    name = "folderless_task"
-    path = "/list/{list_id}/task?include_closed=true&subtasks=true"
+    name = "team_task"
+    path = "/team/{team_id}/task?include_closed=true&subtasks=true"
     primary_keys = ["id"]
     replication_key = "date_updated"
     is_sorted = True
     ignore_parent_replication_key = True
     schema_filepath = SCHEMAS_DIR / "task.json"
     records_jsonpath = "$.tasks[*]"
-    parent_stream_type = FolderlessListsStream
+    parent_stream_type = TeamsStream 
 
-
-class FolderlessTasksArchivedStream(ClickUpTasksStream):
+class TeamTasksArchivedStream(ClickUpTasksStream):
     """
-    Tasks can come from lists not under folders,
-    archived only pulls archived tasks
+    Archived Team Tasks. 
+    Not combined with above due to Replication Key tracking
     """
 
-    name = "folderless_task_archived"
-    path = "/list/{list_id}/task?include_closed=true&subtasks=true&archived=true"
+    name = "team_task_archived"
+    path = "/team/{team_id}/task?include_closed=true&subtasks=true&archived=true"
     primary_keys = ["id"]
     replication_key = "date_updated"
     is_sorted = True
     ignore_parent_replication_key = True
     schema_filepath = SCHEMAS_DIR / "task.json"
     records_jsonpath = "$.tasks[*]"
-    parent_stream_type = FolderlessListsStream
-
-
-class FolderTasksStream(ClickUpTasksStream):
-    """Tasks can come from under Folders"""
-
-    name = "folder_task"
-    path = "/list/{list_id}/task?include_closed=true&subtasks=true"
-    primary_keys = ["id"]
-    replication_key = "date_updated"
-    schema_filepath = SCHEMAS_DIR / "task.json"
-    records_jsonpath = "$.tasks[*]"
-    parent_stream_type = FolderListsStream
-
-
-class FolderTasksArchivedStream(ClickUpTasksStream):
-    """Tasks can come from under Folders, archived only pulls archived tasks"""
-
-    name = "folder_task_archived"
-    path = "/list/{list_id}/task?include_closed=true&subtasks=true&archived=true"
-    primary_keys = ["id"]
-    replication_key = "date_updated"
-    schema_filepath = SCHEMAS_DIR / "task.json"
-    records_jsonpath = "$.tasks[*]"
-    parent_stream_type = FolderListsStream
+    parent_stream_type = TeamsStream 
