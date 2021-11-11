@@ -114,3 +114,21 @@ class ClickUpStream(RESTStream):
     def parse_response(self, response: requests.Response) -> Iterable[dict]:
         """Parse the response and return an iterator of result rows."""
         yield from extract_jsonpath(self.records_jsonpath, input=response.json())
+
+    def from_parent_context(self, context: dict):
+        """Default is to return the dict passed in"""
+        if(self.partitions is None): return context
+        else: 
+            #Was going to copy the partitions, but the _sync call, forces us
+            #To use partitions, instead of being able to provide a list of contexts
+            #Ideally we wouldn't mutate partitions here, and we'd just provide
+            #A copy of partitions with context merged so we don't have side effects
+            for partition in self.partitions:
+                partition.update(context.copy()) #Add copy of context to partition
+            return None #Context now handled at the partition level
+    
+    def _sync_children(self, child_context: dict) -> None:
+        for child_stream in self.child_streams:
+            if child_stream.selected or child_stream.has_selected_descendents:
+                child_stream.sync(child_stream.from_parent_context(context=child_context))
+

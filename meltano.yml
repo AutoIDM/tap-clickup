@@ -15,7 +15,7 @@ plugins:
     - name: api_token
       kind: password
     select:
-    - '*.*'
+    - 'space.*'
     config:
       start_date: '2010-01-01T00:00:00Z'
   loaders:

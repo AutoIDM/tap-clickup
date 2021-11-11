@@ -1,6 +1,6 @@
 """Stream type classes for tap-clickup."""
 from pathlib import Path
-from typing import Optional, Any, Dict, cast
+from typing import Optional, Any, Dict, cast, Iterable
 import datetime
 import pendulum
 import requests
@@ -39,6 +39,8 @@ class SpacesStream(ClickUpStream):
     schema_filepath = SCHEMAS_DIR / "space.json"
     records_jsonpath = "$.spaces[*]"
     parent_stream_type = TeamsStream
+    partitions = [{"archived":"yep"},{"archived":"nope"}]
+
 
     def get_child_context(self, record: dict, context: Optional[dict]) -> dict:
         """Return a context dictionary for child streams."""
@@ -46,6 +48,22 @@ class SpacesStream(ClickUpStream):
             "space_id": record["id"],
         }
 
+    
+    def get_records(self, context: Optional[dict]) -> Iterable[Dict[str, Any]]:
+        """Return a generator of row-type dictionary objects.
+
+        Each row emitted should be a dictionary of property names to their values.
+
+        Args:
+            context: Stream partition or context dictionary.
+
+        Yields:
+            One item per (possibly processed) record in the API.
+        """
+        self.logger.info(f"CONTEXT: {context}")
+        for row in self.request_records(context):
+            row = self.post_process(row, context)
+            yield row
 
 class FoldersStream(ClickUpStream):
     """Folders"""
