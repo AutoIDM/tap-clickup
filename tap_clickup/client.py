@@ -1,6 +1,6 @@
 """REST client handling, including ClickUpStream base class."""
 
-from typing import Any, Optional, Iterable, cast
+from typing import Any, Optional, Iterable, cast, Dict
 from pathlib import Path
 from datetime import datetime
 import time
@@ -19,6 +19,22 @@ class ClickUpStream(RESTStream):
     url_base = "https://api.clickup.com/api/v2"
     records_jsonpath = "$[*]"  # Or override `parse_response`.
     next_page_token_jsonpath = "$.next_page"  # Or override `get_next_page_token`.
+    
+    def get_url_params(
+        self, context: Optional[dict], next_page_token: Optional[Any]
+    ) -> Dict[str, Any]:
+        """Return a dictionary of values to be used in URL parameterization."""
+        params: dict = {}
+        if context:
+            params["archived"] = context.get("archived")
+        # Replication key specefic to tasks
+        if self.replication_key:
+            params["order_by"] = "updated"
+            params["reverse"] = "true"
+            params["date_updated_gt"] = self.initial_replication_key(
+                context
+            )  # Actually greater than or equal to
+        return params
 
     @property
     def http_headers(self) -> dict:
