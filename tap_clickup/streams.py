@@ -190,43 +190,17 @@ class TasksStream(ClickUpStream):
     parent_stream_type = TeamsStream
     partitions = [{"archived":"true"},{"archived":"false"}]
 
-    initial_replication_key_dict = {}
+    #initial_replication_key_dict = {}
 
-    def initial_replication_key(self, context) -> int:
-        path = self.get_url(context)
-        key_cache: Optional[int] = self.initial_replication_key_dict.get(path, None)
-        if key_cache is None:
-            key_cache = self.get_starting_replication_key_value(context)
-            self.initial_replication_key_dict[path] = key_cache
-        assert key_cache is not None
-        return key_cache
+    #def initial_replication_key(self, context) -> int:
+    #    path = self.get_url(context)
+    #    key_cache: Optional[int] = self.initial_replication_key_dict.get(path, None)
+    #    if key_cache is None:
+    #        key_cache = self.get_starting_replication_key_value(context)
+    #        self.initial_replication_key_dict[path] = key_cache
+    #    assert key_cache is not None
+    #    return key_cache
 
-    def get_starting_replication_key_value(
-        self, context: Optional[dict]
-    ) -> Optional[int]:
-        """Return starting replication key value. """
-        if self.replication_key:
-            state = self.get_context_state(context)
-            replication_key_value = state.get("replication_key_value")
-            if replication_key_value and self.replication_key == state.get(
-                "replication_key"
-            ):
-                return replication_key_value
-            if "start_date" in self.config:
-                datetime_startdate = cast(
-                    datetime.datetime, pendulum.parse(self.config["start_date"])
-                )
-                startdate_seconds_after_epoch = int(
-                    datetime_startdate.replace(tzinfo=datetime.timezone.utc).timestamp()
-                )
-                return startdate_seconds_after_epoch
-            else:
-                self.logger.info(
-                    """Setting replication value to 0 as there wasn't a
-                    start_date provided in the config."""
-                )
-                return 0
-        return None
 
     def get_next_page_token(
         self, response: requests.Response, previous_token: Optional[Any]

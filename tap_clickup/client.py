@@ -31,9 +31,8 @@ class ClickUpStream(RESTStream):
         if self.replication_key:
             params["order_by"] = "updated"
             params["reverse"] = "true"
-            params["date_updated_gt"] = self.initial_replication_key(
-                context
-            )  # Actually greater than or equal to
+            # Actually greater than or equal to
+            params["date_updated_gt"] = self.
         return params
 
     @property
