@@ -56,8 +56,22 @@
                 "$ref": "#definitions/status"
             },
         "priority": {
-                "type": ["null", "string"]
-            },
+            "type": ["string", "object", "null"],
+            "properties":{
+               "color":{
+                        "type": ["string"]
+                        },
+                        "id":{
+                            "type": ["string"]
+                        },
+                        "orderindex":{
+                            "type": ["string"]
+                        },
+                        "priority":{
+                            "type": ["string"]
+                        }
+            }
+        },
         "assignee": {
                 "type": ["object", "null"],
                 "properties": {
