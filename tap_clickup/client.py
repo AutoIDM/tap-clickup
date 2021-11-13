@@ -25,14 +25,10 @@ class ClickUpStream(RESTStream):
     ) -> Dict[str, Any]:
         """Return a dictionary of values to be used in URL parameterization."""
         params: dict = {}
+        if next_page_token:
+            params["page"] = next_page_token
         if context:
             params["archived"] = context.get("archived")
-        # Replication key specefic to tasks
-        if self.replication_key:
-            params["order_by"] = "updated"
-            params["reverse"] = "true"
-            # Actually greater than or equal to
-            params["date_updated_gt"] = self.
         return params
 
     @property
@@ -44,21 +40,6 @@ class ClickUpStream(RESTStream):
 
         headers["Authorization"] = self.config.get("api_token")
         return headers
-
-    def get_next_page_token(
-        self, response: requests.Response, previous_token: Optional[Any]
-    ) -> Optional[Any]:
-        """Return a token for identifying next page or None if no more pages."""
-        if self.next_page_token_jsonpath:
-            all_matches = extract_jsonpath(
-                self.next_page_token_jsonpath, response.json()
-            )
-            first_match = next(iter(all_matches), None)
-            next_page_token = first_match
-        else:
-            next_page_token = response.headers.get("X-Next-Page", None)
-
-        return next_page_token
 
     @backoff.on_exception(
         backoff.expo,
