@@ -5,7 +5,7 @@
         "type": "string"
     },
     "name": {
-        "type": "string"
+        "type": ["null", "string"]
     },
     "type": {
         "type": "string"
@@ -16,87 +16,84 @@
     "type_config": {
         "type": "object",
         "properties": {
-        "default": {
-            "type": [
-            "integer",
-            "null"
-            ]
-        },
-        "placeholder": {
-            "type": ["string", "null"]
-        },
-        "options": {
-            "type": "array",
-            "items": {
-            "type": "object",
-            "properties": {
-                "id": {
-                "type": "string"
-                },
-                "name": {
-                "type": "string"
-                },
-                "color": {
-                "type": ["null", "string"]
-                },
-                "orderindex": {
-                "type": "integer"
-                },
-                "label": {
-                "type": "string"
-                },
-                "value": {
-                "type": "integer"
-                },
-                "type": {
-                "type": "string"
+            "default": {
+                "type": [
+                    "integer",
+                    "null"
+                ]
+            },
+            "placeholder": {
+                "type": ["string", "null"]
+            },
+            "options": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "id": {
+                            "type": "string"
+                        },
+                        "name": {
+                            "type": ["null", "string"]
+                        },
+                        "color": {
+                            "type": ["null", "string"]
+                        },
+                        "orderindex": {
+                            "type": ["null", "integer"]
+                        },
+                        "label": {
+                            "type": ["null", "string"]
+                        },
+                        "value": {
+                            "type": ["null", "string"]
+                        },
+                        "type": {
+                            "type": ["null", "string"]
+                        }
+                    },
+                    "required": [
+                        "id"
+                    ]
                 }
             },
-            "required": [
-                "color",
-                "id"
-            ]
-            }
-        },
-        "precision": {
-            "type": "integer"
-        },
-        "currency_type": {
-            "type": "string"
-        },
-        "end": {
-            "type": "integer"
-        },
-        "start": {
-            "type": "integer"
-        },
-        "count": {
-            "type": "integer"
-        },
-        "code_point": {
-            "type": "string"
-        },
-        "tracking": {
-            "type": "object",
-            "properties": {
-            "subtasks": {
-                "type": "boolean"
+            "precision": {
+                "type": ["null", "integer"]
             },
-            "checklists": {
-                "type": "boolean"
+            "currency_type": {
+                "type": ["null", "string"]
             },
-            "assigned_comments": {
-                "type": "boolean"
-            }
+            "end": {
+                "type": ["null", "integer"]
             },
-            "required": [
-            "assigned_comments",
-            "checklists",
-            "subtasks"
-            ]
-        },
+            "start": {
+                "type": ["null", "integer"]
+            },
+            "count": {
+                "type": ["null", "integer"]
+            },
+            "code_point": {
+                "type": ["null", "string"]
+            },
+            "tracking": {
+                "type": "object",
+                "properties": {
+                    "subtasks": {
+                        "type": ["null", "boolean"]
+                    },
+                    "checklists": {
+                        "type": ["null", "boolean"]
+                    },
+                    "assigned_comments": {
+                        "type": ["null", "boolean"]
+                    }
+                }
+            },
             "complete_on": {
-                "type": "integer"
+                "type": ["null", "integer"]
+            },
+            "method": {
+                "type": ["null", "string"]
             }
         }
     },
