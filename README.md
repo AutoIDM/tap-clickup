@@ -1,7 +1,4 @@
-# `tap-clickup`
-![Build and Tests](https://github.com/AutoIDM/tap-clickup/actions/workflows/ci.yml/badge.svg?branch=main)
-[![PyPI download month](https://img.shields.io/pypi/dm/tap-clickup.svg)](https://pypi.python.org/pypi/tap-clickup/)
-
+# `tap-clickup` ![Build and Tests](https://github.com/AutoIDM/tap-clickup/actions/workflows/ci.yml/badge.svg?branch=main) [![PyPI download month](https://img.shields.io/pypi/dm/tap-clickup.svg)](https://pypi.python.org/pypi/tap-clickup/) 
 `tap-clickup` is a Singer tap for ClickUp.
 
 ## Capabilities
@@ -16,7 +13,6 @@
 | Setting   | Required | Default | Description |
 |:----------|:--------:|:-------:|:------------|
 | api_token | True     | None    | Example: 'pk_12345'            |
-| start_date| False    | None    | Example:  '2010-01-01T00:00:00Z'            |
 
 A full list of supported settings and capabilities is available by running: `tap-clickup --about`
 
@@ -128,21 +124,13 @@ Note that the most up to date information is located in tap_clickup/streams.py. 
 - Bookmark column(s): N/A
 - Link to API endpoint documentation: [Custom Field](https://jsapi.apiary.io/apis/clickup20/reference/0/custom-fields/get-accessible-custom-fields.html)
 
-### Folderless Tasks
-- Table name: folderless_task
+### Tasks
+- Table name: tasks
 - Description: Some tasks do not sit under folders. This comes from the folderless_list endpoint
 - Primary key column(s):  id
 - Replicated fully or incrementally: Yes
 - Bookmark column(s): date_updated. Note that the api endpoint date_updated_gt is great than or equal to, not just greater than. 
-- Link to API endpoint documentation: [Get Tasks](https://jsapi.apiary.io/apis/clickup20/reference/0/tasks/get-tasks.html)
-
-### Folder Tasks
-- Table name: folder_task
-- Description: Some tasks do not sit under folders. This comes from the folderless_list endpoint
-- Primary key column(s):  id
-- Replicated fully or incrementally: Yes
-- Bookmark column(s): date_updated. Note that the api endpoint date_updated_gt is great than or equal to, not just greater than. 
-- Link to API endpoint documentation: [Get Tasks](https://jsapi.apiary.io/apis/clickup20/reference/0/tasks/get-tasks.html)
+- Link to API endpoint documentation: [Get Tasks](https://jsapi.apiary.io/apis/clickup20/reference/0/tasks/get-filtered-team-tasks.html)
 
 ## Other Info
 

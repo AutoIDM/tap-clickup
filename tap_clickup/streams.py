@@ -183,9 +183,9 @@ class TasksStream(ClickUpStream):
     #Date_updated_gt is greater than or equal to not just greater than
     path = "/team/{team_id}/task?include_closed=true&subtasks=true"
     primary_keys = ["id"]
-    replication_key = "date_updated" 
-    is_sorted = True
-    ignore_parent_replication_key = True
+    #replication_key = "date_updated" 
+    #is_sorted = True
+    #ignore_parent_replication_key = True
     schema_filepath = SCHEMAS_DIR / "task.json"
     records_jsonpath = "$.tasks[*]"
     parent_stream_type = TeamsStream
@@ -209,12 +209,10 @@ class TasksStream(ClickUpStream):
         params: dict = {}
         if next_page_token:
             params["page"] = next_page_token
-        if context:
-            params["archived"] = context.get("archived")
-        if self.replication_key:
-            params["order_by"] = "updated"
-            params["reverse"] = "true"
-            params["date_updated_gt"] = self.initial_replication_key(context)
+        params["archived"] = context.get("archived")
+        params["order_by"] = "updated"
+        params["reverse"] = "true"
+        params["date_updated_gt"] = 0
         return params
 
     def get_starting_replication_key_value(
