@@ -94,7 +94,7 @@
             "type": "array"
         },
         "percent_completed": {
-            "type": ["integer", "null"]
+            "type": ["integer", "number", "null"]
         },
         "key_results": {
             "type": "array"

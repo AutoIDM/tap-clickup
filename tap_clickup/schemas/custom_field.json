@@ -11,7 +11,7 @@
         "type": "string"
     },
     "required": {
-        "type": "boolean"
+        "type": ["null","boolean"]
     },
     "type_config": {
         "type": "object",
