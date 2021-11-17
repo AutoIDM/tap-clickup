@@ -26,8 +26,6 @@ A full list of supported settings and capabilities is available by running: `tap
     * This is a personal token, it's fine to use a personal token as this tap is only for the business that's using the data. 
 
 ## Clickup Replication
-Incremental Replication keys are available for Tasks. The Task uses the updated at field as [documented in the tasks section](https://clickup.com/apiv1) of the api.
-
 Start Date is used for the initial updated at value for the updated at field with tasks. 
 
 Let's say that you only want tasks that have been updated in the last year. To accomplish this you would pass in a start date of the first of this year!
@@ -128,7 +126,7 @@ Note that the most up to date information is located in tap_clickup/streams.py. 
 - Table name: tasks
 - Description: Some tasks do not sit under folders. This comes from the folderless_list endpoint
 - Primary key column(s):  id
-- Replicated fully or incrementally: Yes
+- Replicated fully or incrementally: No
 - Bookmark column(s): date_updated. Note that the api endpoint date_updated_gt is great than or equal to, not just greater than. 
 - Link to API endpoint documentation: [Get Tasks](https://jsapi.apiary.io/apis/clickup20/reference/0/tasks/get-filtered-team-tasks.html)
 

@@ -11,13 +11,10 @@ plugins:
     - catalog
     - discover
     settings:
-    - name: username
     - name: api_token
       kind: password
     select:
     - '*.*'
-    config:
-      start_date: '2010-01-01T00:00:00Z'
   loaders:
   - name: target-jsonl
     variant: andyh1203
