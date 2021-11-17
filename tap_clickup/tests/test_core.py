@@ -10,7 +10,6 @@ from tap_clickup.tap import TapClickUp
 SAMPLE_CONFIG = {
     "start_date": datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%d"),
     "api_token": os.environ["TAP_CLICKUP_API_TOKEN"],
-    "team_ids": os.environ["TAP_CLICKUP_TEAM_IDS"],
 }
 
 

@@ -1,6 +1,6 @@
 """Stream type classes for tap-clickup."""
 from pathlib import Path
-from typing import Optional, Any, Dict, cast
+from typing import Optional, Any, Dict, cast, Iterable
 import datetime
 import pendulum
 import requests
@@ -39,13 +39,14 @@ class SpacesStream(ClickUpStream):
     schema_filepath = SCHEMAS_DIR / "space.json"
     records_jsonpath = "$.spaces[*]"
     parent_stream_type = TeamsStream
+    partitions = [{"archived":"true"},{"archived":"false"}]
+
 
     def get_child_context(self, record: dict, context: Optional[dict]) -> dict:
         """Return a context dictionary for child streams."""
         return {
             "space_id": record["id"],
         }
-
 
 class FoldersStream(ClickUpStream):
     """Folders"""
@@ -57,6 +58,7 @@ class FoldersStream(ClickUpStream):
     schema_filepath = SCHEMAS_DIR / "folder.json"
     records_jsonpath = "$.folders[*]"
     parent_stream_type = SpacesStream
+    partitions = [{"archived":"true"},{"archived":"false"}]
 
     def get_child_context(self, record: dict, context: Optional[dict]) -> dict:
         """Return a context dictionary for child streams."""
@@ -75,6 +77,7 @@ class FolderListsStream(ClickUpStream):
     schema_filepath = SCHEMAS_DIR / "list.json"
     records_jsonpath = "$.lists[*]"
     parent_stream_type = FoldersStream
+    partitions = [{"archived":"true"},{"archived":"false"}]
 
     def get_child_context(self, record: dict, context: Optional[dict]) -> dict:
         """Return a context dictionary for child streams."""
@@ -93,6 +96,7 @@ class FolderlessListsStream(ClickUpStream):
     schema_filepath = SCHEMAS_DIR / "list.json"
     records_jsonpath = "$.lists[*]"
     parent_stream_type = SpacesStream
+    partitions = [{"archived":"true"},{"archived":"false"}]
 
     def get_child_context(self, record: dict, context: Optional[dict]) -> dict:
         """Return a context dictionary for child streams."""
@@ -172,20 +176,44 @@ class FolderCustomFieldsStream(ClickUpStream):
     records_jsonpath = "$.fields[*]"
     parent_stream_type = FolderListsStream
 
+class TasksStream(ClickUpStream):
+    """Tasks Stream"""
 
-class ClickUpTasksStream(ClickUpStream):
-    """Parent Class for Task Streams"""
-
+    name = "task"
+    #Date_updated_gt is greater than or equal to not just greater than
+    path = "/team/{team_id}/task?include_closed=true&subtasks=true"
+    primary_keys = ["id"]
+    #replication_key = "date_updated" 
+    #is_sorted = True
+    #ignore_parent_replication_key = True
+    schema_filepath = SCHEMAS_DIR / "task.json"
+    records_jsonpath = "$.tasks[*]"
+    parent_stream_type = TeamsStream
+    partitions = [{"archived":"true"},{"archived":"false"}]
+   
     initial_replication_key_dict = {}
 
     def initial_replication_key(self, context) -> int:
-        path = self.get_url(context)
+        path = self.get_url(context) + context.get("archived")
         key_cache: Optional[int] = self.initial_replication_key_dict.get(path, None)
         if key_cache is None:
             key_cache = self.get_starting_replication_key_value(context)
             self.initial_replication_key_dict[path] = key_cache
         assert key_cache is not None
         return key_cache
+    
+    def get_url_params(
+        self, context: Optional[dict], next_page_token: Optional[Any]
+    ) -> Dict[str, Any]:
+        """Return a dictionary of values to be used in URL parameterization."""
+        params: dict = {}
+        if next_page_token:
+            params["page"] = next_page_token
+        params["archived"] = context.get("archived")
+        params["order_by"] = "updated"
+        params["reverse"] = "true"
+        params["date_updated_gt"] = 0
+        return params
 
     def get_starting_replication_key_value(
         self, context: Optional[dict]
@@ -237,75 +265,3 @@ class ClickUpTasksStream(ClickUpStream):
             newtoken = None
 
         return newtoken
-
-    def get_url_params(
-        self, context: Optional[dict], next_page_token: Optional[Any]
-    ) -> Dict[str, Any]:
-        """Return a dictionary of values to be used in URL parameterization."""
-        params: dict = {}
-        if next_page_token:
-            params["page"] = next_page_token
-
-        # Replication key specefic to tasks
-        if self.replication_key:
-            params["order_by"] = "updated"
-            params["reverse"] = "true"
-            params["date_updated_gt"] = self.initial_replication_key(
-                context
-            )  # Actually greater than or equal to
-        return params
-
-
-class FolderlessTasksStream(ClickUpTasksStream):
-    """Tasks can come from lists not under folders"""
-
-    name = "folderless_task"
-    path = "/list/{list_id}/task?include_closed=true&subtasks=true"
-    primary_keys = ["id"]
-    replication_key = "date_updated"
-    is_sorted = True
-    ignore_parent_replication_key = True
-    schema_filepath = SCHEMAS_DIR / "task.json"
-    records_jsonpath = "$.tasks[*]"
-    parent_stream_type = FolderlessListsStream
-
-
-class FolderlessTasksArchivedStream(ClickUpTasksStream):
-    """
-    Tasks can come from lists not under folders,
-    archived only pulls archived tasks
-    """
-
-    name = "folderless_task_archived"
-    path = "/list/{list_id}/task?include_closed=true&subtasks=true&archived=true"
-    primary_keys = ["id"]
-    replication_key = "date_updated"
-    is_sorted = True
-    ignore_parent_replication_key = True
-    schema_filepath = SCHEMAS_DIR / "task.json"
-    records_jsonpath = "$.tasks[*]"
-    parent_stream_type = FolderlessListsStream
-
-
-class FolderTasksStream(ClickUpTasksStream):
-    """Tasks can come from under Folders"""
-
-    name = "folder_task"
-    path = "/list/{list_id}/task?include_closed=true&subtasks=true"
-    primary_keys = ["id"]
-    replication_key = "date_updated"
-    schema_filepath = SCHEMAS_DIR / "task.json"
-    records_jsonpath = "$.tasks[*]"
-    parent_stream_type = FolderListsStream
-
-
-class FolderTasksArchivedStream(ClickUpTasksStream):
-    """Tasks can come from under Folders, archived only pulls archived tasks"""
-
-    name = "folder_task_archived"
-    path = "/list/{list_id}/task?include_closed=true&subtasks=true&archived=true"
-    primary_keys = ["id"]
-    replication_key = "date_updated"
-    schema_filepath = SCHEMAS_DIR / "task.json"
-    records_jsonpath = "$.tasks[*]"
-    parent_stream_type = FolderListsStream

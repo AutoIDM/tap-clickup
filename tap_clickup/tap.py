@@ -15,12 +15,9 @@ from tap_clickup.streams import (
     GoalsStream,
     TagsStream,
     SharedHierarchyStream,
-    FolderTasksStream,
-    FolderlessTasksStream,
+    TasksStream, 
     FolderCustomFieldsStream,
     FolderlessCustomFieldsStream,
-    FolderlessTasksArchivedStream,
-    FolderTasksArchivedStream,
 )
 
 STREAM_TYPES = [
@@ -33,12 +30,9 @@ STREAM_TYPES = [
     GoalsStream,
     TagsStream,
     SharedHierarchyStream,
-    FolderTasksStream,
-    FolderlessTasksStream,
+    TasksStream,
     FolderCustomFieldsStream,
     FolderlessCustomFieldsStream,
-    FolderlessTasksArchivedStream,
-    FolderTasksArchivedStream,
 ]
 
 
@@ -49,7 +43,6 @@ class TapClickUp(Tap):
 
     config_jsonschema = th.PropertiesList(
         th.Property("api_token", th.StringType, required=True),
-        th.Property("start_date", th.DateTimeType),
     ).to_dict()
 
     def discover_streams(self) -> List[Stream]:

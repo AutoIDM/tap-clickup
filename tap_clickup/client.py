@@ -1,6 +1,6 @@
 """REST client handling, including ClickUpStream base class."""
 
-from typing import Any, Optional, Iterable, cast
+from typing import Any, Optional, Iterable, cast, Dict
 from pathlib import Path
 from datetime import datetime
 import time
@@ -19,6 +19,17 @@ class ClickUpStream(RESTStream):
     url_base = "https://api.clickup.com/api/v2"
     records_jsonpath = "$[*]"  # Or override `parse_response`.
     next_page_token_jsonpath = "$.next_page"  # Or override `get_next_page_token`.
+    
+    def get_url_params(
+        self, context: Optional[dict], next_page_token: Optional[Any]
+    ) -> Dict[str, Any]:
+        """Return a dictionary of values to be used in URL parameterization."""
+        params: dict = {}
+        if next_page_token:
+            params["page"] = next_page_token
+        if context:
+            params["archived"] = context.get("archived")
+        return params
 
     @property
     def http_headers(self) -> dict:
@@ -29,21 +40,6 @@ class ClickUpStream(RESTStream):
 
         headers["Authorization"] = self.config.get("api_token")
         return headers
-
-    def get_next_page_token(
-        self, response: requests.Response, previous_token: Optional[Any]
-    ) -> Optional[Any]:
-        """Return a token for identifying next page or None if no more pages."""
-        if self.next_page_token_jsonpath:
-            all_matches = extract_jsonpath(
-                self.next_page_token_jsonpath, response.json()
-            )
-            first_match = next(iter(all_matches), None)
-            next_page_token = first_match
-        else:
-            next_page_token = response.headers.get("X-Next-Page", None)
-
-        return next_page_token
 
     @backoff.on_exception(
         backoff.expo,
@@ -114,3 +110,21 @@ class ClickUpStream(RESTStream):
     def parse_response(self, response: requests.Response) -> Iterable[dict]:
         """Parse the response and return an iterator of result rows."""
         yield from extract_jsonpath(self.records_jsonpath, input=response.json())
+
+    def from_parent_context(self, context: dict):
+        """Default is to return the dict passed in"""
+        if(self.partitions is None): return context
+        else: 
+            #Was going to copy the partitions, but the _sync call, forces us
+            #To use partitions, instead of being able to provide a list of contexts
+            #Ideally we wouldn't mutate partitions here, and we'd just provide
+            #A copy of partitions with context merged so we don't have side effects
+            for partition in self.partitions:
+                partition.update(context.copy()) #Add copy of context to partition
+            return None #Context now handled at the partition level
+    
+    def _sync_children(self, child_context: dict) -> None:
+        for child_stream in self.child_streams:
+            if child_stream.selected or child_stream.has_selected_descendents:
+                child_stream.sync(child_stream.from_parent_context(context=child_context))
+
