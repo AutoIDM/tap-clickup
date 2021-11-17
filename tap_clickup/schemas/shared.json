@@ -1,147 +1,150 @@
 {
-    "definitions": {
-        "status": {
-            "type": ["object", "null"],
-            "properties": {
-                    "id": {
-                        "type": "string"
-                    },
-                    "status": {
-                        "type": "string"
-                    },
-                    "orderindex": {
-                        "type": ["null", "string"]
-                    },
-                    "color": {
-                        "type": ["null", "string"]
-                    },
-                    "type": {
-                        "type": ["null", "string"]
-                    }
+  "definitions": {
+      "status": {
+          "type": ["object", "null"],
+          "properties": {
+                  "id": {
+                      "type": "string"
+                  },
+                  "status": {
+                      "type": "string"
+                  },
+                  "orderindex": {
+                      "type": ["null", "string"]
+                  },
+                  "color": {
+                      "type": ["null", "string"]
+                  },
+                  "type": {
+                      "type": ["null", "string"]
+                  }
+          }
+      }
+  },
+  "type": "object",
+  "properties": {
+    "tasks": {
+      "type": ["array","null"],
+      "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": ["string", "null"]
+            },
+            "name": {
+              "type": ["string", "null"]
+            },
+            "orderindex": {
+              "type": ["integer", "null"]
+            },
+            "content": {
+              "type": ["string", "null"]
+            },
+            "status": {
+                "$ref": "#definitions/status"
+            },
+            "statuses": {
+                "type": ["array", "null"],
+                "items": {
+                "$ref": "#definitions/status"
+                }
+            },
+            "priority": {
+              "type": ["string", "null"]
+            },
+            "assignee": {
+              "type": ["string", "null"]
+            },
+            "task_count": {
+              "type": ["string", "integer", "null"]
+            },
+            "due_date": {
+              "type": ["string", "null"]
+            },
+            "start_date": {
+              "type": ["string", "null"]
+            },
+            "archived": {
+              "type": ["boolean", "null"]
             }
+          }
         }
     },
-    "type": "object",
-    "properties": {
-      "tasks": {
-          "type": ["array","null"],
-          "properties": {
-            "id": {
-              "type": ["string", "null"]
-            },
-            "name": {
-              "type": ["string", "null"]
-            },
-            "orderindex": {
-              "type": ["integer", "null"]
-            },
-            "content": {
-              "type": ["string", "null"]
-            },
-            "status": {
-                "$ref": "#definitions/status"
-            },
-            "statuses": {
-                "type": ["array", "null"],
-                "items": {
-                "$ref": "#definitions/status"
-                }
-            },
-            "priority": {
-              "type": ["string", "null"]
-            },
-            "assignee": {
-              "type": ["string", "null"]
-            },
-            "task_count": {
-              "type": ["string", "integer", "null"]
-            },
-            "due_date": {
-              "type": ["string", "null"]
-            },
-            "start_date": {
-              "type": ["string", "null"]
-            },
-            "archived": {
-              "type": ["boolean", "null"]
-            }
-          }
-      },
-      "lists": {
-        "type": ["array","null"],
-        "items": {
-          "type": "object",
-          "properties": {
-            "id": {
-              "type": ["string", "null"]
-            },
-            "name": {
-              "type": ["string", "null"]
-            },
-            "orderindex": {
-              "type": ["integer", "null"]
-            },
-            "content": {
-              "type": ["string", "null"]
-            },
-            "status": {
-                "$ref": "#definitions/status"
-            },
-            "statuses": {
-                "type": ["array", "null"],
-                "items": {
-                "$ref": "#definitions/status"
-                }
-            },
-            "priority": {
-              "type": ["string", "null"]
-            },
-            "assignee": {
-              "type": ["string", "null"]
-            },
-            "task_count": {
-              "type": ["string", "integer", "null"]
-            },
-            "due_date": {
-              "type": ["string", "null"]
-            },
-            "start_date": {
-              "type": ["string", "null"]
-            },
-            "archived": {
-              "type": ["boolean", "null"]
-            }
+    "lists": {
+      "type": ["array","null"],
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": ["string", "null"]
+          },
+          "name": {
+            "type": ["string", "null"]
+          },
+          "orderindex": {
+            "type": ["integer", "null"]
+          },
+          "content": {
+            "type": ["string", "null"]
+          },
+          "status": {
+              "$ref": "#definitions/status"
+          },
+          "statuses": {
+              "type": ["array", "null"],
+              "items": {
+              "$ref": "#definitions/status"
+              }
+          },
+          "priority": {
+            "type": ["string", "null"]
+          },
+          "assignee": {
+            "type": ["string", "null"]
+          },
+          "task_count": {
+            "type": ["string", "integer", "null"]
+          },
+          "due_date": {
+            "type": ["string", "null"]
+          },
+          "start_date": {
+            "type": ["string", "null"]
+          },
+          "archived": {
+            "type": ["boolean", "null"]
           }
         }
-      },
-      "folders": {
-        "type": ["array","null"],
-        "items": {
-          "type": "object",
-          "properties": {
-            "id": {
-              "type": ["string", "null"]
-            },
-            "name": {
-              "type": ["string", "null"]
-            },
-            "orderindex": {
-              "type": ["integer", "null"]
-            },
-            "content": {
-              "type": ["string", "null"]
-            },
-            "task_count": {
-              "type": ["string", "null", "integer"]
-            },
-            "due_date": {
-              "type": ["string", "null"]
-            },
-            "archived": {
-              "type": ["boolean","null"]
-            }
+      }
+    },
+    "folders": {
+      "type": ["array","null"],
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": ["string", "null"]
+          },
+          "name": {
+            "type": ["string", "null"]
+          },
+          "orderindex": {
+            "type": ["integer", "null"]
+          },
+          "content": {
+            "type": ["string", "null"]
+          },
+          "task_count": {
+            "type": ["string", "null", "integer"]
+          },
+          "due_date": {
+            "type": ["string", "null"]
+          },
+          "archived": {
+            "type": ["boolean","null"]
           }
         }
       }
     }
   }
+}
