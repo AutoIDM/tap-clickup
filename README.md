@@ -5,7 +5,6 @@
 
 * `sync`
 * `catalog`
-* `state`
 * `discover`
 
 ## Settings

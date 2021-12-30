@@ -15,7 +15,7 @@ from tap_clickup.streams import (
     GoalsStream,
     TagsStream,
     SharedHierarchyStream,
-    TasksStream, 
+    TasksStream,
     FolderCustomFieldsStream,
     FolderlessCustomFieldsStream,
 )
