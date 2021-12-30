@@ -219,7 +219,7 @@ class TasksStream(ClickUpStream):
     def get_starting_replication_key_value(
         self, context: Optional[dict]
     ) -> Optional[int]:
-        """Return starting replication key value. """
+        """Return starting replication key value."""
         if self.replication_key:
             state = self.get_context_state(context)
             replication_key_value = state.get("replication_key_value")
