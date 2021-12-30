@@ -1,6 +1,6 @@
 """Stream type classes for tap-clickup."""
 from pathlib import Path
-from typing import Optional, Any, Dict, cast, Iterable
+from typing import Optional, Any, Dict, cast
 import datetime
 import pendulum
 import requests
@@ -207,10 +207,7 @@ class TasksStream(ClickUpStream):
         self, context: Optional[dict], next_page_token: Optional[Any]
     ) -> Dict[str, Any]:
         """Return a dictionary of values to be used in URL parameterization."""
-        params: dict = {}
-        if next_page_token:
-            params["page"] = next_page_token
-        params["archived"] = context.get("archived")
+        params = super().get_url_params(context, next_page_token)
         params["order_by"] = "updated"
         params["reverse"] = "true"
         params["date_updated_gt"] = 0

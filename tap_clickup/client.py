@@ -120,7 +120,9 @@ class ClickUpStream(RESTStream):
             # To use partitions, instead of being able to provide a list of contexts
             # Ideally we wouldn't mutate partitions here, and we'd just provide
             # A copy of partitions with context merged so we don't have side effects
-            for partition in self.partitions:
+            # Not certain why pylint needs this partitions is iterable
+            # We check the None case above
+            for partition in self.partitions:  # pylint: disable=not-an-iterable
                 partition.update(context.copy())  # Add copy of context to partition
             return None  # Context now handled at the partition level
 
