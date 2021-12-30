@@ -1,6 +1,6 @@
 """Stream type classes for tap-clickup."""
 from pathlib import Path
-from typing import Optional, Any, Dict, cast, Iterable
+from typing import Optional, Any, Dict, cast
 import datetime
 import pendulum
 import requests
@@ -39,14 +39,14 @@ class SpacesStream(ClickUpStream):
     schema_filepath = SCHEMAS_DIR / "space.json"
     records_jsonpath = "$.spaces[*]"
     parent_stream_type = TeamsStream
-    partitions = [{"archived":"true"},{"archived":"false"}]
-
+    partitions = [{"archived": "true"}, {"archived": "false"}]
 
     def get_child_context(self, record: dict, context: Optional[dict]) -> dict:
         """Return a context dictionary for child streams."""
         return {
             "space_id": record["id"],
         }
+
 
 class FoldersStream(ClickUpStream):
     """Folders"""
@@ -58,7 +58,7 @@ class FoldersStream(ClickUpStream):
     schema_filepath = SCHEMAS_DIR / "folder.json"
     records_jsonpath = "$.folders[*]"
     parent_stream_type = SpacesStream
-    partitions = [{"archived":"true"},{"archived":"false"}]
+    partitions = [{"archived": "true"}, {"archived": "false"}]
 
     def get_child_context(self, record: dict, context: Optional[dict]) -> dict:
         """Return a context dictionary for child streams."""
@@ -77,7 +77,7 @@ class FolderListsStream(ClickUpStream):
     schema_filepath = SCHEMAS_DIR / "list.json"
     records_jsonpath = "$.lists[*]"
     parent_stream_type = FoldersStream
-    partitions = [{"archived":"true"},{"archived":"false"}]
+    partitions = [{"archived": "true"}, {"archived": "false"}]
 
     def get_child_context(self, record: dict, context: Optional[dict]) -> dict:
         """Return a context dictionary for child streams."""
@@ -96,7 +96,7 @@ class FolderlessListsStream(ClickUpStream):
     schema_filepath = SCHEMAS_DIR / "list.json"
     records_jsonpath = "$.lists[*]"
     parent_stream_type = SpacesStream
-    partitions = [{"archived":"true"},{"archived":"false"}]
+    partitions = [{"archived": "true"}, {"archived": "false"}]
 
     def get_child_context(self, record: dict, context: Optional[dict]) -> dict:
         """Return a context dictionary for child streams."""
@@ -176,21 +176,22 @@ class FolderCustomFieldsStream(ClickUpStream):
     records_jsonpath = "$.fields[*]"
     parent_stream_type = FolderListsStream
 
+
 class TasksStream(ClickUpStream):
     """Tasks Stream"""
 
     name = "task"
-    #Date_updated_gt is greater than or equal to not just greater than
+    # Date_updated_gt is greater than or equal to not just greater than
     path = "/team/{team_id}/task?include_closed=true&subtasks=true"
     primary_keys = ["id"]
-    #replication_key = "date_updated" 
-    #is_sorted = True
-    #ignore_parent_replication_key = True
+    # replication_key = "date_updated"
+    # is_sorted = True
+    # ignore_parent_replication_key = True
     schema_filepath = SCHEMAS_DIR / "task.json"
     records_jsonpath = "$.tasks[*]"
     parent_stream_type = TeamsStream
-    partitions = [{"archived":"true"},{"archived":"false"}]
-   
+    partitions = [{"archived": "true"}, {"archived": "false"}]
+
     initial_replication_key_dict = {}
 
     def initial_replication_key(self, context) -> int:
@@ -201,15 +202,12 @@ class TasksStream(ClickUpStream):
             self.initial_replication_key_dict[path] = key_cache
         assert key_cache is not None
         return key_cache
-    
+
     def get_url_params(
         self, context: Optional[dict], next_page_token: Optional[Any]
     ) -> Dict[str, Any]:
         """Return a dictionary of values to be used in URL parameterization."""
-        params: dict = {}
-        if next_page_token:
-            params["page"] = next_page_token
-        params["archived"] = context.get("archived")
+        params = super().get_url_params(context, next_page_token)
         params["order_by"] = "updated"
         params["reverse"] = "true"
         params["date_updated_gt"] = 0
@@ -218,7 +216,7 @@ class TasksStream(ClickUpStream):
     def get_starting_replication_key_value(
         self, context: Optional[dict]
     ) -> Optional[int]:
-        """Return starting replication key value. """
+        """Return starting replication key value."""
         if self.replication_key:
             state = self.get_context_state(context)
             replication_key_value = state.get("replication_key_value")

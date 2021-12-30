@@ -7,7 +7,6 @@ plugins:
     namespace: tap_clickup
     executable: ./tap-clickup.sh
     capabilities:
-    - state
     - catalog
     - discover
     settings:
