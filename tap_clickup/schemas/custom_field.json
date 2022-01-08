@@ -40,7 +40,7 @@
                             "type": ["null", "string"]
                         },
                         "orderindex": {
-                            "type": ["null", "integer"]
+                            "type": ["null", "integer", "string"]
                         },
                         "label": {
                             "type": ["null", "string"]

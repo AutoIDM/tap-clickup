@@ -13,6 +13,7 @@ plugins:
     - name: api_token
       kind: password
     select:
+    - '!shared_hierarchy.*'
     - '*.*'
   loaders:
   - name: target-jsonl
@@ -33,11 +34,25 @@ plugins:
     pip_url: target-stitch
     executable: target-stitch
     settings:
-      - name: token
-        kind: password
+    - name: token
+      kind: password
     config:
       client_id: 191229
       small_batch_url: https://api.stitchdata.com/v2/import/batch
       big_batch_url: https://api.stitchdata.com/v2/import/batch
-      batch_size_preferences: 
-        a : "a" 
+      batch_size_preferences:
+        a: a
+  - name: target-snowflake
+    variant: transferwise
+    pip_url: pipelinewise-target-snowflake
+    config:
+      account: yja98422
+      database: test
+      user: tap_clickup
+      warehouse: COMPUTE_WH
+      s3_bucket: snowflake-clickup-testing
+      stage: tap_clickup.tap_clickup
+      file_format: tap_clickup.tap_clickup
+      s3_region_name: us-west-2
+      default_target_schema: tap_clickup
+      primary_key_required: False

@@ -20,7 +20,7 @@
                             "type": ["string"]
                         },
                         "orderindex":{
-                            "type": ["string"]
+                            "type": ["string", "null", "integer"]
                         },
                         "priority":{
                             "type": ["string"]
@@ -55,12 +55,12 @@
                         "type": ["string", "null"]
                     },
                     "orderindex": {
-                        "type": ["integer", "null"]
+                        "type": ["string", "integer", "null"]
                     }
                 }
             },
             "orderindex": {
-                "type": ["string", "null"]
+                "type": ["string", "integer", "null"]
             },
             "date_created": {
                 "type": ["string", "null"]
@@ -203,7 +203,7 @@
                                                 "type": ["string", "null"]
                                             },
                                             "orderindex": {
-                                                "type": ["integer", "null"]
+                                                "type": ["integer", "string", "null"]
                                             }
                                         }
                                     }

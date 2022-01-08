@@ -1,7 +1,7 @@
 {
     "definitions": {
         "status": {
-            "type": "object",
+            "type": ["object", "null"],
             "properties": {
                     "id": {
                         "type": "string"
@@ -10,7 +10,7 @@
                         "type": "string"
                     },
                     "orderindex": {
-                        "type": ["null", "string"]
+                        "type": ["null", "integer", "string"]
                     },
                     "color": {
                         "type": ["null", "string"]
@@ -18,10 +18,42 @@
                     "type": {
                         "type": ["null", "string"]
                     }
+            },
+        "feature": {
+                "type": ["object", "null"],
+                "properties": {
+                    "enabled": {
+                        "type": ["boolean"]
+                    },
+                    "start_date": {
+                        "type": ["null", "boolean"]
+                    },
+                    "remap_due_dates": {
+                        "type": ["null", "boolean"]
+                    },
+                    "remap_closed_due_date": {
+                        "type": ["null", "boolean"]
+                    },
+                    "harvest": {
+                        "type": ["null", "boolean"]
+                    },
+                    "rollup": {
+                        "type": ["null", "boolean"]
+                    },
+                    "per_assignee": {
+                        "type": ["null", "boolean"]
+                    },
+                    "subtasks": {
+                        "type": ["null", "boolean"]
+                    },
+                    "checklists": {
+                        "type": ["null", "boolean"]
+                    }
             }
+        }
         },
         "list": {
-                "type": "object",
+                "type": ["object", "null"],
                 "properties": {
                     "id": {
                         "type": ["string"]
@@ -30,7 +62,7 @@
                         "type": ["null", "string"]
                     },
                     "orderindex": {
-                        "type": ["null", "integer"]
+                        "type": ["null", "integer", "string"]
                     },
                     "status": {
                         "type": ["null", "string"]
@@ -51,21 +83,26 @@
                         "type": ["null", "string"]
                     },
                     "space": {
-                        "type": ["null", "object"],
+                        "type": "object",
                         "properties": {
-                            "$ref": "#definitions/feature"
+                            "id": {
+                                "type": ["null", "string"]
+                            },
+                            "name": {
+                                "type": ["null", "string"]
+                            }
                         }
                     },
                     "archived": {
                         "type": ["null", "boolean"]
                     },
                     "override_statuses": {
-                        "type": ["null", "string"]
+                        "type": ["null", "boolean", "string"]
                     },
                     "statuses": {
                         "type": ["array","null"],
                         "items": {
-                            "$ref": "#definitions/status"
+                            "$ref": "#/definitions/status"
                         }
                     },
                     "permission_level": {
@@ -83,10 +120,10 @@
             "type": ["null", "string"]
         },
         "orderindex": {
-            "type": ["null", "integer"]
+            "type": ["null", "string", "integer"]
         },
         "override_statuses": {
-            "type": ["null", "boolean"]
+            "type": ["null", "string", "boolean"]
         },
         "hidden": {
             "type": ["null", "boolean"]
@@ -108,13 +145,13 @@
         "statuses": {
             "type": ["array", "null"],
             "items": {
-                "$ref": "#definitions/status"
+                "$ref": "#/definitions/status"
             }
         },
         "lists": {
             "type": ["array", "null"],
             "items": {
-                "$ref": "#definitions/list"
+                "$ref": "#/definitions/list"
             }
         },
         "archived": {
