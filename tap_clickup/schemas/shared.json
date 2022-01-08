@@ -4,10 +4,10 @@
           "type": ["object", "null"],
           "properties": {
                   "id": {
-                      "type": "string"
+                      "type": ["null", "string"]
                   },
                   "status": {
-                      "type": "string"
+                      "type": ["null", "string"]
                   },
                   "orderindex": {
                       "type": ["null", "string", "integer"]

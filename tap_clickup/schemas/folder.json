@@ -4,10 +4,10 @@
             "type": ["object", "null"],
             "properties": {
                     "id": {
-                        "type": "string"
+                        "type": ["null", "string"]
                     },
                     "status": {
-                        "type": "string"
+                        "type": ["null", "string"]
                     },
                     "orderindex": {
                         "type": ["null", "integer", "string"]
@@ -18,45 +18,13 @@
                     "type": {
                         "type": ["null", "string"]
                     }
-            },
-        "feature": {
-                "type": ["object", "null"],
-                "properties": {
-                    "enabled": {
-                        "type": ["boolean"]
-                    },
-                    "start_date": {
-                        "type": ["null", "boolean"]
-                    },
-                    "remap_due_dates": {
-                        "type": ["null", "boolean"]
-                    },
-                    "remap_closed_due_date": {
-                        "type": ["null", "boolean"]
-                    },
-                    "harvest": {
-                        "type": ["null", "boolean"]
-                    },
-                    "rollup": {
-                        "type": ["null", "boolean"]
-                    },
-                    "per_assignee": {
-                        "type": ["null", "boolean"]
-                    },
-                    "subtasks": {
-                        "type": ["null", "boolean"]
-                    },
-                    "checklists": {
-                        "type": ["null", "boolean"]
-                    }
             }
-        }
         },
         "list": {
                 "type": ["object", "null"],
                 "properties": {
                     "id": {
-                        "type": ["string"]
+                        "type": ["string", "null"]
                     },
                     "name": {
                         "type": ["null", "string"]
@@ -83,7 +51,7 @@
                         "type": ["null", "string"]
                     },
                     "space": {
-                        "type": "object",
+                        "type": ["null", "object"],
                         "properties": {
                             "id": {
                                 "type": ["null", "string"]
@@ -129,7 +97,7 @@
             "type": ["null", "boolean"]
         },
         "space": {
-            "type": "object",
+            "type": ["object", "null"],
             "properties": {
                 "id": {
                     "type": ["null", "string"]
