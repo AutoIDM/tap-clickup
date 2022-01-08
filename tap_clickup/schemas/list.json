@@ -27,7 +27,7 @@
                         "type": ["null", "string"]
                     },
                     "orderindex": {
-                        "type": ["null", "string", "intger"]
+                        "type": ["null", "string", "integer"]
                     },
                     "color": {
                         "type": ["null", "string"]
