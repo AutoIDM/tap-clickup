@@ -2,7 +2,16 @@
 `tap-clickup` is a Singer tap for ClickUp.
 Tap was created by [AutoIDM](https://autoidm.com) only because multiple community members came together to get this tap created. Check AutoIDM out for tap/target creation, maintenace, support, and more!
 
-<a href="https://autoidm.com"><img alt="AutoIDM" src="https://static.wixstatic.com/media/ff3261_65746c7b0baa4529be123cdf5610fe69~mv2.png" width="250"></a>
+<a href="https://autoidm.com"><img alt="AutoIDM" src="./images/autoidm.png" width="250"></a>
+
+# Sponsors
+This tap is only available due to the amazing folks who pitched together to make this happen.
+
+<a href="https://www.trek10.com"><img alt="trek10" src="./images/trek10.png" width="250"></a>
+
+Note that some sponsors may not be listed here. 
+
+Want to become a sponsor? Reach out to us at [autoidm.com](https://autoidm.com)
 
 ## Capabilities
 
