@@ -1,0 +1,103 @@
+{
+    "type": "object",
+    "properties": {
+        "id": {
+            "type": "string"
+        },
+        "task": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "object",
+                    "properties": {
+                        "status": {
+                            "type": "string"
+                        },
+                        "color": {
+                            "type": "string"
+                        },
+                        "type": {
+                            "type": "string"
+                        },
+                        "orderindex": {
+                            "type": "integer"
+                        }
+                    }                            },
+                    "custom_type": {
+                        "type": "null"
+                    }
+            }                    },
+            "wid": {
+                "type": "string"
+            },
+            "user": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "username": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "color": {
+                        "type": "string"
+                    },
+                    "initials": {
+                        "type": "string"
+                    },
+                    "profilePicture": {
+                        "type": "null"
+                    }
+                }                    },
+                "billable": {
+                    "type": "boolean"
+                },
+                "start": {
+                    "type": "string"
+                },
+                "end": {
+                    "type": "string"
+                },
+                "duration": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "tags": {
+                    "type": "array"
+                },
+                "source": {
+                    "type": "string"
+                },
+                "at": {
+                    "type": "string"
+                },
+                "task_location": {
+                    "type": "object",
+                    "properties": {
+                        "list_id": {
+                            "type": "string"
+                        },
+                        "folder_id": {
+                            "type": "string"
+                        },
+                        "space_id": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "task_url": {
+                    "type": "string"
+                }
+    }
+}
