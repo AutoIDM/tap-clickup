@@ -1,70 +1,97 @@
 {
     "definitions": {
-        "user": {
-            "type": "object",
-            "properties": {
-                    "id": {
-                        "type": "integer"
-                    },
-                    "username": {
-                        "type": "string"
-                    },
-                    "email": {
-                        "type": ["null", "string"]
-                    },
-                    "color": {
-                        "type": ["null", "string"]
-                    },
-                    "profilePicture": {
-                        "type": ["null", "string"]
-                    },
-                    "initials": {
-                        "type": ["null", "string"]
-                    },
-                    "role": {
-                        "type": ["null", "integer"]
-                    },
-                    "custom_role": {
-                        "type": ["null", "integer"]
-                    },
-                    "last_active": {
-                        "type": ["null", "string"]
-                    },
-                    "date_joined": {
-                        "type": ["null", "string"]
-                    },
-                    "date_invited": {
-                        "type": ["null", "string"]
-                    }
-            }
-        },
         "members": {
-            "type": ["array", "null"],
-            "items": [
-                {
+            "type": ["null", "object"],
+            "properties": {
+                "user": {
                     "type": "object",
                     "properties": {
-                        "user": {
-                            "$ref": "#/definitions/user"
+                        "id": {
+                            "type": ["null", "integer"]
                         },
-                        "invited_by": {
-                            "$ref": "#/definitions/user"
+                        "username": {
+                            "type": ["null", "string"]
+                        },
+                        "email": {
+                            "type": ["null", "string"]
+                        },
+                        "color": {
+                            "type": ["null", "string"]
+                        },
+                        "profilePicture": {
+                            "type": ["null", "string"]
+                        },
+                        "initials": {
+                            "type": ["null", "string"]
+                        },
+                        "role": {
+                            "type": ["null", "integer"]
+                        },
+                        "custom_role": {
+                            "type": ["null", "integer"]
+                        },
+                        "last_active": {
+                            "type": ["null", "string"]
+                        },
+                        "date_joined": {
+                            "type": ["null", "string"]
+                        },
+                        "date_invited": {
+                            "type": ["null", "string"]
                         }
                     }
-                } 
-            ]
+                },
+                "invited_by": {
+                    "type": ["object", "null"],
+                    "properties": {
+                        "id": {
+                            "type": ["null", "integer"]
+                        },
+                        "username": {
+                            "type": ["null", "string"]
+                        },
+                        "email": {
+                            "type": ["null", "string"]
+                        },
+                        "color": {
+                            "type": ["null", "string"]
+                        },
+                        "profilePicture": {
+                            "type": ["null", "string"]
+                        },
+                        "initials": {
+                            "type": ["null", "string"]
+                        },
+                        "role": {
+                            "type": ["null", "integer"]
+                        },
+                        "custom_role": {
+                            "type": ["null", "integer"]
+                        },
+                        "last_active": {
+                            "type": ["null", "string"]
+                        },
+                        "date_joined": {
+                            "type": ["null", "string"]
+                        },
+                        "date_invited": {
+                            "type": ["null", "string"]
+                        }
+                    }
+                }
+            }
         },
         "status": {
-            "type": "object",
+            "type": ["object", "null"],
             "properties": {
                     "id": {
-                        "type": "string"
+                        "type": ["null", "string"]
                     },
                     "status": {
-                        "type": "string"
+                        "type": ["null", "string"]
                     },
                     "orderindex": {
-                        "type": ["null", "string"]
+                        "type": ["null", "integer", "string"]
                     },
                     "color": {
                         "type": ["null", "string"]
@@ -72,10 +99,10 @@
             }
         },
         "feature": {
-                "type": "object",
+                "type": ["object", "null"],
                 "properties": {
                     "enabled": {
-                        "type": ["boolean"]
+                        "type": ["boolean", "null"]
                     },
                     "start_date": {
                         "type": ["null", "boolean"]
@@ -121,11 +148,14 @@
         "statuses": {
             "type": ["array", "null"],
             "items": {
-                "$ref": "#definitions/status"
+                "$ref": "#/definitions/status"
             }
         },
         "members": {
-                "$ref": "#definitions/status"
+            "type": "array",
+            "items": {
+                "$ref": "#definitions/members"
+            }
         },
         "multiple_assignees": {
             "type": ["null", "boolean"]
@@ -134,43 +164,43 @@
             "type": "object",
             "properties": {
                 "due_dates": {
-                    "$ref": "#definitions/feature"
+                    "$ref": "#/definitions/feature"
                 },
                 "sprints": {
-                    "$ref": "#definitions/feature"
+                    "$ref": "#/definitions/feature"
                 },
                 "time_tracking": {
-                    "$ref": "#definitions/feature"
+                    "$ref": "#/definitions/feature"
                 },
                 "points": {
-                    "$ref": "#definitions/feature"
+                    "$ref": "#/definitions/feature"
                 },
                 "custom_items": {
-                    "$ref": "#definitions/feature"
+                    "$ref": "#/definitions/feature"
                 },
                 "time_estimates": {
-                    "$ref": "#definitions/feature"
+                    "$ref": "#/definitions/feature"
                 },
                 "check_unresolved": {
-                    "$ref": "#definitions/feature"
+                    "$ref": "#/definitions/feature"
                 },
                 "zoom": {
-                    "$ref": "#definitions/feature"
+                    "$ref": "#/definitions/feature"
                 },
                 "milestones": {
-                    "$ref": "#definitions/feature"
+                    "$ref": "#/definitions/feature"
                 },
                 "remap_dependencies": {
-                    "$ref": "#definitions/feature"
+                    "$ref": "#/definitions/feature"
                 },
                 "dependency_warning": {
-                    "$ref": "#definitions/feature"
+                    "$ref": "#/definitions/feature"
                 },
                 "multiple_assignees": {
-                    "$ref": "#definitions/feature"
+                    "$ref": "#/definitions/feature"
                 },
                 "emails": {
-                    "$ref": "#definitions/feature"
+                    "$ref": "#/definitions/feature"
                 }
             }
         },

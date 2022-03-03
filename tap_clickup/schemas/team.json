@@ -1,58 +1,123 @@
 {
     "definitions": {
         "user": {
-            "type": "object",
+            "type": ["object", "null"],
             "properties": {
-                    "id": {
-                        "type": "integer"
-                    },
-                    "username": {
-                        "type": "string"
-                    },
-                    "email": {
-                        "type": ["null", "string"]
-                    },
-                    "color": {
-                        "type": ["null", "string"]
-                    },
-                    "profilePicture": {
-                        "type": ["null", "string"]
-                    },
-                    "initials": {
-                        "type": ["null", "string"]
-                    },
-                    "role": {
-                        "type": ["null", "integer"]
-                    },
-                    "custom_role": {
-                        "type": ["null", "integer"]
-                    },
-                    "last_active": {
-                        "type": ["null", "string"]
-                    },
-                    "date_joined": {
-                        "type": ["null", "string"]
-                    },
-                    "date_invited": {
-                        "type": ["null", "string"]
-                    }
+                "id": {
+                    "type": ["null", "integer"]
+                },
+                "username": {
+                    "type": ["null", "string"]
+                },
+                "email": {
+                    "type": ["null", "string"]
+                },
+                "color": {
+                    "type": ["null", "string"]
+                },
+                "profilePicture": {
+                    "type": ["null", "string"]
+                },
+                "initials": {
+                    "type": ["null", "string"]
+                },
+                "role": {
+                    "type": ["null", "integer"]
+                },
+                "custom_role": {
+                    "type": ["null", "integer"]
+                },
+                "last_active": {
+                    "type": ["null", "string"]
+                },
+                "date_joined": {
+                    "type": ["null", "string"]
+                },
+                "date_invited": {
+                    "type": ["null", "string"]
+                }
             }
         },
         "members": {
-            "type": "array",
-            "items": [
-                {
-                    "type": "object",
+            "type": ["null", "object"],
+            "properties": {
+                "user": {
+                    "type": ["null", "object"],
                     "properties": {
-                        "user": {
-                            "$ref": "#/definitions/user"
+                        "id": {
+                            "type": ["null", "integer"]
                         },
-                        "invited_by": {
-                            "$ref": "#/definitions/user"
+                        "username": {
+                            "type": ["null", "string"]
+                        },
+                        "email": {
+                            "type": ["null", "string"]
+                        },
+                        "color": {
+                            "type": ["null", "string"]
+                        },
+                        "profilePicture": {
+                            "type": ["null", "string"]
+                        },
+                        "initials": {
+                            "type": ["null", "string"]
+                        },
+                        "role": {
+                            "type": ["null", "integer"]
+                        },
+                        "custom_role": {
+                            "type": ["null", "integer"]
+                        },
+                        "last_active": {
+                            "type": ["null", "string"]
+                        },
+                        "date_joined": {
+                            "type": ["null", "string"]
+                        },
+                        "date_invited": {
+                            "type": ["null", "string"]
                         }
                     }
-                } 
-            ]
+                },
+                "invited_by": {
+                    "type": ["null", "object"],
+                    "properties": {
+                        "id": {
+                            "type": ["null", "integer"]
+                        },
+                        "username": {
+                            "type": ["null", "string"]
+                        },
+                        "email": {
+                            "type": ["null", "string"]
+                        },
+                        "color": {
+                            "type": ["null", "string"]
+                        },
+                        "profilePicture": {
+                            "type": ["null", "string"]
+                        },
+                        "initials": {
+                            "type": ["null", "string"]
+                        },
+                        "role": {
+                            "type": ["null", "integer"]
+                        },
+                        "custom_role": {
+                            "type": ["null", "integer"]
+                        },
+                        "last_active": {
+                            "type": ["null", "string"]
+                        },
+                        "date_joined": {
+                            "type": ["null", "string"]
+                        },
+                        "date_invited": {
+                            "type": ["null", "string"]
+                        }
+                    }
+                }
+            }
         }
     },
     "type": "object",

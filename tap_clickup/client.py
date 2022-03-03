@@ -6,6 +6,7 @@ from datetime import datetime
 import time
 import requests
 import backoff
+import singer
 from requests.exceptions import RequestException
 from singer_sdk.helpers.jsonpath import extract_jsonpath
 from singer_sdk.streams import RESTStream
@@ -19,6 +20,17 @@ class ClickUpStream(RESTStream):
     url_base = "https://api.clickup.com/api/v2"
     records_jsonpath = "$[*]"  # Or override `parse_response`.
     next_page_token_jsonpath = "$.next_page"  # Or override `get_next_page_token`.
+
+    @property
+    def schema(self) -> dict:
+        """Get schema.
+
+        We are waiting on https://gitlab.com/meltano/sdk/-/issues/299 this works
+        well until then
+        Returns:
+            JSON Schema dictionary for this stream.
+        """
+        return singer.resolve_schema_references(self._schema)
 
     def get_url_params(
         self, context: Optional[dict], next_page_token: Optional[Any]

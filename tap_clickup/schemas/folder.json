@@ -1,16 +1,16 @@
 {
     "definitions": {
         "status": {
-            "type": "object",
+            "type": ["object", "null"],
             "properties": {
                     "id": {
-                        "type": "string"
+                        "type": ["null", "string"]
                     },
                     "status": {
-                        "type": "string"
+                        "type": ["null", "string"]
                     },
                     "orderindex": {
-                        "type": ["null", "string"]
+                        "type": ["null", "integer", "string"]
                     },
                     "color": {
                         "type": ["null", "string"]
@@ -21,16 +21,16 @@
             }
         },
         "list": {
-                "type": "object",
+                "type": ["object", "null"],
                 "properties": {
                     "id": {
-                        "type": ["string"]
+                        "type": ["string", "null"]
                     },
                     "name": {
                         "type": ["null", "string"]
                     },
                     "orderindex": {
-                        "type": ["null", "integer"]
+                        "type": ["null", "integer", "string"]
                     },
                     "status": {
                         "type": ["null", "string"]
@@ -53,19 +53,24 @@
                     "space": {
                         "type": ["null", "object"],
                         "properties": {
-                            "$ref": "#definitions/feature"
+                            "id": {
+                                "type": ["null", "string"]
+                            },
+                            "name": {
+                                "type": ["null", "string"]
+                            }
                         }
                     },
                     "archived": {
                         "type": ["null", "boolean"]
                     },
                     "override_statuses": {
-                        "type": ["null", "string"]
+                        "type": ["null", "boolean", "string"]
                     },
                     "statuses": {
                         "type": ["array","null"],
                         "items": {
-                            "$ref": "#definitions/status"
+                            "$ref": "#/definitions/status"
                         }
                     },
                     "permission_level": {
@@ -83,16 +88,16 @@
             "type": ["null", "string"]
         },
         "orderindex": {
-            "type": ["null", "integer"]
+            "type": ["null", "string", "integer"]
         },
         "override_statuses": {
-            "type": ["null", "boolean"]
+            "type": ["null", "string", "boolean"]
         },
         "hidden": {
             "type": ["null", "boolean"]
         },
         "space": {
-            "type": "object",
+            "type": ["object", "null"],
             "properties": {
                 "id": {
                     "type": ["null", "string"]
@@ -108,13 +113,13 @@
         "statuses": {
             "type": ["array", "null"],
             "items": {
-                "$ref": "#definitions/status"
+                "$ref": "#/definitions/status"
             }
         },
         "lists": {
             "type": ["array", "null"],
             "items": {
-                "$ref": "#definitions/list"
+                "$ref": "#/definitions/list"
             }
         },
         "archived": {

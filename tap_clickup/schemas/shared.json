@@ -4,13 +4,13 @@
           "type": ["object", "null"],
           "properties": {
                   "id": {
-                      "type": "string"
+                      "type": ["null", "string"]
                   },
                   "status": {
-                      "type": "string"
+                      "type": ["null", "string"]
                   },
                   "orderindex": {
-                      "type": ["null", "string"]
+                      "type": ["null", "string", "integer"]
                   },
                   "color": {
                       "type": ["null", "string"]
@@ -35,18 +35,18 @@
               "type": ["string", "null"]
             },
             "orderindex": {
-              "type": ["integer", "null"]
+              "type": ["integer", "string", "null"]
             },
             "content": {
               "type": ["string", "null"]
             },
             "status": {
-                "$ref": "#definitions/status"
+                "$ref": "#/definitions/status"
             },
             "statuses": {
                 "type": ["array", "null"],
                 "items": {
-                "$ref": "#definitions/status"
+                "$ref": "#/definitions/status"
                 }
             },
             "priority": {
@@ -82,18 +82,18 @@
             "type": ["string", "null"]
           },
           "orderindex": {
-            "type": ["integer", "null"]
+            "type": ["integer", "string", "null"]
           },
           "content": {
             "type": ["string", "null"]
           },
           "status": {
-              "$ref": "#definitions/status"
+              "$ref": "#/definitions/status"
           },
           "statuses": {
               "type": ["array", "null"],
               "items": {
-              "$ref": "#definitions/status"
+              "$ref": "#/definitions/status"
               }
           },
           "priority": {
@@ -129,7 +129,7 @@
             "type": ["string", "null"]
           },
           "orderindex": {
-            "type": ["integer", "null"]
+            "type": ["integer", "string", "null"]
           },
           "content": {
             "type": ["string", "null"]

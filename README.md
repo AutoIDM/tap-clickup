@@ -166,6 +166,13 @@ tap-clickup --config CONFIG --discover > ./catalog.json
 
 ## Developer Resources
 
+### Schema Debugging
+We are waiting on https://gitlab.com/meltano/sdk/-/issues/299 to get fixed as we make usage of refs in our json schema. Until then we parse the schemas in client.py 
+
+Sometimes it's useful to debug how the refs are being resolved. To do that there's a script inside of ./schema-parser , README in that directory describes how to run the parser 
+
+Not worry about making this super fool proof as we expect the SDK to release some kind of fix for this
+
 ### Initialize your Development Environment
 
 ```bash

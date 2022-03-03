@@ -1,10 +1,10 @@
 {
     "definitions": {
         "folder": {
-            "type": "object",
+            "type": ["object", "null"],
             "properties": {
                     "id": {
-                        "type": "string"
+                        "type": ["null", "string"]
                     },
                     "name": {
                         "type": ["null", "string"]
@@ -18,16 +18,16 @@
             }
         },
         "status": {
-            "type": "object",
+            "type": ["object", "null"],
             "properties": {
                     "id": {
-                        "type": "string"
+                        "type": ["null", "string"]
                     },
                     "status": {
-                        "type": "string"
+                        "type": ["null", "string"]
                     },
                     "orderindex": {
-                        "type": ["null", "string"]
+                        "type": ["null", "string", "integer"]
                     },
                     "color": {
                         "type": ["null", "string"]
@@ -47,13 +47,13 @@
                 "type": ["null", "string"]
             },
         "orderindex": {
-                "type": ["null", "integer"]
+                "type": ["null", "integer", "string"]
             },
         "content": {
                 "type": ["null", "string"]
             },
         "status": {
-                "$ref": "#definitions/status"
+                "$ref": "#/definitions/status"
             },
         "priority": {
             "type": ["string", "object", "null"],
@@ -65,7 +65,7 @@
                             "type": ["string"]
                         },
                         "orderindex":{
-                            "type": ["string"]
+                            "type": ["string", "null", "integer"]
                         },
                         "priority":{
                             "type": ["string"]
@@ -105,7 +105,7 @@
                 "type": ["null", "string"]
             },
         "folder": {
-                "$ref": "#definitions/folder"
+                "$ref": "#/definitions/folder"
             },
         "space": {
                 "type": ["null", "object"],
@@ -125,7 +125,7 @@
                 "type": ["null", "boolean"]
             },
         "override_statuses": {
-                "type": ["null", "boolean"]
+                "type": ["null", "string", "boolean"]
             },
         "permission_level": {
             "type": ["null", "string"]
