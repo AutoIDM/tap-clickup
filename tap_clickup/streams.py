@@ -17,7 +17,6 @@ class TeamsStream(ClickUpStream):
     path = "/team"
     primary_keys = ["id"]
     replication_key = None
-    # Optionally, you may also use `schema_filepath` in place of `schema`:
     schema_filepath = SCHEMAS_DIR / "team.json"
     records_jsonpath = "$.teams[*]"
 
@@ -28,6 +27,18 @@ class TeamsStream(ClickUpStream):
         }
 
 
+class TimeEntries(ClickUpStream):
+    """Time Entries"""
+
+    name = "time_entries"
+    path = "/team/{team_id}/time_entries"
+    primary_keys = ["id"]
+    replication_key = None
+    schema_filepath = SCHEMAS_DIR / "time_entries.json"
+    records_jsonpath = "$.spaces[*]"
+    parent_stream_type = TeamsStream
+
+
 class SpacesStream(ClickUpStream):
     """Spaces"""
 
@@ -35,7 +46,6 @@ class SpacesStream(ClickUpStream):
     path = "/team/{team_id}/space"
     primary_keys = ["id"]
     replication_key = None
-    # Optionally, you may also use `schema_filepath` in place of `schema`:
     schema_filepath = SCHEMAS_DIR / "space.json"
     records_jsonpath = "$.spaces[*]"
     parent_stream_type = TeamsStream

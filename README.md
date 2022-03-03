@@ -60,6 +60,14 @@ Note that the most up to date information is located in tap_clickup/streams.py. 
 - Bookmark column(s): N/A
 - Link to API endpoint documentation: [Spaces](https://jsapi.apiary.io/apis/clickup20/reference/0/spaces.html)
 
+### Time Entries
+- Table name: time_entries
+- Description: All time entries are pulled for every team. Didn't do incremental as we have https://github.com/AutoIDM/tap-clickup/issues/95 open still 
+- Primary key column(s):  id
+- Replicated fully or incrementally: No
+- Bookmark column(s): N/A
+- Link to API endpoint documentation: [Time Entries](https://jsapi.apiary.io/apis/clickup20/reference/0/time-tracking-legacy/get-time-entries-within-a-date-range.html)
+
 ### Folders
 - Table name: folder
 - Description: Each space can have multiple folders
