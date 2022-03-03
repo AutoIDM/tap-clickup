@@ -35,7 +35,7 @@ class TimeEntries(ClickUpStream):
     primary_keys = ["id"]
     replication_key = None
     schema_filepath = SCHEMAS_DIR / "time_entries.json"
-    records_jsonpath = "$.spaces[*]"
+    records_jsonpath = "$.data[*]"
     parent_stream_type = TeamsStream
 
 
