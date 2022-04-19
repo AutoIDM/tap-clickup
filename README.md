@@ -18,6 +18,7 @@ Want to become a sponsor? Reach out to us at [autoidm.com](https://autoidm.com)
 * `sync`
 * `catalog`
 * `discover`
+* `state`
 
 ## Settings
 
@@ -97,8 +98,8 @@ Note that the most up to date information is located in tap_clickup/streams.py. 
 - Table name: task_template
 - Description: Tasks can be templated for any reason you can imagine!
 - Primary key column(s):  id
-- Replicated fully or incrementally: No
-- Bookmark column(s): N/A
+- Replicated fully or incrementally: Yes
+- Bookmark column(s): updated_at
 - Link to API endpoint documentation: [Task Templates](https://jsapi.apiary.io/apis/clickup20/reference/0/task-templates/get-task-templates.html)
 
 ### Goals
