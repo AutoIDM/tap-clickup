@@ -11,6 +11,7 @@ import json
 from requests.exceptions import RequestException
 from singer_sdk.helpers.jsonpath import extract_jsonpath
 from singer_sdk.streams import RESTStream
+from singer_sdk.exceptions import RetriableAPIError, FatalAPIError
 
 SCHEMAS_DIR = Path(__file__).parent / Path("./schemas")
 
@@ -54,44 +55,28 @@ class ClickUpStream(RESTStream):
 
         headers["Authorization"] = self.config.get("api_token")
         return headers
+    
+    def validate_response(self, response: requests.Response) -> None:
+        """Validate HTTP response.
 
-    @backoff.on_exception(
-        backoff.expo,
-        (requests.exceptions.RequestException),
-        max_tries=5,
-        giveup=lambda e: e.response is not None
-        and (e.response.status_code != 429 and 400 <= e.response.status_code < 500),
-        factor=2,
-    )
-    def _request_with_backoff(
-        self, prepared_request, context: Optional[dict]
-    ) -> requests.Response:
-        response = self.requests_session.send(prepared_request)
-        if self._LOG_REQUEST_METRICS:
-            extra_tags = {}
-            if self._LOG_REQUEST_METRIC_URLS:
-                extra_tags["url"] = cast(str, prepared_request.path_url)
-            self._write_request_duration_log(
-                # Shows useful incremental debugging info for clickup
-                # There is no sensitive data here
-                endpoint=prepared_request.path_url,
-                response=response,
-                context=context,
-                extra_tags=extra_tags,
-            )
-        if response.status_code in [401, 403]:
-            self.logger.info("Failed request for {}".format(prepared_request.url))
-            self.logger.info(
-                f"Reason: {response.status_code} - {str(response.content)}"
-            )
-            raise RuntimeError(
-                "Requested resource was unauthorized, forbidden, or not found."
-            )
-        elif response.status_code == 429:
-            # ClickOff api limits to 100 requests/min.
-            # There's probably a nicer way to use this with the backoff library
-            # Does not rely on any local time information
+        In case an error is deemed transient and can be safely retried, then this
+        method should raise an :class:`singer_sdk.exceptions.RetriableAPIError`.
 
+        Args:
+            response: A `requests.Response`_ object.
+
+        Raises:
+            FatalAPIError: If the request is not retriable.
+            RetriableAPIError: If the request is retriable.
+
+        .. _requests.Response:
+            https://docs.python-requests.org/en/latest/api/#requests.Response
+        """
+        if 429 == response.status_code:
+            msg = (
+                f"{response.status_code} Server Error: "
+                f"{response.reason} for path: {self.path}"
+            )
             reset_epoch: int = int(response.headers.get("X-RateLimit-Reset"))
             date = response.headers.get("Date")
             dformat = "%a, %d %b %Y %H:%M:%S %Z"
@@ -108,18 +93,24 @@ class ClickUpStream(RESTStream):
                 time.sleep(60)
             else:
                 time.sleep(waitTime)
-
-            raise RequestException
-
-        elif response.status_code >= 400:
-            raise RuntimeError(
-                f"Error making request to API: {prepared_request.url} "
-                f"[{response.status_code} - {str(response.content)}]".replace(
-                    "\\n", "\n"
-                )
+            #This will cause us to wait a bit longer than we need to due
+            #to exponential backoff but it's minimal, and is actually better
+            #for the clickup servers to have clients add some randomness
+            raise RetriableAPIError(msg)
+            
+        if 400 <= response.status_code < 500:
+            msg = (
+                f"{response.status_code} Client Error: "
+                f"{response.reason} for path: {self.path}"
             )
-        self.logger.debug("Response received successfully.")
-        return response
+            raise FatalAPIError(msg)
+
+        elif 500 <= response.status_code < 600:
+            msg = (
+                f"{response.status_code} Server Error: "
+                f"{response.reason} for path: {self.path}"
+            )
+            raise RetriableAPIError(msg)
 
     def parse_response(self, response: requests.Response) -> Iterable[dict]:
         """Parse the response and return an iterator of result rows."""
