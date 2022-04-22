@@ -237,15 +237,6 @@ class TasksStream(ClickUpStream):
     def base_partition(self):
         return [{"archived": "true"}, {"archived": "false"}] 
 
-    initial_replication_key_dict = {}
-    def initial_replication_key(self, context) -> int:
-        key_cache: Optional[int] = self.initial_replication_key_dict.get(self.path, None)
-        if key_cache is None:
-            key_cache = self.get_starting_replication_key_value(context)
-            self.initial_replication_key_dict[self.path] = key_cache
-        assert key_cache is not None
-        return key_cache
-
     def get_url_params(
         self, context: Optional[dict], next_page_token: Optional[Any]
     ) -> Dict[str, Any]:
@@ -258,34 +249,6 @@ class TasksStream(ClickUpStream):
         params["reverse"] = "true"
         params["date_updated_gt"] = self.get_starting_replication_key_value(context)
         return params
-
- #   def get_starting_replication_key_value(
- #      self, context: Optional[dict]
- #   ) -> Optional[int]:
- #       """Return starting replication key value."""
- #       if self.replication_key:
- #           state = self.get_context_state(context)
- #           self.logger.info(f"state in repliaciton_key_value: {state}")
- #           replication_key_value = state.get("replication_key_value")
- #           if replication_key_value and self.replication_key == state.get(
- #               "replication_key"
- #           ):
- #               return replication_key_value
- #           if "start_date" in self.config:
- #               datetime_startdate = cast(
- #                   datetime.datetime, pendulum.parse(self.config["start_date"])
- #               )
- #               startdate_seconds_after_epoch = int(
- #                   datetime_startdate.replace(tzinfo=datetime.timezone.utc).timestamp()
- #               )
- #               return startdate_seconds_after_epoch
- #           else:
- #               self.logger.info(
- #                   """Setting replication value to 0 as there wasn't a
- #                   start_date provided in the config."""
- #               )
- #               return 0
- #       return None
 
     def get_next_page_token(
         self, response: requests.Response, previous_token: Optional[Any]
