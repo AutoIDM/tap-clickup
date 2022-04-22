@@ -5,7 +5,8 @@ plugins:
   extractors:
   - name: tap-clickup
     namespace: tap_clickup
-    executable: -e .
+    executable: tap-clickup
+    pip_url: -e .
     capabilities:
     - catalog
     - discover
