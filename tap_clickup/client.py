@@ -7,6 +7,7 @@ import time
 import requests
 import backoff
 import singer
+import json
 from requests.exceptions import RequestException
 from singer_sdk.helpers.jsonpath import extract_jsonpath
 from singer_sdk.streams import RESTStream
@@ -134,9 +135,22 @@ class ClickUpStream(RESTStream):
             # A copy of partitions with context merged so we don't have side effects
             # Not certain why pylint needs this partitions is iterable
             # We check the None case above
-            for partition in self.partitions:  # pylint: disable=not-an-iterable
-                partition.update(context.copy())  # Add copy of context to partition
-            return None  # Context now handled at the partition level
+            self.logger.info(f"Before magic parent_context, context:{context}. base partitions: {self.base_partition} , self.partitions:{self.partitions}")
+            new_context = []
+            #TODO 4/22 SET the partitions here to include the context information.kk
+            
+            #Goal here is to combine Parent/Child relationships with Partions
+            #For N Child relationships if we have K base_partitions we'll end up with N*K partitions
+            #Assumption is that base_partition is a list of dicts
+            child_context_plus_base_partition=[]
+            for partition in self.base_partition:  # pylint: disable=not-an-iterable
+                child_plus_partition = context.copy()
+                child_plus_partition.update(partition)
+                child_context_plus_base_partition.append(child_plus_partition)
+                self.partitions = child_context_plus_base_partition
+            self.logger.info(f"After magic parent_context, context:{context}. self.partitions:{self.partitions}")
+            
+            return None #self.partitions handles context in the _sync call. Important this is None to use partitions
 
     def _sync_children(self, child_context: dict) -> None:
         for child_stream in self.child_streams:

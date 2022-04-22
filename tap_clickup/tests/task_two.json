@@ -1,0 +1,92 @@
+{
+    "tasks": [
+        {
+            "id": "1d20c6c",
+            "custom_id": null,
+            "name": "Hover on any task to see options to \"rename\", \"create subtask\" or \"tag your task\" 👉",
+            "text_content": "",
+            "description": "",
+            "status": {
+                "status": "to do",
+                "color": "#d3d3d3",
+                "type": "open",
+                "orderindex": 0
+            },
+            "orderindex": "403946.00000000000000000000000000000000",
+            "date_created": "1629300637036",
+            "date_updated": "1801172602",
+            "date_closed": null,
+            "archived": false,
+            "creator": {
+                "id": 30025034,
+                "username": "Derek Visch",
+                "color": "#d60800",
+                "email": "dvisch@autoidm.com",
+                "profilePicture": null
+            },
+            "assignees": [],
+            "watchers": [],
+            "checklists": [],
+            "tags": [],
+            "parent": null,
+            "priority": null,
+            "due_date": null,
+            "start_date": null,
+            "points": null,
+            "time_estimate": null,      
+      "custom_fields": [
+                {
+                    "id": "bceab9e3-c0ce-4801-ba7d-6da95b8938b6",
+                    "name": "custom_dropdown",
+                    "type": "drop_down",
+                    "type_config": {
+                        "default": 0,
+                        "placeholder": null,
+                        "options": [
+                            {
+                                "id": "1c368774-f33d-4495-b7d0-2eac4b8337aa",
+                                "name": "optiona",
+                                "color": null,
+                                "orderindex": 0
+                            },
+                            {
+                                "id": "6403e2c1-7b9d-4639-8de8-5318a5ff9d5e",
+                                "name": "option2",
+                                "color": null,
+                                "orderindex": 1
+                            }
+                        ]
+                    },
+                    "date_created": "1650312760014",
+                    "hide_from_guests": false,
+                    "required": false
+                }
+            ],
+            "dependencies": [],
+            "linked_tasks": [],
+            "team_id": "18011725",
+            "url": "https://app.clickup.com/t/1d20c6c",
+            "permission_level": "create",
+            "list": {
+                "id": "126232272",
+                "name": "Quick Start Template",
+                "access": true
+            },
+            "project": {
+                "id": "72109417",
+                "name": "Quick Start",
+                "hidden": false,
+                "access": true
+            },
+            "folder": {
+                "id": "72109417",
+                "name": "Quick Start",
+                "hidden": false,
+                "access": true
+            },
+            "space": {
+                "id": "30029929"
+            }
+        }
+    ]
+}

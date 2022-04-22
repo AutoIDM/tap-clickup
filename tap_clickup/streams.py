@@ -1,6 +1,6 @@
 """Stream type classes for tap-clickup."""
 from pathlib import Path
-from typing import Optional, Any, Dict, cast
+from typing import Optional, Any, Dict, cast, Iterable
 import datetime
 import pendulum
 import requests
@@ -194,16 +194,22 @@ class TasksStream(ClickUpStream):
     # Date_updated_gt is greater than or equal to not just greater than
     path = "/team/{team_id}/task?include_closed=true&subtasks=true"
     primary_keys = ["id"]
-    # replication_key = "date_updated"
-    # is_sorted = True
+    replication_key = "date_updated"
+    # FAILED test_state.py::test_state_properly_stored - singer_sdk.exceptions.InvalidStreamSortException: Unsorted data detected in stream. Latest value '1629300637020' is smaller than previous max '1629300637030'.
+    #Doesn't work with parent / child streams + partitions
+    is_sorted = False
     # ignore_parent_replication_key = True
     schema_filepath = SCHEMAS_DIR / "task.json"
     records_jsonpath = "$.tasks[*]"
     parent_stream_type = TeamsStream
-    partitions = [{"archived": "true"}, {"archived": "false"}]
+    #TODO shouldn't need this stub?
+    partitions = []
+    @property
+    def base_partition(self):
+        return [{"archived": "true"}, {"archived": "false"}] 
 
     initial_replication_key_dict = {}
-
+    #TODO can we get rid of this with the latest SDK updates?
     def initial_replication_key(self, context) -> int:
         path = self.get_url(context) + context.get("archived")
         key_cache: Optional[int] = self.initial_replication_key_dict.get(path, None)
@@ -273,3 +279,23 @@ class TasksStream(ClickUpStream):
             newtoken = None
 
         return newtoken
+    
+    def get_records(self, context: Optional[dict]) -> Iterable[Dict[str, Any]]:
+        """Return a generator of row-type dictionary objects.
+
+        Each row emitted should be a dictionary of property names to their values.
+
+        Args:
+            context: Stream partition or context dictionary.
+
+        Yields:
+            One item per (possibly processed) record in the API.
+        """
+
+        self.logger.info(f"Context is: {context}. Tap State: {self.tap_state}")
+        for record in self.request_records(context):
+            transformed_record = self.post_process(record, context)
+            if transformed_record is None:
+                # Record filtered out during post_process()
+                continue
+            yield transformed_record
