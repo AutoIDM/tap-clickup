@@ -37,7 +37,7 @@ class TimeEntries(ClickUpStream):
     schema_filepath = SCHEMAS_DIR / "time_entries.json"
     records_jsonpath = "$.data[*]"
     parent_stream_type = TeamsStream
-    #TODO not clear why this is needed
+    # TODO not clear why this is needed
     partitions = None
 
 
@@ -52,9 +52,10 @@ class SpacesStream(ClickUpStream):
     records_jsonpath = "$.spaces[*]"
     parent_stream_type = TeamsStream
     partitions = []
+
     @property
     def base_partition(self):
-        return [{"archived": "true"}, {"archived": "false"}] 
+        return [{"archived": "true"}, {"archived": "false"}]
 
     def get_child_context(self, record: dict, context: Optional[dict]) -> dict:
         """Return a context dictionary for child streams."""
@@ -74,9 +75,10 @@ class FoldersStream(ClickUpStream):
     records_jsonpath = "$.folders[*]"
     parent_stream_type = SpacesStream
     partitions = []
+
     @property
     def base_partition(self):
-        return [{"archived": "true"}, {"archived": "false"}] 
+        return [{"archived": "true"}, {"archived": "false"}]
 
     def get_child_context(self, record: dict, context: Optional[dict]) -> dict:
         """Return a context dictionary for child streams."""
@@ -96,9 +98,10 @@ class FolderListsStream(ClickUpStream):
     records_jsonpath = "$.lists[*]"
     parent_stream_type = FoldersStream
     partitions = []
+
     @property
     def base_partition(self):
-        return [{"archived": "true"}, {"archived": "false"}] 
+        return [{"archived": "true"}, {"archived": "false"}]
 
     def get_child_context(self, record: dict, context: Optional[dict]) -> dict:
         """Return a context dictionary for child streams."""
@@ -118,9 +121,10 @@ class FolderlessListsStream(ClickUpStream):
     records_jsonpath = "$.lists[*]"
     parent_stream_type = SpacesStream
     partitions = []
+
     @property
     def base_partition(self):
-        return [{"archived": "true"}, {"archived": "false"}] 
+        return [{"archived": "true"}, {"archived": "false"}]
 
     def get_child_context(self, record: dict, context: Optional[dict]) -> dict:
         """Return a context dictionary for child streams."""
@@ -139,7 +143,7 @@ class TaskTemplatesStream(ClickUpStream):
     schema_filepath = SCHEMAS_DIR / "task_template.json"
     records_jsonpath = "$.templates[*]"
     parent_stream_type = TeamsStream
-    #TODO not clear why this is needed
+    # TODO not clear why this is needed
     partitions = None
 
 
@@ -153,7 +157,7 @@ class GoalsStream(ClickUpStream):
     schema_filepath = SCHEMAS_DIR / "goal.json"
     records_jsonpath = "$.goals[*]"
     parent_stream_type = TeamsStream
-    #TODO not clear why this is needed
+    # TODO not clear why this is needed
     partitions = None
 
 
@@ -166,7 +170,7 @@ class TagsStream(ClickUpStream):
     replication_key = None
     schema_filepath = SCHEMAS_DIR / "tag.json"
     records_jsonpath = "$.tags[*]"
-    #TODO not clear why this is needed
+    # TODO not clear why this is needed
     partitions = None
     parent_stream_type = SpacesStream
 
@@ -181,7 +185,7 @@ class SharedHierarchyStream(ClickUpStream):
     schema_filepath = SCHEMAS_DIR / "shared.json"
     records_jsonpath = "$.shared"
     parent_stream_type = TeamsStream
-    #TODO not clear why this is needed
+    # TODO not clear why this is needed
     partitions = None
 
 
@@ -195,7 +199,7 @@ class FolderlessCustomFieldsStream(ClickUpStream):
     schema_filepath = SCHEMAS_DIR / "custom_field.json"
     records_jsonpath = "$.fields[*]"
     parent_stream_type = FolderlessListsStream
-    #TODO not clear why this is needed
+    # TODO not clear why this is needed
     partitions = None
 
 
@@ -209,7 +213,7 @@ class FolderCustomFieldsStream(ClickUpStream):
     schema_filepath = SCHEMAS_DIR / "custom_field.json"
     records_jsonpath = "$.fields[*]"
     parent_stream_type = FolderListsStream
-    #TODO not clear why this is needed
+    # TODO not clear why this is needed
     partitions = None
 
 
@@ -222,18 +226,19 @@ class TasksStream(ClickUpStream):
     primary_keys = ["id"]
     replication_key = "date_updated"
     is_sorted = True
-    #ignore_parent_replication_key = True
+    # ignore_parent_replication_key = True
     schema_filepath = SCHEMAS_DIR / "task.json"
     records_jsonpath = "$.tasks[*]"
     parent_stream_type = TeamsStream
-    
-    #Need this stub as a hack on _sync to force it to use Partitions
-    #Since this is a child stream we want each team_id to create a request for
-    #archived:true and archived:false. And we want state to track properly
+
+    # Need this stub as a hack on _sync to force it to use Partitions
+    # Since this is a child stream we want each team_id to create a request for
+    # archived:true and archived:false. And we want state to track properly
     partitions = []
+
     @property
     def base_partition(self):
-        return [{"archived": "true"}, {"archived": "false"}] 
+        return [{"archived": "true"}, {"archived": "false"}]
 
     def get_url_params(
         self, context: Optional[dict], next_page_token: Optional[Any]
@@ -271,11 +276,9 @@ class TasksStream(ClickUpStream):
             newtoken = None
 
         return newtoken
-    
-    def get_starting_timestamp(
-        self, context: Optional[dict]
-    ) -> Optional[int]:
-        """Get starting replication timestamp. Overrode as the default method 
+
+    def get_starting_timestamp(self, context: Optional[dict]) -> Optional[int]:
+        """Get starting replication timestamp. Overrode as the default method
         Does datetime, not timestamp
 
         Will return the value of the stream's replication key when `--state` is passed.
@@ -294,4 +297,4 @@ class TasksStream(ClickUpStream):
         if value is None:
             return None
 
-        return pendulum.parse(value).int_timestamp*1000
+        return pendulum.parse(value).int_timestamp * 1000

@@ -55,7 +55,7 @@ class ClickUpStream(RESTStream):
 
         headers["Authorization"] = self.config.get("api_token")
         return headers
-    
+
     def validate_response(self, response: requests.Response) -> None:
         """Validate HTTP response.
 
@@ -93,11 +93,11 @@ class ClickUpStream(RESTStream):
                 time.sleep(60)
             else:
                 time.sleep(waitTime)
-            #This will cause us to wait a bit longer than we need to due
-            #to exponential backoff but it's minimal, and is actually better
-            #for the clickup servers to have clients add some randomness
+            # This will cause us to wait a bit longer than we need to due
+            # to exponential backoff but it's minimal, and is actually better
+            # for the clickup servers to have clients add some randomness
             raise RetriableAPIError(msg)
-            
+
         if 400 <= response.status_code < 500:
             msg = (
                 f"{response.status_code} Client Error: "
@@ -121,20 +121,20 @@ class ClickUpStream(RESTStream):
         if self.partitions is None:
             return context
         else:
-            #Goal here is to combine Parent/Child relationships with Partions
-            #Another way to think about this is that Partitions are now
-            #Lists of contexts, used to create multiple requests based on one context.
-            #ie we have one team_id and we need a requst for archieved=true and archieved=False
-            #For N Child relationships if we have K base_partitions we'll end up with N*K partitions
-            #Assumption is that base_partition is a list of dicts
-            child_context_plus_base_partition=[]
+            # Goal here is to combine Parent/Child relationships with Partions
+            # Another way to think about this is that Partitions are now
+            # Lists of contexts, used to create multiple requests based on one context.
+            # ie we have one team_id and we need a requst for archieved=true and archieved=False
+            # For N Child relationships if we have K base_partitions we'll end up with N*K partitions
+            # Assumption is that base_partition is a list of dicts
+            child_context_plus_base_partition = []
             for partition in self.base_partition:  # pylint: disable=not-an-iterable
                 child_plus_partition = context.copy()
                 child_plus_partition.update(partition)
                 child_context_plus_base_partition.append(child_plus_partition)
             self.partitions = child_context_plus_base_partition
-            
-            return None #self.partitions handles context in the _sync call. Important this is None to use partitions
+
+            return None  # self.partitions handles context in the _sync call. Important this is None to use partitions
 
     def _sync_children(self, child_context: dict) -> None:
         for child_stream in self.child_streams:

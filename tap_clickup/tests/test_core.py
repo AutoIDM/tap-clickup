@@ -19,4 +19,3 @@ def test_standard_tap_tests():
     tests = get_standard_tap_tests(TapClickUp, config=SAMPLE_CONFIG)
     for test in tests:
         test()
-
