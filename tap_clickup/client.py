@@ -133,7 +133,6 @@ class ClickUpStream(RESTStream):
                 child_plus_partition.update(partition)
                 child_context_plus_base_partition.append(child_plus_partition)
             self.partitions = child_context_plus_base_partition
-            #TODO remove this log line
             
             return None #self.partitions handles context in the _sync call. Important this is None to use partitions
 

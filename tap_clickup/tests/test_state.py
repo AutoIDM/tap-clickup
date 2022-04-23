@@ -169,7 +169,4 @@ def test_state_properly_stored(mocked_responses):
             raise Exception("State doesn't match expectations")
         assert state["replication_key_value"] ==  value_should_be
 
-    #TODO add a different setup for archived vs not archived
-    #Check that state is now set to the data from the Tasks
-
 #Setup 2 runs, feed state to next run. URL request should include data from the first state setup.  

@@ -13,9 +13,11 @@ plugins:
     settings:
     - name: api_token
       kind: password
+        #    config:
+      #start_date: "2022-04-01"
     select:
-    - '!shared_hierarchy.*'
-    - '*.*'
+    - 'team.*'
+    - 'task.*'
   loaders:
   - name: target-jsonl
     variant: andyh1203
