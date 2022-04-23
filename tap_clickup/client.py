@@ -69,7 +69,7 @@ class ClickUpStream(RESTStream):
         .. _requests.Response:
             https://docs.python-requests.org/en/latest/api/#requests.Response
         """
-        if 429 == response.status_code:
+        if response.status_code == 429:
             msg = (
                 f"{response.status_code} Server Error: "
                 f"{response.reason} for path: {self.path}"
@@ -114,8 +114,7 @@ class ClickUpStream(RESTStream):
         yield from extract_jsonpath(self.records_jsonpath, input=response.json())
 
     def from_parent_context(self, context: dict):
-        """
-        """
+        """ """
         if self.partitions is None:
             return context
         else:

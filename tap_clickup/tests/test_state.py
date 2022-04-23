@@ -113,29 +113,37 @@ def test_state_properly_stored(mocked_responses):
     )
     mocked_responses.add(
         responses.GET,
-        ("https://api.clickup.com/api/v2/team/18011725/task?include_closed=true"
-         + "&subtasks=true&archived=true&order_by=updated&reverse=true&date_updated_gt=0"),
+        (
+            "https://api.clickup.com/api/v2/team/18011725/task?include_closed=true"
+            + "&subtasks=true&archived=true&order_by=updated&reverse=true&date_updated_gt=0"
+        ),
         body=archived_task_response,
         content_type="application/json",
     )
     mocked_responses.add(
         responses.GET,
-        ("https://api.clickup.com/api/v2/team/18011725/task?include_closed=true"
-         + "&subtasks=true&archived=false&order_by=updated&reverse=true&date_updated_gt=0"),
+        (
+            "https://api.clickup.com/api/v2/team/18011725/task?include_closed=true"
+            + "&subtasks=true&archived=false&order_by=updated&reverse=true&date_updated_gt=0"
+        ),
         body=task_response_json,
         content_type="application/json",
     )
     mocked_responses.add(
         responses.GET,
-        ("https://api.clickup.com/api/v2/team/18011726/task?include_closed=true"
-         + "&subtasks=true&archived=true&order_by=updated&reverse=true&date_updated_gt=0"),
+        (
+            "https://api.clickup.com/api/v2/team/18011726/task?include_closed=true"
+            + "&subtasks=true&archived=true&order_by=updated&reverse=true&date_updated_gt=0"
+        ),
         body=archived_task_response_two,
         content_type="application/json",
     )
     mocked_responses.add(
         responses.GET,
-        ("https://api.clickup.com/api/v2/team/18011726/task?include_closed=true"
-         + "&subtasks=true&archived=false&order_by=updated&reverse=true&date_updated_gt=0"),
+        (
+            "https://api.clickup.com/api/v2/team/18011726/task?include_closed=true"
+            + "&subtasks=true&archived=false&order_by=updated&reverse=true&date_updated_gt=0"
+        ),
         body=task_response_json_two,
         content_type="application/json",
     )
