@@ -1,14 +1,11 @@
 """REST client handling, including ClickUpStream base class."""
 
-from typing import Any, Optional, Iterable, cast, Dict
+from typing import Any, Optional, Iterable, Dict
 from pathlib import Path
 from datetime import datetime
 import time
 import requests
-import backoff
 import singer
-import json
-from requests.exceptions import RequestException
 from singer_sdk.helpers.jsonpath import extract_jsonpath
 from singer_sdk.streams import RESTStream
 from singer_sdk.exceptions import RetriableAPIError, FatalAPIError
@@ -117,14 +114,16 @@ class ClickUpStream(RESTStream):
         yield from extract_jsonpath(self.records_jsonpath, input=response.json())
 
     def from_parent_context(self, context: dict):
-        """Default is to return the dict passed in"""
+        """
+        """
         if self.partitions is None:
             return context
         else:
             # Goal here is to combine Parent/Child relationships with Partions
             # Another way to think about this is that Partitions are now
             # Lists of contexts, used to create multiple requests based on one context.
-            # ie we have one team_id and we need a requst for archieved=true and archieved=False
+            # ie we have one team_id and we need a requst
+            # for archieved=true and archieved=False
             # For N Child relationships if we have K base_partitions we'll end up with N*K partitions
             # Assumption is that base_partition is a list of dicts
             child_context_plus_base_partition = []
