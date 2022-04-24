@@ -1,7 +1,6 @@
 """Stream type classes for tap-clickup."""
 from pathlib import Path
 from typing import Optional, Any, Dict
-import pendulum
 import requests
 from singer_sdk.helpers.jsonpath import extract_jsonpath
 from tap_clickup.client import ClickUpStream

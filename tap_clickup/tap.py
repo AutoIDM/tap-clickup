@@ -47,18 +47,18 @@ class TapClickUp(Tap):
         th.Property(
             "api_token", th.StringType, required=True, description="Example: 'pk_12345"
         ),
-        #Removing "official" start_date support re https://github.com/AutoIDM/tap-clickup/issues/118
-#        th.Property(
-#            "start_date",
-#            th.StringType,
-#            description="""We recommended to leave this null as state will handle the
-#            tasks start date for you and get all the streams that support incremental
-#            on the first run. start_date officially only supports RFC 3339. But
-#           you can get away with anything Pendulum.parse can handle.
-#            See https://pendulum.eustace.io/docs/.
-#            Examples 2019-10-12T07:20:50.52Z 2022-04-01
-#            """,
-#        ),
+        # Removing "official" start_date support re https://github.com/AutoIDM/tap-clickup/issues/118
+        #        th.Property(
+        #            "start_date",
+        #            th.StringType,
+        #            description="""We recommended to leave this null as state will handle the
+        #            tasks start date for you and get all the streams that support incremental
+        #            on the first run. start_date officially only supports RFC 3339. But
+        #           you can get away with anything Pendulum.parse can handle.
+        #            See https://pendulum.eustace.io/docs/.
+        #            Examples 2019-10-12T07:20:50.52Z 2022-04-01
+        #            """,
+        #        ),
     ).to_dict()
 
     def discover_streams(self) -> List[Stream]:

@@ -1,15 +1,13 @@
 from singer_sdk.tap_base import Tap
-import datetime
 import os
 import responses
-import json
 import pytest
 from pathlib import Path
 
 from tap_clickup.tap import TapClickUp
 
 SAMPLE_CONFIG = {
-   # "start_date": 0,
+    # "start_date": 0,
     "api_token": os.environ["TAP_CLICKUP_API_TOKEN"],
 }
 
@@ -156,7 +154,9 @@ def test_state_properly_stored(mocked_responses):
                 metadata["metadata"]["selected"] = False
     state1 = tap1.state
     tap2: Tap = TapClickUp(config=SAMPLE_CONFIG, state=state1, catalog=catalog1)
-    tap2.streams.get("team").sync() #This calls team, and task as task is a child stream
+    tap2.streams.get(
+        "team"
+    ).sync()  # This calls team, and task as task is a child stream
 
     task_state = tap2.state["bookmarks"]["task"]["partitions"]
     assert len(task_state) == 4  # Must be 4 tasks
