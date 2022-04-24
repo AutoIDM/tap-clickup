@@ -9,7 +9,7 @@ from pathlib import Path
 from tap_clickup.tap import TapClickUp
 
 SAMPLE_CONFIG = {
-    "start_date": datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%d"),
+   # "start_date": 0,
     "api_token": os.environ["TAP_CLICKUP_API_TOKEN"],
 }
 
@@ -114,8 +114,8 @@ def test_state_properly_stored(mocked_responses):
     mocked_responses.add(
         responses.GET,
         (
-            "https://api.clickup.com/api/v2/team/18011725/task?include_closed=true"
-            + "&subtasks=true&archived=true&order_by=updated&reverse=true&date_updated_gt=0"
+            "https://api.clickup.com/api/v2/team/18011725/task?archived=true"
+            + "&include_closed=true&subtasks=true&order_by=updated&reverse=true"
         ),
         body=archived_task_response,
         content_type="application/json",
@@ -123,8 +123,8 @@ def test_state_properly_stored(mocked_responses):
     mocked_responses.add(
         responses.GET,
         (
-            "https://api.clickup.com/api/v2/team/18011725/task?include_closed=true"
-            + "&subtasks=true&archived=false&order_by=updated&reverse=true&date_updated_gt=0"
+            "https://api.clickup.com/api/v2/team/18011725/task?archived=false"
+            + "&include_closed=true&subtasks=true&order_by=updated&reverse=true"
         ),
         body=task_response_json,
         content_type="application/json",
@@ -132,8 +132,8 @@ def test_state_properly_stored(mocked_responses):
     mocked_responses.add(
         responses.GET,
         (
-            "https://api.clickup.com/api/v2/team/18011726/task?include_closed=true"
-            + "&subtasks=true&archived=true&order_by=updated&reverse=true&date_updated_gt=0"
+            "https://api.clickup.com/api/v2/team/18011726/task?archived=true"
+            + "&include_closed=true&subtasks=true&order_by=updated&reverse=true"
         ),
         body=archived_task_response_two,
         content_type="application/json",
@@ -141,8 +141,8 @@ def test_state_properly_stored(mocked_responses):
     mocked_responses.add(
         responses.GET,
         (
-            "https://api.clickup.com/api/v2/team/18011726/task?include_closed=true"
-            + "&subtasks=true&archived=false&order_by=updated&reverse=true&date_updated_gt=0"
+            "https://api.clickup.com/api/v2/team/18011726/task?archived=false"
+            + "&include_closed=true&subtasks=true&order_by=updated&reverse=true"
         ),
         body=task_response_json_two,
         content_type="application/json",
@@ -154,17 +154,13 @@ def test_state_properly_stored(mocked_responses):
         if stream.get("stream") and stream["stream"] not in ("task", "team"):
             for metadata in stream["metadata"]:
                 metadata["metadata"]["selected"] = False
-
     state1 = tap1.state
-    print(f"STATE from tap1 is now: {tap1.state}")
     tap2: Tap = TapClickUp(config=SAMPLE_CONFIG, state=state1, catalog=catalog1)
-    tap2.streams.get("team").sync()
-    tap2.streams.get("task").sync()
-    print(f"STATE is now: {json.dumps(tap2.state, indent=4)}")
+    tap2.streams.get("team").sync() #This calls team, and task as task is a child stream
+
     task_state = tap2.state["bookmarks"]["task"]["partitions"]
     assert len(task_state) == 4  # Must be 4 tasks
     for state in task_state:
-        print(f"state iter: {state}")
         if (
             state["context"]["archived"] == "true"
             and state["context"]["team_id"] == "18011725"

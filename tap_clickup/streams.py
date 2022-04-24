@@ -249,7 +249,7 @@ class TasksStream(ClickUpStream):
         params["subtasks"] = "true"
         params["order_by"] = "updated"
         params["reverse"] = "true"
-        params["date_updated_gt"] = self.get_starting_timestamp(context)
+        params["date_updated_gt"] = self.get_starting_replication_key_value(context)
         return params
 
     def get_next_page_token(
@@ -275,25 +275,3 @@ class TasksStream(ClickUpStream):
             newtoken = None
 
         return newtoken
-
-    def get_starting_timestamp(self, context: Optional[dict]) -> Optional[int]:
-        """Get starting replication timestamp. Overrode as the default method
-        Does datetime, not timestamp
-
-        Will return the value of the stream's replication key when `--state` is passed.
-        If no state exists, will return `start_date` if set, or `None` if neither
-        the stream state nor `start_date` is set.
-
-        Args:
-            context: Stream partition or context dictionary.
-
-        Returns:
-            `start_date` from config, or state value if using timestamp replication.
-
-        """
-        value = self.get_starting_replication_key_value(context)
-
-        if value is None:
-            return None
-
-        return pendulum.parse(value).int_timestamp * 1000

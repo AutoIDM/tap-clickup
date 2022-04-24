@@ -28,7 +28,6 @@ Want to become a sponsor? Reach out to us at [autoidm.com](https://autoidm.com)
 | Setting             | Required | Default | Description |
 |:--------------------|:--------:|:-------:|:------------|
 | api_token           | True     | None    | Example: 'pk_12345 |
-| start_date          | False    | None    | We recommended to leave this null as state will handle the tasks start date for you and get all the streams that support incremental on the first run. start_date officially only supports RFC 3339. But you can get away with anything Pendulum.parse can handle. See https://pendulum.eustace.io/docs/.Examples 2019-10-12T07:20:50.52Z 2022-04-01 |
 | stream_maps         | False    | None    | Config object for stream maps capability. |
 | stream_map_config   | False    | None    | User-defined config values to be used within map expressions. |
 | flattening_enabled  | False    | None    | 'True' to enable schema flattening and automatically expand nested properties. |
