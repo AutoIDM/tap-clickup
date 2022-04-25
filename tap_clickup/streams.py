@@ -1,8 +1,6 @@
 """Stream type classes for tap-clickup."""
 from pathlib import Path
-from typing import Optional, Any, Dict, cast
-import datetime
-import pendulum
+from typing import Optional, Any, Dict
 import requests
 from singer_sdk.helpers.jsonpath import extract_jsonpath
 from tap_clickup.client import ClickUpStream
@@ -37,6 +35,8 @@ class TimeEntries(ClickUpStream):
     schema_filepath = SCHEMAS_DIR / "time_entries.json"
     records_jsonpath = "$.data[*]"
     parent_stream_type = TeamsStream
+    # TODO not clear why this is needed
+    partitions = None
 
 
 class SpacesStream(ClickUpStream):
@@ -49,7 +49,11 @@ class SpacesStream(ClickUpStream):
     schema_filepath = SCHEMAS_DIR / "space.json"
     records_jsonpath = "$.spaces[*]"
     parent_stream_type = TeamsStream
-    partitions = [{"archived": "true"}, {"archived": "false"}]
+    partitions = []
+
+    @property
+    def base_partition(self):
+        return [{"archived": "true"}, {"archived": "false"}]
 
     def get_child_context(self, record: dict, context: Optional[dict]) -> dict:
         """Return a context dictionary for child streams."""
@@ -68,7 +72,11 @@ class FoldersStream(ClickUpStream):
     schema_filepath = SCHEMAS_DIR / "folder.json"
     records_jsonpath = "$.folders[*]"
     parent_stream_type = SpacesStream
-    partitions = [{"archived": "true"}, {"archived": "false"}]
+    partitions = []
+
+    @property
+    def base_partition(self):
+        return [{"archived": "true"}, {"archived": "false"}]
 
     def get_child_context(self, record: dict, context: Optional[dict]) -> dict:
         """Return a context dictionary for child streams."""
@@ -87,7 +95,11 @@ class FolderListsStream(ClickUpStream):
     schema_filepath = SCHEMAS_DIR / "list.json"
     records_jsonpath = "$.lists[*]"
     parent_stream_type = FoldersStream
-    partitions = [{"archived": "true"}, {"archived": "false"}]
+    partitions = []
+
+    @property
+    def base_partition(self):
+        return [{"archived": "true"}, {"archived": "false"}]
 
     def get_child_context(self, record: dict, context: Optional[dict]) -> dict:
         """Return a context dictionary for child streams."""
@@ -106,7 +118,11 @@ class FolderlessListsStream(ClickUpStream):
     schema_filepath = SCHEMAS_DIR / "list.json"
     records_jsonpath = "$.lists[*]"
     parent_stream_type = SpacesStream
-    partitions = [{"archived": "true"}, {"archived": "false"}]
+    partitions = []
+
+    @property
+    def base_partition(self):
+        return [{"archived": "true"}, {"archived": "false"}]
 
     def get_child_context(self, record: dict, context: Optional[dict]) -> dict:
         """Return a context dictionary for child streams."""
@@ -125,6 +141,8 @@ class TaskTemplatesStream(ClickUpStream):
     schema_filepath = SCHEMAS_DIR / "task_template.json"
     records_jsonpath = "$.templates[*]"
     parent_stream_type = TeamsStream
+    # TODO not clear why this is needed
+    partitions = None
 
 
 class GoalsStream(ClickUpStream):
@@ -137,6 +155,8 @@ class GoalsStream(ClickUpStream):
     schema_filepath = SCHEMAS_DIR / "goal.json"
     records_jsonpath = "$.goals[*]"
     parent_stream_type = TeamsStream
+    # TODO not clear why this is needed
+    partitions = None
 
 
 class TagsStream(ClickUpStream):
@@ -148,6 +168,8 @@ class TagsStream(ClickUpStream):
     replication_key = None
     schema_filepath = SCHEMAS_DIR / "tag.json"
     records_jsonpath = "$.tags[*]"
+    # TODO not clear why this is needed
+    partitions = None
     parent_stream_type = SpacesStream
 
 
@@ -161,6 +183,8 @@ class SharedHierarchyStream(ClickUpStream):
     schema_filepath = SCHEMAS_DIR / "shared.json"
     records_jsonpath = "$.shared"
     parent_stream_type = TeamsStream
+    # TODO not clear why this is needed
+    partitions = None
 
 
 class FolderlessCustomFieldsStream(ClickUpStream):
@@ -173,6 +197,8 @@ class FolderlessCustomFieldsStream(ClickUpStream):
     schema_filepath = SCHEMAS_DIR / "custom_field.json"
     records_jsonpath = "$.fields[*]"
     parent_stream_type = FolderlessListsStream
+    # TODO not clear why this is needed
+    partitions = None
 
 
 class FolderCustomFieldsStream(ClickUpStream):
@@ -185,6 +211,8 @@ class FolderCustomFieldsStream(ClickUpStream):
     schema_filepath = SCHEMAS_DIR / "custom_field.json"
     records_jsonpath = "$.fields[*]"
     parent_stream_type = FolderListsStream
+    # TODO not clear why this is needed
+    partitions = None
 
 
 class TasksStream(ClickUpStream):
@@ -192,63 +220,36 @@ class TasksStream(ClickUpStream):
 
     name = "task"
     # Date_updated_gt is greater than or equal to not just greater than
-    path = "/team/{team_id}/task?include_closed=true&subtasks=true"
+    path = "/team/{team_id}/task"
     primary_keys = ["id"]
-    # replication_key = "date_updated"
-    # is_sorted = True
+    replication_key = "date_updated"
+    is_sorted = True
     # ignore_parent_replication_key = True
     schema_filepath = SCHEMAS_DIR / "task.json"
     records_jsonpath = "$.tasks[*]"
     parent_stream_type = TeamsStream
-    partitions = [{"archived": "true"}, {"archived": "false"}]
 
-    initial_replication_key_dict = {}
+    # Need this stub as a hack on _sync to force it to use Partitions
+    # Since this is a child stream we want each team_id to create a request for
+    # archived:true and archived:false. And we want state to track properly
+    partitions = []
 
-    def initial_replication_key(self, context) -> int:
-        path = self.get_url(context) + context.get("archived")
-        key_cache: Optional[int] = self.initial_replication_key_dict.get(path, None)
-        if key_cache is None:
-            key_cache = self.get_starting_replication_key_value(context)
-            self.initial_replication_key_dict[path] = key_cache
-        assert key_cache is not None
-        return key_cache
+    @property
+    def base_partition(self):
+        return [{"archived": "true"}, {"archived": "false"}]
 
     def get_url_params(
         self, context: Optional[dict], next_page_token: Optional[Any]
     ) -> Dict[str, Any]:
         """Return a dictionary of values to be used in URL parameterization."""
         params = super().get_url_params(context, next_page_token)
+        params["archived"] = context["archived"]
+        params["include_closed"] = "true"
+        params["subtasks"] = "true"
         params["order_by"] = "updated"
         params["reverse"] = "true"
-        params["date_updated_gt"] = 0
+        params["date_updated_gt"] = self.get_starting_replication_key_value(context)
         return params
-
-    def get_starting_replication_key_value(
-        self, context: Optional[dict]
-    ) -> Optional[int]:
-        """Return starting replication key value."""
-        if self.replication_key:
-            state = self.get_context_state(context)
-            replication_key_value = state.get("replication_key_value")
-            if replication_key_value and self.replication_key == state.get(
-                "replication_key"
-            ):
-                return replication_key_value
-            if "start_date" in self.config:
-                datetime_startdate = cast(
-                    datetime.datetime, pendulum.parse(self.config["start_date"])
-                )
-                startdate_seconds_after_epoch = int(
-                    datetime_startdate.replace(tzinfo=datetime.timezone.utc).timestamp()
-                )
-                return startdate_seconds_after_epoch
-            else:
-                self.logger.info(
-                    """Setting replication value to 0 as there wasn't a
-                    start_date provided in the config."""
-                )
-                return 0
-        return None
 
     def get_next_page_token(
         self, response: requests.Response, previous_token: Optional[Any]

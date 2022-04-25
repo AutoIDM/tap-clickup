@@ -1,15 +1,14 @@
 """REST client handling, including ClickUpStream base class."""
 
-from typing import Any, Optional, Iterable, cast, Dict
+from typing import Any, Optional, Iterable, Dict
 from pathlib import Path
 from datetime import datetime
 import time
 import requests
-import backoff
 import singer
-from requests.exceptions import RequestException
 from singer_sdk.helpers.jsonpath import extract_jsonpath
 from singer_sdk.streams import RESTStream
+from singer_sdk.exceptions import RetriableAPIError, FatalAPIError
 
 SCHEMAS_DIR = Path(__file__).parent / Path("./schemas")
 
@@ -20,6 +19,7 @@ class ClickUpStream(RESTStream):
     url_base = "https://api.clickup.com/api/v2"
     records_jsonpath = "$[*]"  # Or override `parse_response`.
     next_page_token_jsonpath = "$.next_page"  # Or override `get_next_page_token`.
+    _LOG_REQUEST_METRIC_URLS: bool = True
 
     @property
     def schema(self) -> dict:
@@ -53,43 +53,27 @@ class ClickUpStream(RESTStream):
         headers["Authorization"] = self.config.get("api_token")
         return headers
 
-    @backoff.on_exception(
-        backoff.expo,
-        (requests.exceptions.RequestException),
-        max_tries=5,
-        giveup=lambda e: e.response is not None
-        and (e.response.status_code != 429 and 400 <= e.response.status_code < 500),
-        factor=2,
-    )
-    def _request_with_backoff(
-        self, prepared_request, context: Optional[dict]
-    ) -> requests.Response:
-        response = self.requests_session.send(prepared_request)
-        if self._LOG_REQUEST_METRICS:
-            extra_tags = {}
-            if self._LOG_REQUEST_METRIC_URLS:
-                extra_tags["url"] = cast(str, prepared_request.path_url)
-            self._write_request_duration_log(
-                # Shows useful incremental debugging info for clickup
-                # There is no sensitive data here
-                endpoint=prepared_request.path_url,
-                response=response,
-                context=context,
-                extra_tags=extra_tags,
-            )
-        if response.status_code in [401, 403]:
-            self.logger.info("Failed request for {}".format(prepared_request.url))
-            self.logger.info(
-                f"Reason: {response.status_code} - {str(response.content)}"
-            )
-            raise RuntimeError(
-                "Requested resource was unauthorized, forbidden, or not found."
-            )
-        elif response.status_code == 429:
-            # ClickOff api limits to 100 requests/min.
-            # There's probably a nicer way to use this with the backoff library
-            # Does not rely on any local time information
+    def validate_response(self, response: requests.Response) -> None:
+        """Validate HTTP response.
 
+        In case an error is deemed transient and can be safely retried, then this
+        method should raise an :class:`singer_sdk.exceptions.RetriableAPIError`.
+
+        Args:
+            response: A `requests.Response`_ object.
+
+        Raises:
+            FatalAPIError: If the request is not retriable.
+            RetriableAPIError: If the request is retriable.
+
+        .. _requests.Response:
+            https://docs.python-requests.org/en/latest/api/#requests.Response
+        """
+        if response.status_code == 429:
+            msg = (
+                f"{response.status_code} Server Error: "
+                f"{response.reason} for path: {self.path}"
+            )
             reset_epoch: int = int(response.headers.get("X-RateLimit-Reset"))
             date = response.headers.get("Date")
             dformat = "%a, %d %b %Y %H:%M:%S %Z"
@@ -106,37 +90,49 @@ class ClickUpStream(RESTStream):
                 time.sleep(60)
             else:
                 time.sleep(waitTime)
+            # This will cause us to wait a bit longer than we need to due
+            # to exponential backoff but it's minimal, and is actually better
+            # for the clickup servers to have clients add some randomness
+            raise RetriableAPIError(msg)
 
-            raise RequestException
-
-        elif response.status_code >= 400:
-            raise RuntimeError(
-                f"Error making request to API: {prepared_request.url} "
-                f"[{response.status_code} - {str(response.content)}]".replace(
-                    "\\n", "\n"
-                )
+        if 400 <= response.status_code < 500:
+            msg = (
+                f"{response.status_code} Client Error: "
+                f"{response.reason} for path: {self.path}"
             )
-        self.logger.debug("Response received successfully.")
-        return response
+            raise FatalAPIError(msg)
+
+        elif 500 <= response.status_code < 600:
+            msg = (
+                f"{response.status_code} Server Error: "
+                f"{response.reason} for path: {self.path}"
+            )
+            raise RetriableAPIError(msg)
 
     def parse_response(self, response: requests.Response) -> Iterable[dict]:
         """Parse the response and return an iterator of result rows."""
         yield from extract_jsonpath(self.records_jsonpath, input=response.json())
 
     def from_parent_context(self, context: dict):
-        """Default is to return the dict passed in"""
+        """ """
         if self.partitions is None:
             return context
         else:
-            # Was going to copy the partitions, but the _sync call, forces us
-            # To use partitions, instead of being able to provide a list of contexts
-            # Ideally we wouldn't mutate partitions here, and we'd just provide
-            # A copy of partitions with context merged so we don't have side effects
-            # Not certain why pylint needs this partitions is iterable
-            # We check the None case above
-            for partition in self.partitions:  # pylint: disable=not-an-iterable
-                partition.update(context.copy())  # Add copy of context to partition
-            return None  # Context now handled at the partition level
+            # Goal here is to combine Parent/Child relationships with Partions
+            # Another way to think about this is that Partitions are now
+            # Lists of contexts, used to create multiple requests based on one context.
+            # ie we have one team_id and we need a requst
+            # for archieved=true and archieved=False
+            # For N Child relationships if we have K base_partitions we'll end up with N*K partitions
+            # Assumption is that base_partition is a list of dicts
+            child_context_plus_base_partition = []
+            for partition in self.base_partition:  # pylint: disable=not-an-iterable
+                child_plus_partition = context.copy()
+                child_plus_partition.update(partition)
+                child_context_plus_base_partition.append(child_plus_partition)
+            self.partitions = child_context_plus_base_partition
+
+            return None  # self.partitions handles context in the _sync call. Important this is None to use partitions
 
     def _sync_children(self, child_context: dict) -> None:
         for child_stream in self.child_streams:

@@ -13,17 +13,25 @@ Note that some sponsors may not be listed here.
 
 Want to become a sponsor? Reach out to us at [autoidm.com](https://autoidm.com)
 
+
 ## Capabilities
 
-* `sync`
 * `catalog`
+* `state`
 * `discover`
+* `about`
+* `stream-maps`
+* `schema-flattening`
 
 ## Settings
 
-| Setting   | Required | Default | Description |
-|:----------|:--------:|:-------:|:------------|
-| api_token | True     | None    | Example: 'pk_12345'            |
+| Setting             | Required | Default | Description |
+|:--------------------|:--------:|:-------:|:------------|
+| api_token           | True     | None    | Example: 'pk_12345 |
+| stream_maps         | False    | None    | Config object for stream maps capability. |
+| stream_map_config   | False    | None    | User-defined config values to be used within map expressions. |
+| flattening_enabled  | False    | None    | 'True' to enable schema flattening and automatically expand nested properties. |
+| flattening_max_depth| False    | None    | The max depth to flatten schemas. |
 
 A full list of supported settings and capabilities is available by running: `tap-clickup --about`
 
@@ -97,8 +105,8 @@ Note that the most up to date information is located in tap_clickup/streams.py. 
 - Table name: task_template
 - Description: Tasks can be templated for any reason you can imagine!
 - Primary key column(s):  id
-- Replicated fully or incrementally: No
-- Bookmark column(s): N/A
+- Replicated fully or incrementally: Yes
+- Bookmark column(s): updated_at
 - Link to API endpoint documentation: [Task Templates](https://jsapi.apiary.io/apis/clickup20/reference/0/task-templates/get-task-templates.html)
 
 ### Goals
