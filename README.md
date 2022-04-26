@@ -56,7 +56,7 @@ Note that the most up to date information is located in tap_clickup/streams.py. 
 - Table name: team
 - Description: Teams Data, each user can be in multiple teams
 - Primary key column(s):  id
-- Replicated fully or incrementally: No
+- Replicated fully or incrementally: Full
 - Bookmark column(s): N/A
 - Link to API endpoint documentation: [Teams](https://jsapi.apiary.io/apis/clickup20/reference/0/teams/get-teams.html)
 
@@ -64,7 +64,7 @@ Note that the most up to date information is located in tap_clickup/streams.py. 
 - Table name: space
 - Description: Each team has multiple spaces
 - Primary key column(s):  id
-- Replicated fully or incrementally: No
+- Replicated fully or incrementally: Full
 - Bookmark column(s): N/A
 - Link to API endpoint documentation: [Spaces](https://jsapi.apiary.io/apis/clickup20/reference/0/spaces.html)
 
@@ -72,7 +72,7 @@ Note that the most up to date information is located in tap_clickup/streams.py. 
 - Table name: time_entries
 - Description: All time entries are pulled for every team. Didn't do incremental as we have https://github.com/AutoIDM/tap-clickup/issues/95 open still 
 - Primary key column(s):  id
-- Replicated fully or incrementally: No
+- Replicated fully or incrementally: Full
 - Bookmark column(s): N/A
 - Link to API endpoint documentation: [Time Entries](https://jsapi.apiary.io/apis/clickup20/reference/0/time-tracking-legacy/get-time-entries-within-a-date-range.html)
 
@@ -80,7 +80,7 @@ Note that the most up to date information is located in tap_clickup/streams.py. 
 - Table name: folder
 - Description: Each space can have multiple folders
 - Primary key column(s):  id
-- Replicated fully or incrementally: No
+- Replicated fully or incrementally: Full
 - Bookmark column(s): N/A
 - Link to API endpoint documentation: [Folders](https://jsapi.apiary.io/apis/clickup20/reference/0/folders.html)
 
@@ -88,7 +88,7 @@ Note that the most up to date information is located in tap_clickup/streams.py. 
 - Table name: folder_list
 - Description: Each Folder can have multiple lists
 - Primary key column(s):  id
-- Replicated fully or incrementally: No
+- Replicated fully or incrementally: Full
 - Bookmark column(s): N/A
 - Link to API endpoint documentation:[Folder Lists](https://jsapi.apiary.io/apis/clickup20/reference/0/lists/get-lists.html)
 
@@ -97,7 +97,7 @@ Note that the most up to date information is located in tap_clickup/streams.py. 
 - Table name: folderless_list
 - Description: Some lists do not exist in a folder
 - Primary key column(s):  id
-- Replicated fully or incrementally: No
+- Replicated fully or incrementally: Full
 - Bookmark column(s): N/A
 - Link to API endpoint documentation: [Folderless Lists](https://jsapi.apiary.io/apis/clickup20/reference/0/lists/get-folderless-lists.html)
 
@@ -105,7 +105,7 @@ Note that the most up to date information is located in tap_clickup/streams.py. 
 - Table name: task_template
 - Description: Tasks can be templated for any reason you can imagine!
 - Primary key column(s):  id
-- Replicated fully or incrementally: Yes
+- Replicated fully or incrementally: Full
 - Bookmark column(s): updated_at
 - Link to API endpoint documentation: [Task Templates](https://jsapi.apiary.io/apis/clickup20/reference/0/task-templates/get-task-templates.html)
 
@@ -113,7 +113,7 @@ Note that the most up to date information is located in tap_clickup/streams.py. 
 - Table name: goal 
 - Description: Teams can set goals for themselves
 - Primary key column(s):  id
-- Replicated fully or incrementally: No
+- Replicated fully or incrementally: Full
 - Bookmark column(s): N/A
 - Link to API endpoint documentation: [Goals](https://jsapi.apiary.io/apis/clickup20/reference/0/goals/get-goals.html)
 
@@ -121,7 +121,7 @@ Note that the most up to date information is located in tap_clickup/streams.py. 
 - Table name: tag
 - Description: Each space can have multiple tags
 - Primary key column(s):  id
-- Replicated fully or incrementally: No
+- Replicated fully or incrementally: Full
 - Bookmark column(s): N/A
 - Link to API endpoint documentation: [Tags](https://jsapi.apiary.io/apis/clickup20/reference/0/tags/get-space-tags.html)
 
@@ -129,7 +129,7 @@ Note that the most up to date information is located in tap_clickup/streams.py. 
 - Table name: shared_hierarchy
 - Description: Returns all resources you have access to where you don't have access to its parent. For example, if you have a access to a shared task, but don't have access to its parent list, it will come back in this request.
 - Primary key column(s): (No primary key column)
-- Replicated fully or incrementally: No
+- Replicated fully or incrementally: Full
 - Bookmark column(s): N/A
 - Link to API endpoint documentation: [Shared Hierarchy](https://jsapi.apiary.io/apis/clickup20/reference/0/shared-hierarchy/shared-hierarchy.html)
 
@@ -137,7 +137,7 @@ Note that the most up to date information is located in tap_clickup/streams.py. 
 - Table name: folderless_customfield
 - Description: Each Folderless lists can have custom fields associated with them
 - Primary key column(s):  id
-- Replicated fully or incrementally: No
+- Replicated fully or incrementally: Full
 - Bookmark column(s): N/A
 - Link to API endpoint documentation: [Custom Field](https://jsapi.apiary.io/apis/clickup20/reference/0/custom-fields/get-accessible-custom-fields.html)
 
@@ -145,7 +145,7 @@ Note that the most up to date information is located in tap_clickup/streams.py. 
 - Table name: folder_customfield
 - Description: Each Foldere list can have custom fields associated with them
 - Primary key column(s):  id
-- Replicated fully or incrementally: No
+- Replicated fully or incrementally: Full
 - Bookmark column(s): N/A
 - Link to API endpoint documentation: [Custom Field](https://jsapi.apiary.io/apis/clickup20/reference/0/custom-fields/get-accessible-custom-fields.html)
 
@@ -153,7 +153,7 @@ Note that the most up to date information is located in tap_clickup/streams.py. 
 - Table name: tasks
 - Description: Some tasks do not sit under folders. This comes from the folderless_list endpoint
 - Primary key column(s):  id
-- Replicated fully or incrementally: No
+- Replicated fully or incrementally: Incremental
 - Bookmark column(s): date_updated. Note that the api endpoint date_updated_gt is great than or equal to, not just greater than. 
 - Link to API endpoint documentation: [Get Tasks](https://jsapi.apiary.io/apis/clickup20/reference/0/tasks/get-filtered-team-tasks.html)
 
