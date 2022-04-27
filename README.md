@@ -44,11 +44,6 @@ A full list of supported settings and capabilities is available by running: `tap
 1. At the top of the screen is an API Token. This can be used in the api_token location. 
     * This is a personal token, it's fine to use a personal token as this tap is only for the business that's using the data. 
 
-## Clickup Replication
-Start Date is used for the initial updated at value for the updated at field with tasks. 
-
-Let's say that you only want tasks that have been updated in the last year. To accomplish this you would pass in a start date of the first of this year!
-
 ## Clickup Table Schemas
 Note that the most up to date information is located in tap_clickup/streams.py. We will try to keep these docs updated
 
