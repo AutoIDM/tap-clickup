@@ -53,7 +53,10 @@ jobs:
           pip install poetry==1.1.10
           poetry install
       - name: Test tap-clickup 
-        run: poetry run tox -e test
+        run: |
+          poetry run tox -e test
+          meltano install
+          meltano elt tap-clickup target-jsonl
         env:
           TAP_CLICKUP_API_TOKEN: ${{ secrets.TAP_CLICKUP_API_TOKEN }}
           TAP_CLICKUP_TEAM_IDS: ${{ secrets.TAP_CLICKUP_TEAM_IDS }}
