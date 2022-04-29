@@ -55,6 +55,7 @@ jobs:
       - name: Test tap-clickup 
         run: |
           poetry run tox -e test
+          pip install meltano
           meltano install
           meltano elt tap-clickup target-jsonl
         env:
