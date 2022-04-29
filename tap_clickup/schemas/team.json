@@ -25,7 +25,15 @@
                     "type": ["null", "integer"]
                 },
                 "custom_role": {
-                    "type": ["null", "integer"]
+                    "type": ["null", "integer", "object"],
+                    "properties": {
+                        "id": {
+                            "type": ["null", "integer"]
+                        },
+                        "name": {
+                            "type": ["null", "string"]
+                        }
+                    }
                 },
                 "last_active": {
                     "type": ["null", "string"]
@@ -66,7 +74,15 @@
                             "type": ["null", "integer"]
                         },
                         "custom_role": {
-                            "type": ["null", "integer"]
+                            "type": ["null", "integer", "object"],
+                            "properties": {
+                                "id": {
+                                    "type": ["null", "integer"]
+                                },
+                                "name": {
+                                    "type": ["null", "string"]
+                                }
+                            }
                         },
                         "last_active": {
                             "type": ["null", "string"]

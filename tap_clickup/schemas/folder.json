@@ -3,79 +3,99 @@
         "status": {
             "type": ["object", "null"],
             "properties": {
-                    "id": {
-                        "type": ["null", "string"]
-                    },
-                    "status": {
-                        "type": ["null", "string"]
-                    },
-                    "orderindex": {
-                        "type": ["null", "integer", "string"]
-                    },
-                    "color": {
-                        "type": ["null", "string"]
-                    },
-                    "type": {
-                        "type": ["null", "string"]
-                    }
+                "id": {
+                    "type": ["null", "string"]
+                },
+                "status": {
+                    "type": ["null", "string"]
+                },
+                "orderindex": {
+                    "type": ["null", "integer", "string"]
+                },
+                "color": {
+                    "type": ["null", "string"]
+                },
+                "type": {
+                    "type": ["null", "string"]
+                }
             }
         },
         "list": {
-                "type": ["object", "null"],
-                "properties": {
-                    "id": {
-                        "type": ["string", "null"]
-                    },
-                    "name": {
-                        "type": ["null", "string"]
-                    },
-                    "orderindex": {
-                        "type": ["null", "integer", "string"]
-                    },
-                    "status": {
-                        "type": ["null", "string"]
-                    },
-                    "priority": {
-                        "type": ["null", "string"]
-                    },
-                    "assignee": {
-                        "type": ["null", "string"]
-                    },
-                    "task_count": {
-                        "type": ["null", "string", "integer"]
-                    },
-                    "due_date": {
-                        "type": ["null", "string"]
-                    },
-                    "start_date": {
-                        "type": ["null", "string"]
-                    },
-                    "space": {
-                        "type": ["null", "object"],
-                        "properties": {
-                            "id": {
-                                "type": ["null", "string"]
-                            },
-                            "name": {
-                                "type": ["null", "string"]
-                            }
+            "type": ["object", "null"],
+            "properties": {
+                "id": {
+                    "type": ["string", "null"]
+                },
+                "name": {
+                    "type": ["null", "string"]
+                },
+                "orderindex": {
+                    "type": ["null", "integer", "string"]
+                },
+                "status": {
+                    "$ref": "#/definitions/status"
+                },
+                "priority": {
+                    "type": ["null", "string"]
+                },
+                "assignee": {
+                    "type": ["object", "null", "string"],
+                    "properties": {
+                        "id": {
+                            "type": ["integer", "null"]
+                        },
+                        "username": {
+                            "type": ["string", "null"]
+                        },
+                        "color": {
+                            "type": ["string", "null"]
+                        },
+                        "initials": {
+                            "type": ["string", "null"]
+                        },
+                        "email": {
+                            "type": ["string", "null"]
+                        },
+                        "profilePicture": {
+                            "type": ["string", "null"]
                         }
-                    },
-                    "archived": {
-                        "type": ["null", "boolean"]
-                    },
-                    "override_statuses": {
-                        "type": ["null", "boolean", "string"]
-                    },
-                    "statuses": {
-                        "type": ["array","null"],
-                        "items": {
-                            "$ref": "#/definitions/status"
-                        }
-                    },
-                    "permission_level": {
-                        "type": ["null", "string"]
                     }
+                },
+                "task_count": {
+                    "type": ["null", "string", "integer"]
+                },
+                "due_date": {
+                    "type": ["null", "string"]
+                },
+                "start_date": {
+                    "type": ["null", "string"]
+                },
+                "space": {
+                    "type": ["null", "object"],
+                    "properties": {
+                        "id": {
+                            "type": ["null", "string"]
+                        },
+                        "name": {
+                            "type": ["null", "string"]
+                        }
+                    }
+                },
+                "archived": {
+                    "type": ["null", "boolean"]
+                },
+                "override_statuses": {
+                    "type": ["null", "boolean", "string"]
+                },
+                "statuses": {
+                    "type": ["array","null"],
+                    "items": {
+                        "$ref": "#/definitions/status"
+                    }
+                },
+                "permission_level": {
+                    "type": ["null", "string"]
+                }
             }
         }
     },
