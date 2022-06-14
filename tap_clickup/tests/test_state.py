@@ -13,7 +13,6 @@ SAMPLE_CONFIG = {
 
 
 def test_default_incremental():
-    """Return callable pytest which executes simple discovery and connection tests."""
     # Initialize with basic config
     tap1: Tap = TapClickUp(config=SAMPLE_CONFIG, parse_env_config=True)
     # Test discovery
@@ -184,6 +183,3 @@ def test_state_properly_stored(mocked_responses):
         else:
             raise Exception("State doesn't match expectations")
         assert state["replication_key_value"] == value_should_be
-
-
-# Setup 2 runs, feed state to next run. URL request should include data from the first state setup.
