@@ -58,3 +58,5 @@ plugins:
       s3_region_name: us-west-2
       default_target_schema: tap_clickup
       primary_key_required: False
+environments:
+- name: dev

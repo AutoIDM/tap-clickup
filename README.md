@@ -70,7 +70,7 @@ Note that the most up to date information is located in tap_clickup/streams.py. 
 
 ### Time Entries
 - Table name: time_entries
-- Description: All time entries are pulled for every team. Didn't do incremental as we have https://github.com/AutoIDM/tap-clickup/issues/95 open still 
+- Description: All time entries are pulled for every team. Currently only pulls the last 30 days of time_entries see https://github.com/AutoIDM/tap-clickup/issues/134 for an issue addressing this!
 - Primary key column(s):  id
 - Replicated fully or incrementally: Full
 - Bookmark column(s): N/A
