@@ -202,6 +202,9 @@
                                             "name": {
                                                 "type": ["string", "null"]
                                             },
+                                            "label": {
+                                                "type": ["string", "null"]
+                                            },
                                             "color": {
                                                 "type": ["string", "null"]
                                             },
