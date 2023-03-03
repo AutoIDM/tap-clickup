@@ -71,6 +71,9 @@
             "date_closed": {
                 "type": ["string", "null"]
             },
+            "date_done": {
+                "type": ["string", "null"]
+            },
             "archived": {
                 "type": ["boolean", "null"]
             },
