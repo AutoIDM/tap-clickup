@@ -5,7 +5,7 @@ from pathlib import Path
 from datetime import datetime
 import time
 import requests
-import singer
+from singer_sdk._singerlib.schema import resolve_schema_references
 from singer_sdk.helpers.jsonpath import extract_jsonpath
 from singer_sdk.streams import RESTStream
 from singer_sdk.exceptions import RetriableAPIError, FatalAPIError
@@ -30,7 +30,7 @@ class ClickUpStream(RESTStream):
         Returns:
             JSON Schema dictionary for this stream.
         """
-        return singer.resolve_schema_references(self._schema)
+        return resolve_schema_references(self._schema)
 
     def get_url_params(
         self, context: Optional[dict], next_page_token: Optional[Any]

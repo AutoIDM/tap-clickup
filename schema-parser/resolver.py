@@ -1,4 +1,4 @@
-import singer
+from singer_sdk._singerlib.schema import resolve_schema_references
 import json
 import os
 
@@ -11,7 +11,7 @@ for file in  os.listdir("."):
 for schema_file in file_names:
     with open(schema_file) as f:
         old_schema = json.load(f)
-        new_schema = singer.resolve_schema_references(old_schema)
+        new_schema = resolve_schema_references(old_schema)
         with open(f"./parsed_schemas/{schema_file}", "w") as w:
             w.write(json.dumps(new_schema, indent=4))
 
