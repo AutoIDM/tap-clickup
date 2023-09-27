@@ -47,6 +47,15 @@ class TapClickUp(Tap):
         th.Property(
             "api_token", th.StringType, required=True, description="Example: 'pk_12345"
         ),
+        th.Property(
+            "workspace_id", th.IntegerType, required=False, description="Example: '20214542" # fetches the data for workspace_id
+        ),
+        th.Property(
+            "spaces_id", th.StringType, required=False, description="Example: '[45215477,4547547]" # fetches the data for workspace_id
+        ),
+        th.Property(
+            "list_ids", th.StringType, required=False, description="Example: '[454455478,784552187]" # fetches the data for workspace_id
+        ),                
         # Removing "official" start_date support re https://github.com/AutoIDM/tap-clickup/issues/118
         #        th.Property(
         #            "start_date",
@@ -64,3 +73,4 @@ class TapClickUp(Tap):
     def discover_streams(self) -> List[Stream]:
         """Return a list of discovered streams."""
         return [stream_class(tap=self) for stream_class in STREAM_TYPES]
+    
