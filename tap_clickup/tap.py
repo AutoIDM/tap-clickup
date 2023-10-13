@@ -48,13 +48,13 @@ class TapClickUp(Tap):
             "api_token", th.StringType, required=True, description="Example: 'pk_12345"
         ),
         th.Property(
-            "workspace_id", th.IntegerType, required=False, description="Example: '20214542" # fetches the data for workspace_id
+            "workspace_ids", th.ArrayType(th.IntegerType), required=False, description="Example: '[20214542]'" # fetches the data for workspace_id
         ),
         th.Property(
-            "spaces_id", th.StringType, required=False, description="Example: '[45215477,4547547]" # fetches the data for workspace_id
+            "space_ids", th.ArrayType(th.IntegerType), required=False, description="Example: '[45215477, 4547547]'" # fetches the data for workspace_id
         ),
         th.Property(
-            "list_ids", th.StringType, required=False, description="Example: '[454455478,784552187]" # fetches the data for workspace_id
+            "list_ids", th.ArrayType(th.IntegerType), required=False, description="Example: '[454455478, 784552187]'" # fetches the data for workspace_id
         ),                
         # Removing "official" start_date support re https://github.com/AutoIDM/tap-clickup/issues/118
         #        th.Property(
