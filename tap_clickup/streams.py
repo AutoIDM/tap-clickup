@@ -20,7 +20,8 @@ class TeamsStream(ClickUpStream):
 
     def get_child_context(self, record: dict, context: Optional[dict]) -> dict:
         """Return a context dictionary for child streams."""
-        user_ids = [member.get("user", {}).get("id") for member in record.get("members", []) if isinstance(member, dict)]
+        user_ids = [str(member.get("user", {}).get("id")) for member in record.get("members", []) if isinstance(member, dict)]
+
         return {
             "team_id": record["id"],
             "user_ids": user_ids
@@ -40,12 +41,11 @@ class TimeEntries(ClickUpStream):
     # TODO not clear why this is needed
     partitions = None
     def get_url_params(
-        self, context: Optional[dict], next_page_token: Optional[Any]
+            self, context: Optional[dict], next_page_token: Optional[Any]
     ) -> Dict[str, Any]:
         """Return a dictionary of values to be used in URL parameterization."""
         params = super().get_url_params(context, next_page_token)
-        if 'user_ids' in context:
-            params["user_ids"] = ",".join(context["user_ids"])
+        params["assignee"] = ",".join(context["user_ids"])
         return params
 
 
