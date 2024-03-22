@@ -13,6 +13,8 @@ plugins:
     settings:
     - name: api_token
       kind: password
+    - name: time_entry_assignees
+      kind: string
         #    config:
     select:
     - '!shared_hierarchy.*'

@@ -45,7 +45,9 @@ class TimeEntries(ClickUpStream):
     ) -> Dict[str, Any]:
         """Return a dictionary of values to be used in URL parameterization."""
         params = super().get_url_params(context, next_page_token)
-        params["assignee"] = ",".join(context["user_ids"])
+        # TODO: Use env vars for these otherwise use the values as we do below
+        params["assignee"] = self.config.get("time_entry_assignees")
+        # params["assignee"] = ",".join(context["user_ids"])
         return params
 
 
