@@ -55,7 +55,7 @@
                         "type": "string"
                     },
                     "profilePicture": {
-                        "type": "null"
+                        "type": ["string", "null"]
                     }
                 }                    },
                 "billable": {
