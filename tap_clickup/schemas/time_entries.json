@@ -101,7 +101,7 @@
                     "type": ["string", "null"]
                 },
                 "folder_id": {
-                    "type": "string"
+                    "type": ["string", "null"]
                 },
                 "space_id": {
                     "type": "string"
