@@ -1,4 +1,5 @@
 """Stream type classes for tap-clickup."""
+from datetime import datetime
 from pathlib import Path
 from typing import Optional, Any, Dict
 import requests
@@ -20,8 +21,11 @@ class TeamsStream(ClickUpStream):
 
     def get_child_context(self, record: dict, context: Optional[dict]) -> dict:
         """Return a context dictionary for child streams."""
+        user_ids = [str(member.get("user", {}).get("id")) for member in record.get("members", []) if isinstance(member, dict)]
+
         return {
             "team_id": record["id"],
+            "user_ids": user_ids
         }
 
 
@@ -31,12 +35,28 @@ class TimeEntries(ClickUpStream):
     name = "time_entries"
     path = "/team/{team_id}/time_entries"
     primary_keys = ["id"]
-    replication_key = None
+    replication_key = "at"
     schema_filepath = SCHEMAS_DIR / "time_entries.json"
     records_jsonpath = "$.data[*]"
     parent_stream_type = TeamsStream
     # TODO not clear why this is needed
     partitions = None
+    def get_url_params(
+            self, context: Optional[dict], next_page_token: Optional[Any]
+    ) -> Dict[str, Any]:
+        """Return a dictionary of values to be used in URL parameterization."""
+        params = super().get_url_params(context, next_page_token)
+
+        if "time_entry_start_date" in self.config:
+            # Formatted in ISO 8601, it must now be converted to milliseconds
+            start_date = datetime.strptime(self.config["time_entry_start_date"], "%Y-%m-%dT%H:%M:%SZ")
+            # Convert the datetime object to milliseconds
+            params["start_date"] = int(start_date.timestamp() * 1000)
+        if "time_entry_assignees" in self.config:
+            params["assignee"] = self.config["time_entry_assignees"]
+        else:
+            params["assignee"] = ",".join(context["user_ids"])
+        return params
 
 
 class SpacesStream(ClickUpStream):

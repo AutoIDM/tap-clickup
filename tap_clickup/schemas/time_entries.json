@@ -5,7 +5,7 @@
             "type": "string"
         },
         "task": {
-            "type": "object",
+            "type": ["object", "string"],
             "properties": {
                 "id": {
                     "type": "string"
@@ -20,7 +20,10 @@
                             "type": "string"
                         },
                         "color": {
-                            "type": "string"
+                            "type": [
+                                "string",
+                                "null"
+                            ]
                         },
                         "type": {
                             "type": "string"
@@ -28,76 +31,85 @@
                         "orderindex": {
                             "type": "integer"
                         }
-                    }                            },
-                    "custom_type": {
-                        "type": "null"
-                    }
-            }                    },
-            "wid": {
-                "type": "string"
-            },
-            "user": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "integer"
-                    },
-                    "username": {
-                        "type": "string"
-                    },
-                    "email": {
-                        "type": "string"
-                    },
-                    "color": {
-                        "type": "string"
-                    },
-                    "initials": {
-                        "type": "string"
-                    },
-                    "profilePicture": {
-                        "type": "null"
-                    }
-                }                    },
-                "billable": {
-                    "type": "boolean"
-                },
-                "start": {
-                    "type": "string"
-                },
-                "end": {
-                    "type": "string"
-                },
-                "duration": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "tags": {
-                    "type": "array"
-                },
-                "source": {
-                    "type": "string"
-                },
-                "at": {
-                    "type": "string"
-                },
-                "task_location": {
-                    "type": "object",
-                    "properties": {
-                        "list_id": {
-                            "type": "string"
-                        },
-                        "folder_id": {
-                            "type": "string"
-                        },
-                        "space_id": {
-                            "type": "string"
-                        }
                     }
                 },
-                "task_url": {
-                    "type": "string"
+                "custom_type": {
+                    "type": ["null", "integer"]
                 }
+            }
+        },
+        "wid": {
+            "type": "string"
+        },
+        "user": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "username": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "color": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "initials": {
+                    "type": "string"
+                },
+                "profilePicture": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                }
+            }
+        },
+        "billable": {
+            "type": "boolean"
+        },
+        "start": {
+            "type": "string"
+        },
+        "end": {
+            "type": "string"
+        },
+        "duration": {
+            "type": "string"
+        },
+        "description": {
+            "type": "string"
+        },
+        "tags": {
+            "type": "array"
+        },
+        "source": {
+            "type": "string"
+        },
+        "at": {
+            "type": "string"
+        },
+        "task_location": {
+            "type": "object",
+            "properties": {
+                "list_id": {
+                    "type": ["string", "null"]
+                },
+                "folder_id": {
+                    "type": ["string", "null"]
+                },
+                "space_id": {
+                    "type": ["string", "null"]
+                }
+            }
+        },
+        "task_url": {
+            "type": "string"
+        }
     }
 }
