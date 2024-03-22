@@ -34,7 +34,7 @@
                     }
                 },
                 "custom_type": {
-                    "type": "null"
+                    "type": ["null", "integer"]
                 }
             }
         },
