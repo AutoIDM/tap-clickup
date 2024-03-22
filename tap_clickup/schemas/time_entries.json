@@ -20,7 +20,7 @@
                             "type": "string"
                         },
                         "color": {
-                            "type": "string"
+                            "type": ["string", "null"]
                         },
                         "type": {
                             "type": "string"
@@ -49,7 +49,7 @@
                         "type": "string"
                     },
                     "color": {
-                        "type": "string"
+                        "type": ["string", "null"]
                     },
                     "initials": {
                         "type": "string"
