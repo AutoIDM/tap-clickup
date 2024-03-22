@@ -1,6 +1,6 @@
 """Stream type classes for tap-clickup."""
 from pathlib import Path
-from time import mktime, strptime
+from datetime import strptime
 from typing import Optional, Any, Dict
 import requests
 from singer_sdk.helpers.jsonpath import extract_jsonpath
@@ -49,9 +49,9 @@ class TimeEntries(ClickUpStream):
 
         if "time_entry_start_date" in self.config:
             # Formatted in ISO 8601, it must now be converted to milliseconds
-            print("MY TEST DATE", self.config["time_entry_start_date"])
-            start_date_in_ms = int(mktime(strptime(self.config["time_entry_start_date"], "%Y-%m-%d").timetuple()) * 1000)
-            params["start_date"] = start_date_in_ms
+            start_date = strptime(self.config["time_entry_start_date"], "%Y-%m-%dT%H:%M:%SZ")
+            # Convert the datetime object to milliseconds
+            params["start_date"] = int(start_date.timestamp() * 1000)
         if "time_entry_assignees" in self.config:
             params["assignee"] = self.config["time_entry_assignees"]
         else:
