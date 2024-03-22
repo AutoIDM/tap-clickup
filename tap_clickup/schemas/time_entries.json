@@ -98,7 +98,7 @@
             "type": "object",
             "properties": {
                 "list_id": {
-                    "type": "string"
+                    "type": ["string", "null"]
                 },
                 "folder_id": {
                     "type": "string"
