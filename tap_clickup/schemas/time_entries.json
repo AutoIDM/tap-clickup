@@ -104,7 +104,7 @@
                     "type": ["string", "null"]
                 },
                 "space_id": {
-                    "type": "string"
+                    "type": ["string", "null"]
                 }
             }
         },
