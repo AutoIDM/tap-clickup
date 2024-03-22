@@ -1,5 +1,6 @@
 """Stream type classes for tap-clickup."""
 from pathlib import Path
+from time import mktime, strptime
 from typing import Optional, Any, Dict
 import requests
 from singer_sdk.helpers.jsonpath import extract_jsonpath
@@ -45,9 +46,16 @@ class TimeEntries(ClickUpStream):
     ) -> Dict[str, Any]:
         """Return a dictionary of values to be used in URL parameterization."""
         params = super().get_url_params(context, next_page_token)
-        # TODO: Use env vars for these otherwise use the values as we do below
-        params["assignee"] = self.config.get("time_entry_assignees")
-        # params["assignee"] = ",".join(context["user_ids"])
+
+        if "time_entry_start_date" in self.config:
+            # Formatted in ISO 8601, it must now be converted to milliseconds
+            print("MY TEST DATE", self.config["time_entry_start_date"])
+            start_date_in_ms = int(mktime(strptime(self.config["time_entry_start_date"], "%Y-%m-%d").timetuple()) * 1000)
+            params["start_date"] = start_date_in_ms
+        if "time_entry_assignees" in self.config:
+            params["assignee"] = self.config["time_entry_assignees"]
+        else:
+            params["assignee"] = ",".join(context["user_ids"])
         return params
 
 
