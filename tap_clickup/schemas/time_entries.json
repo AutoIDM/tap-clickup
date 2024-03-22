@@ -5,7 +5,7 @@
             "type": "string"
         },
         "task": {
-            "type": "object",
+            "type": ["object", "string"],
             "properties": {
                 "id": {
                     "type": "string"
