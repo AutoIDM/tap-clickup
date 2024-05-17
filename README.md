@@ -74,8 +74,8 @@ Note that the most up to date information is located in tap_clickup/streams.py. 
 - Table name: time_entries
 - Description: All time entries are pulled for every team. Currently only pulls the last 30 days of time_entries see https://github.com/AutoIDM/tap-clickup/issues/134 for an issue addressing this!
 - Primary key column(s):  id
-- Replicated fully or incrementally: Full
-- Bookmark column(s): N/A
+- Replicated fully or incrementally: Incremental
+- Bookmark column(s): at. _Please note that you must set the start date in the config to get time entries older than 30 days._
 - Link to API endpoint documentation: [Time Entries](https://jsapi.apiary.io/apis/clickup20/reference/0/time-tracking-legacy/get-time-entries-within-a-date-range.html)
 
 ### Folders
