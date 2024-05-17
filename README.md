@@ -30,13 +30,15 @@ Want to become a sponsor? Reach out to us at [autoidm.com](https://autoidm.com)
 
 ## Settings
 
-| Setting             | Required | Default | Description |
-|:--------------------|:--------:|:-------:|:------------|
-| api_token           | True     | None    | Example: 'pk_12345 |
-| stream_maps         | False    | None    | Config object for stream maps capability. |
-| stream_map_config   | False    | None    | User-defined config values to be used within map expressions. |
-| flattening_enabled  | False    | None    | 'True' to enable schema flattening and automatically expand nested properties. |
-| flattening_max_depth| False    | None    | The max depth to flatten schemas. |
+| Setting               | Required | Default | Description                                                                                                                                                                                                                                                                                                                                                    |
+|:----------------------|:--------:|:-------:|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| api_token             |   True   |  None   | Example: 'pk_12345                                                                                                                                                                                                                                                                                                                                             |
+| time_entry_assignees  |  False   |  None   | By default, the extractor will get all user ids from your team and use them when fetching time entries. If you want to fetch time entries assigned to specific users, provide a comma-separated list of user IDs here. Ex. '420230,452346,784219'                                                                                                              |
+| time_entry_start_date |  False   |  None   | The start date that determines how far back in time the extractor gets time entries. Without this, only the last thirty days of time entries will be fetched. After the initial run, this value will be ignored in favor of the state, using the replication_key of 'at' to determine the start date. Ex. '2023-01-01T00:00:00Z' to follow singer date format. |
+| stream_maps           |  False   |  None   | Config object for stream maps capability.                                                                                                                                                                                                                                                                                                                      |
+| stream_map_config     |  False   |  None   | User-defined config values to be used within map expressions.                                                                                                                                                                                                                                                                                                  |
+| flattening_enabled    |  False   |  None   | 'True' to enable schema flattening and automatically expand nested properties.                                                                                                                                                                                                                                                                                 |
+| flattening_max_depth  |  False   |  None   | The max depth to flatten schemas.                                                                                                                                                                                                                                                                                                                              |
 
 A full list of supported settings and capabilities is available by running: `tap-clickup --about`
 

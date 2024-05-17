@@ -60,8 +60,9 @@ class TapClickUp(Tap):
             th.StringType,
             required=False,
             description="""The start date that determines how far back in time the extractor gets time entries.
-            Without this, only the last thirty days of time entries will be fetched.
-            Ex. '2023-01-01T00:00:00Z' to follow singer date format."""
+            Without this, only the last thirty days of time entries will be fetched. After the initial run,
+            this value will be ignored in favor of the state, using the replication_key of 'at' to determine the
+            start date. Ex. '2023-01-01T00:00:00Z' to follow singer date format."""
         ),
         # Removing "official" start_date support re https://github.com/AutoIDM/tap-clickup/issues/118
         #        th.Property(
