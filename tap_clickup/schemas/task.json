@@ -166,7 +166,7 @@
                 "type": ["string", "number", "null"]
             },
             "time_estimate": {
-                "type": ["integer", "null"]
+                "type": ["integer", "number", "null"]
             },
             "custom_fields": {
                 "type": ["array", "null"],
