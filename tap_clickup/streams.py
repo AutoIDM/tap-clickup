@@ -1,6 +1,6 @@
 """Stream type classes for tap-clickup."""
 from pathlib import Path
-from typing import Optional, Any, Dict
+from typing import Optional, Any, Dict, Iterable
 import requests
 from singer_sdk.helpers.jsonpath import extract_jsonpath
 from tap_clickup.client import ClickUpStream
@@ -23,6 +23,15 @@ class TeamsStream(ClickUpStream):
         return {
             "team_id": record["id"],
         }
+
+    def get_records(self, context: Optional[dict]) -> Iterable[dict]:
+        """Return a generator of row-type dictionary objects."""
+        # If workspace_ids is empty, null, or nonexistant, default to using the API to
+        # determine all workspaces/teams.
+        if "workspace_ids" in self.config and self.config.get("workspace_ids"):
+            return [{"id": id} for id in self.config.get("workspace_ids")]
+        else:
+            return super().get_records(context=context)
 
 
 class TimeEntries(ClickUpStream):
@@ -249,6 +258,27 @@ class TasksStream(ClickUpStream):
         params["order_by"] = "updated"
         params["reverse"] = "true"
         params["date_updated_gt"] = self.get_starting_replication_key_value(context)
+
+        # If list_ids is empty, null, or nonexistant, default to using the API to
+        if "list_ids" in self.config and self.config.get("list_ids"):
+            params["list_ids"] = [item for item in self.config.get("list_ids")]
+
+        # If space_ids is empty, null, or nonexistant, default to using the API to
+        if "space_ids" in self.config and self.config.get("space_ids"):
+            params["space_ids"] = [item for item in self.config.get("space_ids")]
+
+        if "list_ids" in params and len(params["list_ids"]) == 1:
+            # To work around the ClickUp API bug that returns an error message stating 
+            # "List ids must be an array" (ECODE: OAUTH_042), we should duplicate the list_id
+            # when there is only one, as the API requires an array format for list IDs.
+            params["list_ids"].append(params["list_ids"][0])
+
+        if "space_ids" in params and len(params["space_ids"]) == 1:
+            # To work around the ClickUp API bug that returns an error message stating 
+            # "Space ids must be an array" (ECODE: OAUTH_042), we should duplicate the space_id
+            # when there is only one, as the API requires an array format for space IDs.
+            params["space_ids"].append(params["space_ids"][0])
+
         return params
 
     def get_next_page_token(
